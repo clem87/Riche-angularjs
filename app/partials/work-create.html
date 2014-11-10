@@ -1,0 +1,37 @@
+create
+
+<div class="container">
+    <h1>Work Creation</h1>
+
+    <form novalidate="novalidate" class="form-horizontal">
+
+        <div class="control-group">
+            <label class="control-label" for="title">Title : </label>
+            <div class="controls">
+                <input type="text" id="inputTitle" ng-model="work.title"/><br />
+
+                <label>Auteurs : </label>
+                <input type="text" id="inputAutor"   ng-model="userselection.keyboardname" ng-keyup="keyPressWithEnter($event)">
+                <label>selection</label> 
+                
+                <label>disponibles</label>
+                <select ng-options="o as o.label for o in existingAuthors" ng-model="selectedAuthor" ng-click="selectAuthorInList(author)">
+                </select>
+
+                
+                <label>selectionné</label>
+                
+                <select id="selectAuthors" multiple="true"  ng-model="work.authors" ng-options="o as o.label for o in work.authors">
+                </select>
+                
+            </div>
+        </div>
+
+
+    </form>
+    <button ng-click="confirmForm('create')">create</button>
+
+    <button ng-click="back(
+                        )">Back</button>
+
+</div>

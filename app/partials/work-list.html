@@ -1,0 +1,11 @@
+<ul>
+    <li ng-repeat="work in works">
+        {{work.name}}
+        <p><span ng-click="viewWork(work.id)"> id : {{work.id}} {{work.title}} </span>
+            <button ng-click="deleteWork(work.id)"  class="btn btn-small btn-danger">delete</button> 
+            <button ng-click="editWork(work.id)"  class="btn btn-small btn-danger">edit</button>
+        </p>
+            
+    </li>
+     <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
+</ul>

@@ -1,0 +1,36 @@
+edit
+{{work.label}}
+
+
+
+    <form novalidate="novalidate" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="title">Title : </label>
+            <div class="controls">
+                <input type="text" id="inputTitle" ng-model="work.title" /> <br />
+
+                <label>Auteurs : </label>
+                <input type="text" id="inputAutor" ng-keyup="keyPressWithEnter($event)" ng-model="userselection.keyboardname">
+                <label>selection</label>
+                
+                <label>disponibles</label>
+                <select ng-options="o as o.label for o in existingAuthors" ng-model="selectedAuthor" ng-click="selectAuthorInList(author)">
+                </select>
+
+                
+                <label>selectionné</label>
+                
+                <select id="selectAuthors" multiple="true"  ng-model="work.authors" ng-options="o as o.label for o in work.authors">
+                </select>
+                
+            </div>
+        </div>
+
+
+    </form>
+
+
+
+
+<button ng-click="confirmForm('edit')">Modifier</button>
+         <button ng-click="back()">Back</button>
