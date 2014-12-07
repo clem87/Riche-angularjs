@@ -83,22 +83,3 @@ richeApp.config(['$routeProvider',
 //      });
     }]);
 
-
-richeApp.directive('ngStaticInclude', [
-  '$compile',
-  '$templateCache',
-  function($compile, $templateCache) {
-    return {
-      restrict: 'A',
-      priority: 400,
-      compile: function(element, attrs){
-        var templateName = attrs.ngStaticInclude;
-        var template = $templateCache.get(templateName);
-        return function(scope, element){
-          element.html(template);
-          $compile(element.contents())(scope);
-        };
-      }
-    };
-  }
-]);
