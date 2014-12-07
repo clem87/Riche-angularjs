@@ -1,9 +1,10 @@
-create
 
 <div class="container">
     <h1>Work Creation</h1>
+    
+     <div ng-include='"partials/work-form.html"'></div>
 
-    <form novalidate="novalidate" class="form-horizontal">
+<!--    <form novalidate="novalidate" class="form-horizontal">
 
         <div class="control-group">
             <label class="control-label" for="title">Title : </label>
@@ -28,7 +29,7 @@ create
         </div>
 
 
-    </form>
+    </form>-->
     <button ng-click="confirmForm('create')">create</button>
 
     <button ng-click="back(

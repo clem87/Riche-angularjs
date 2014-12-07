@@ -4,17 +4,24 @@
 var richeApp = angular.module('richeApp', [
     'ngRoute',
     'workCtrl',
-    'workServices'
+    'sourceCtrl',
+    
+    'workServices',
+    'richeFilter',
+    'ui.bootstrap'
+//    'ui.bootstrap'
 //    'personServices'
 //  'phonecatServices'
 ]
         );
 
+//angular.module('myModule', ['ui.bootstrap']);
+
 //=============================CONSTANT=======================
 var ACTION_EDIT = 'edit';
 var ACTION_CREATE='create';
 
-
+angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
 
 
 /***
@@ -48,6 +55,22 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/work-view.html',
                     controller: 'workViewCtrl'
                 })
+                
+                
+                
+                .when("/source", {
+                    templateUrl: 'partials/source-list.html',
+                    controller: 'sourceListCtrl'
+                })
+                
+                .when("/source-create", {
+                        templateUrl: 'partials/source-create.html',
+                    controller: 'sourceCreateCtrl'
+                })
+                        .when("/source-edit/:sourceId", {
+                                 templateUrl: 'partials/source-edit.html',
+                    controller: 'sourceCreateCtrl'
+                })
                 ;
 
 //              .
@@ -61,3 +84,21 @@ richeApp.config(['$routeProvider',
     }]);
 
 
+richeApp.directive('ngStaticInclude', [
+  '$compile',
+  '$templateCache',
+  function($compile, $templateCache) {
+    return {
+      restrict: 'A',
+      priority: 400,
+      compile: function(element, attrs){
+        var templateName = attrs.ngStaticInclude;
+        var template = $templateCache.get(templateName);
+        return function(scope, element){
+          element.html(template);
+          $compile(element.contents())(scope);
+        };
+      }
+    };
+  }
+]);

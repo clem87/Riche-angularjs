@@ -1,0 +1,11 @@
+<ul>
+    <li ng-repeat="source in sources">
+       
+        <p> {{source.title}}<span ng-click="viewWork(source.id)"> id : {{work.id}} {{work.title}} </span>
+            <button ng-click="delete(source.id)"  class="btn btn-small btn-danger">delete</button> 
+            <button ng-click="edit(source.id)"  class="btn btn-small btn-danger">edit</button>
+        </p>
+            
+    </li>
+     <button ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>
+</ul>

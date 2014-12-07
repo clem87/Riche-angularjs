@@ -1,14 +1,8 @@
-
-<div ng-include='"partials/work-form.html"'></div>
-
-
-<!--<form novalidate="novalidate" class="form-horizontal">
+<form novalidate="novalidate" class="form-horizontal">
     <div class="control-group">
         <label class="control-label" for="title">Title : </label>
         <div class="controls">
-            <input type="text" id="inputTitle" ng-model="work.title" /> <br />
-
-
+            <input type="text" id="inputTitle" ng-model="$parent.work.title" /> <br />
 
 
             <label>Auteurs</label>
@@ -19,25 +13,25 @@
 
             <label>Sélectionés :</label>
             <ul>
-                <li ng-repeat="au in work.authors">{{au.label}}  <img src="img/delete1-16px.png" ng-click="removeAuthorClick(au.id)" /></li>
+                <li ng-repeat="au in $parent.work.authors">{{au.label}}  <img src="img/delete1-16px.png" ng-click="removeAuthorClick(au.id)" /></li>
             </ul>
 
             <label>Thème : </label>
-            <select id="selectTheme" ng-model="work.theme" ng-options="th as th.label for th in themedispo track by th.id"> </select><br />
+            <select id="selectTheme" ng-model="$parent.work.theme" ng-options="th as th.label for th in themedispo track by th.id"> </select><br />
 
             <label>Origin : </label>
-            <select id="selectOrigine" ng-model="work.origin" ng-options="or as or.label for or in origindispo track by or.id"></select><br />
+            <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id"></select><br />
 
            
-            <label>Source : </label> <input type="text" ng-model="sourceUserSelection" placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocationsSource" class="form-control" ng-keyup="sourceKeyPressWithEnter($event)" typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
-            <input type="text" ng-model="sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"/><button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button>
-            
+            <label>Source : </label> <input type="text" ng-model="$parent.sourceUserSelection" placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocationsSource" class="form-control" ng-keyup="sourceKeyPressWithEnter($event)" typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
+            <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"/><button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button>
+
             <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
 
             <p>selectionné : </p>
 
             <ul>
-                <li ng-repeat="sr in work.relationWorkSource">
+                <li ng-repeat="sr in $parent.work.relationWorkSource">
                     {{sr.source.title}} {{sr.extract}} <img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
                 </li>
             </ul>
@@ -75,10 +69,4 @@
     </div>
 
       
-</form>-->
-
-<button ng-click="confirmForm('edit')">Modifier</button>
-<button ng-click="back()">Back</button>
-
-
-
+</form>

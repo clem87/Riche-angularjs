@@ -1,0 +1,41 @@
+  <form novalidate="novalidate" class="form-horizontal">
+      
+        <div class="control-group">
+
+            <div class="controls">
+                
+                <label>Type de source : </label>
+                 <select id="selectTypeBiblio" ng-model="$parent.source.bibliographicType" ng-options="sr as sr.label for sr in bibliographicTypeDispo track by sr.id"> </select><br />             
+                
+                
+                <label class="control-label" for="title">Title : </label>
+                <input type="text" id="inputTitle" ng-model="$parent.source.title"/><br />
+                
+                <label class="control-label" for="title">Titre article : </label>
+                <input type="text" id="inputarticleTitle" ng-model="$parent.source.articleTitle"><br />
+                
+                
+                <label>Ville d'édition : </label>
+                <input type="text" ng-model="$parent.source.releaseTown"/> <br />
+                
+                <label>Année d'édition : </label>
+                <input type="text" ng-model="$parent.source.releaseYear"> <br />
+                
+                <label>Volume : </label>
+                <input type="text" ng-model="$parent.source.volume"> <br />
+                
+                <label>Series : </label>
+                <input type="text" ng-model="$parent.source.series"/> <br />
+                
+                <label>publisher : </label>
+                <input type="text" ng-model="$parent.source.publisher" /> <br />
+                
+                  <label>editor : </label>
+                <input type="text" ng-model="$parent.source.editor" /> <br />
+                
+                   <label>num : </label>
+                <input type="text" ng-model="$parent.source.num" /> <br />
+               
+            </div>
+        </div>
+    </form>
