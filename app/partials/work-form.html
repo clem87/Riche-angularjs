@@ -2,11 +2,12 @@
     <div class="control-group">
         <label class="control-label" for="title">Title : </label>
         <div class="controls">
+
+            <label>Titre : </label>
             <input type="text" id="inputTitle" ng-model="$parent.work.title" /> <br />
 
 
             <label>Auteurs</label>
-
 
             <input type="text" ng-model="auteurUserSelection" placeholder="Saisissez l'auteur" typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection($item, $model, $label)">
             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -22,30 +23,27 @@
             <label>Origin : </label>
             <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id"></select><br />
 
-           
+
             <label>Source : </label> <input type="text" ng-model="$parent.sourceUserSelection" placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocationsSource" class="form-control" ng-keyup="sourceKeyPressWithEnter($event)" typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
             <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"/><button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button>
 
             <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
 
             <p>selectionné : </p>
-
+AAAA
             <ul>
                 <li ng-repeat="sr in $parent.work.relationWorkSource">
-                    {{sr.source.title}} {{sr.extract}} <img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
+                    <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} <img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
                 </li>
             </ul>
-
-
-
 
             <button class="btn btn-default" ng-click="open()">Ajouter une source</button>
 
 
             <script type="text/ng-template" id="myModalContent.html">
-                
-                 <div id="header" ng-include src='"partials/source-create.html"' onload="onHtmlLoaded()" ng-controller="sourceCreateCtrl"></div>
-         
+
+                <div id="header" ng-include src='"partials/source-create.html"' onload="onHtmlLoaded()" ng-controller="sourceCreateCtrl"></div>
+
 
                 <div class="modal-header">
                 <h3 class="modal-title">Ajout d'une source</h3>
@@ -63,10 +61,8 @@
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
                 </div>
             </script>
-
-
         </div>
     </div>
 
-      
+
 </form>

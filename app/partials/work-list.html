@@ -5,7 +5,40 @@
             <button ng-click="deleteWork(work.id)"  class="btn btn-small btn-danger">delete</button> 
             <button ng-click="editWork(work.id)"  class="btn btn-small btn-danger">edit</button>
         </p>
-            
+
     </li>
-     <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
+    <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
 </ul>
+
+
+<table>
+
+    <tr>
+        <th>titre</th>
+        <th>Auteur</th>
+        <th>Sources</th>
+    </tr>
+    <td></td>
+    <td></td>
+
+    <tr ng-repeat="work in works">
+        
+        <td>{{work.title}}</td>
+        
+        <td> <ul>
+
+                <li ng-repeat="author in work.authors">{{author.label}}</li>
+            </ul></td>
+        <td>
+            <ul>
+                
+                
+                <li ng-repeat="src in work.relationWorkSource">{{src.source.title}}  </li>
+            </ul>
+            
+            
+        </td>
+    </tr>
+
+
+</table>

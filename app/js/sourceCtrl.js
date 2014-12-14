@@ -40,6 +40,7 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
 
 
 
+
     }]);
 
 
@@ -66,6 +67,53 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         $scope.back = function () {
             $location.path('/source');
         };
+
+        $scope.getAuteurCompletion = function (userString) {
+
+            return $http.get($rootScope.webservice + '/rest/author/find?userselection=' + userString).success(
+                    function (data) {
+
+                    }).then(function (resp) {
+
+                return resp.data;
+            })
+
+        }
+
+        $scope.authorUserSelection = function ($item, $model, $label) {
+            if ($scope.source.authors === undefined) {
+                $scope.source.authors = new Array();
+            }
+
+            var i = $scope.source.authors.length;
+            present = false;
+            while (i--) {
+                if ($scope.source.authors[i].id === $item.id) {
+                    present = true;
+                }
+            }
+            if (!present) {
+                $scope.source.authors.push($item);
+            }
+
+            $scope.sourceUserSelection = null;
+
+        };
+
+        $scope.removeAuthorClick = function (id) {
+            array = $scope.source.authors;
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i].id === id) {
+                    array.splice(i, 1);
+                }
+            }
+        }
+
+
+
+
+
+
 
 
         $scope.confirmForm = function (action) {

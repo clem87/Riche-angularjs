@@ -5,11 +5,37 @@
  */
 
 
+/***
+ * Filtre utilisé pour mettre en forme les références bibliographiques
+ * @param {type} param1
+ * @param {type} param2
+ */
+angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
+    return function (input) {
+        var retour = "";
+        array = input.authors;
+        for (var i = array.length - 1; i >= 0; i--) {
 
-angular.module('richeFilter', []).filter('sourceFilter', function() {
-  return function(input) {
-      return input.title;
-//      alert('input' + JSON.stringify(input));
-//    return input ? '\u2713' : '\u2718';
-  };
+            array[i].label;
+            retour += array[i].label + ", ";
+        }
+        retour += "<i>" + input.title + "</i>, ";
+        retour += input.releaseTown + ", ";
+
+        retour = concatInBiblioNotice(retour, input.editor);
+//        retour+=input.editor+', ';
+        retour = concatInBiblioNotice(retour, input.releaseYear);
+        if (retour.length > 2) {
+            retour = retour.substr(0, retour.length - 2);
+        }
+        return $sce.trustAsHtml(retour);
+    };
+
+    function concatInBiblioNotice(notice, addString) {
+        if (addString !== null) {
+            return notice += addString + ", ";
+        }
+        return notice;
+    }
+
 });
