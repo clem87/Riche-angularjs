@@ -48,6 +48,7 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         // Chargement deds première instruction pour edit et create. 
         if ($location.path() === '/source-create') {
 //            initWorkIfNeed();
+            initSourceIfNeed();
         }
         else if (/^\/source-edit\//.test($location.path())) {
             $http.get($rootScope.webservice + '/rest/source?id=' + $routeParams.sourceId).success(function (data) {
@@ -60,6 +61,15 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
 //            alert(JSON.stringify(data))
             $scope.bibliographicTypeDispo = data;
         });
+        
+                function initSourceIfNeed() {
+            if ($scope.source === undefined) {
+                $scope.source = {
+                    'id': null,
+                    'authors': new Array()
+                };
+            }
+        }
 
 
 
