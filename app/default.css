@@ -83,7 +83,7 @@ a:hover {
 	width: 148px;
 	height: 60px;
 	padding: 0 0 0 2px;
-	background: url(images/img02.gif);
+	background: url(images/img02.gif) no-repeat;
 }
 
 #menu a {
@@ -98,7 +98,7 @@ a:hover {
 }
 
 #menu a:hover {
-	border-bottom: 4px solid #5A7C50;
+	
 	text-decoration: none;
 	color: #FFFFFF;
 }
@@ -122,11 +122,11 @@ a:hover {
 #header h1 {
 	float: left;
 	width: 104px;
-	/* height: 110px; */
+	height: 110px;
 	padding: 104px 100px 0 20px;
-	/* background: url(images/img05.jpg); */
-	/* line-height: 32px; */
-	/* font-size: 30px; */
+	/* background: url(images/img05.jpg) no-repeat; */
+	line-height: 32px;
+	font-size: 30px;
 }
 
 #header h2 {
