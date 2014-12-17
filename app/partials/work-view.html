@@ -11,11 +11,27 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        
+        <h1>Fiche Oeuvre</h1>
 
-        <p>Titre : {{work.title}}</p>
+        <p><strong>Titre : </strong> {{work.title}}</p>
 
-        <p>Auteur : <span ng-repeat="person in work.authors"> {{person.label}} </span></p>
+        <p><strong>Auteur : </strong><span ng-repeat="person in work.authors"> {{person.label}} </span></p>
+        
+        <p><strong>Thème :</strong> {{work.theme}}</p>
+        
+        <p><strong>Origine :</strong> {{work.origin}}</p>
+        
+        <p><strong>Date exacte :</strong> {{work.exactDate}}</p>
+        
+        <p><strong>Siècle max :</strong> {{work.centuryMax}}</p>
+        
+        <p><strong>Siècle min :</strong> {{work.centuryMin}}</p>
+        
+        <p><strong>Notes : </strong></p>
 
+        <p><strong>Notes</strong></p>
+        <p>{{work.note}}</p>
 
 
 

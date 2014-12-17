@@ -1,4 +1,5 @@
 <div>
+    <h1>Fiche Source</h1>
 
     <div style="float: right">
         <button ng-click="delete(source.id)"  class="btn btn-small btn-danger">delete</button> 
@@ -14,27 +15,27 @@
         <li ng-repeat="au in $source.authors">{{au.label}}  </li>
     </ul>
 
-    <p>Title : {{source.title}}</p>
+    <p><strong>Title :</strong> {{source.title}}</p>
 
-    <p>Titre article : {{source.articleTitle}}</p>
+    <p><strong>Titre article :</strong> {{source.articleTitle}}</p>
 
-    <p>Ville d'édition : {{source.releaseTown}} </p>
-
-
-    <p>Année d'édition : {{source.releaseYear}}</p>
+    <p><strong>Ville d'édition :</strong> {{source.releaseTown}} </p>
 
 
+    <p><strong>Année d'édition :</strong> {{source.releaseYear}}</p>
 
-    <p>Volume : {{source.volume}}</p>
 
 
-    <p>Series : {{source.series}}/p>
+    <p><strong>Volume :</strong> {{source.volume}}</p>
 
-    <p>publisher : {{source.publisher}}</p>
 
-    <p>editor : {{source.editor}}</p>
+    <p><strong>Series :</strong> {{source.series}}</p>
 
-    <p>num : {{source.num}}</p>
+    <p><strong>publisher :</strong> {{source.publisher}}</p>
+
+    <p><strong>editor :</strong> {{source.editor}}</p>
+
+    <p><strong>num :</strong> {{source.num}}</p>
 
 
     <button back>Retour page précédente</button>

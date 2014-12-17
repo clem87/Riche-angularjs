@@ -1,10 +1,11 @@
-
+<h1>Liste des oeuvres</h1>
+<label>Trier par :</label>
 <select ng-model="orderProp">
     <option value="title">Titre</option>
     <option value="centuryMin">Siècle min</option>
     <option value="centuryMax">Siècle Max</option>
     <option value="exactDate">Date Exacte</option>
-</select>
+</select><br />
 <!--
 
 <ul>
@@ -18,7 +19,7 @@
     </li>
 
 </ul>-->
-    <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
+
 
 <style>
     table {
@@ -73,3 +74,7 @@
 
 
 </table>
+<div class="div_action_button">
+    <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
+    
+</div>
