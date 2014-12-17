@@ -1,0 +1,14 @@
+
+<h1>Liste des personnes</h1>
+
+<ul>
+    <li ng-repeat="person in persons">
+       
+        <p> {{person.label}}<span ng-click="viewWork(person.id)"> id : {{person.id}} {{person.title}} </span>
+            <button ng-click="delete(person.id)"  class="btn btn-small btn-danger">delete</button> 
+            <button ng-click="edit(person.id)"  class="btn btn-small btn-danger">edit</button>
+        </p>
+            
+    </li>
+     <button ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>
+</ul>

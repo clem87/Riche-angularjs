@@ -8,6 +8,11 @@
 var sourceCtrl = angular.module('sourceCtrl', []);
 
 
+//=======================================================================================
+////                LISTE CONTROLE
+//=======================================================================================
+
+
 sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', function ($scope, SourceFactory, $location, $http, $rootScope) {
 
         $scope.sources = SourceFactory.query();
@@ -33,16 +38,12 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
             $location.path('/source');
         };
 
-
-
-
-
-
-
-
-
     }]);
 
+
+//=======================================================================================
+//                                      CREATE & EDIT CONTROLE
+//=======================================================================================
 
 sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', '$routeParams', function ($scope, SourceFactory, $location, $http, $rootScope, $routeParams) {
         // Chargement deds première instruction pour edit et create. 
@@ -61,8 +62,8 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
 //            alert(JSON.stringify(data))
             $scope.bibliographicTypeDispo = data;
         });
-        
-                function initSourceIfNeed() {
+
+        function initSourceIfNeed() {
             if ($scope.source === undefined) {
                 $scope.source = {
                     'id': null,
@@ -120,12 +121,6 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         }
 
 
-
-
-
-
-
-
         $scope.confirmForm = function (action) {
             if (action === ACTION_EDIT) {
                 SourceFactory.update({'id': $scope.source.id}, $scope.source).$promise.then(function () {
@@ -140,3 +135,32 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         };
     }]);
 
+
+
+//=======================================================================================
+//                          VIEW CONTROLE
+//=======================================================================================
+
+
+workCtrl.controller('sourceViewCtrl', ['$scope', '$rootScope', 'SourceFactory', '$location', '$routeParams', '$http', function ($scope, $rootScope, SourceFactory, $location, $routeParams, $http) {
+
+        $http.get($rootScope.webservice + '/rest/source?id=' + $routeParams.sourceId).success(function (data) {
+            $scope.source = data;
+        });
+
+
+
+        $scope.edit = function (id) {
+            $location.path('/source-edit/' + id);
+        }
+
+        $scope.delete = function (userId) {
+            SourceFactory.delete({id: userId}).$promise.then(function () {
+                $scope.sources = SourceFactory.query();
+                $location.path('/source');
+            });
+
+        }
+    }
+]
+        );

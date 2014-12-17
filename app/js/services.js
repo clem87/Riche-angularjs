@@ -47,3 +47,15 @@ workServices.factory('SourceFactory', ['$resource', '$rootScope',
     }
 
 ])
+
+
+workServices.factory('PersonFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
+        return $resource($rootScope.webservice + '/rest/author/', {}, {
+            delete: {method: 'DELETE', params: {id: '@id'}},
+            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/author/getall'},
+            find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/source/find'},
+            create: {method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/author/add'},
+            update: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + "/rest/author", params: {id: '\n\
+'}}
+        });
+    }]);

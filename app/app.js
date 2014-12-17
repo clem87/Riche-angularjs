@@ -5,7 +5,7 @@ var richeApp = angular.module('richeApp', [
     'ngRoute',
     'workCtrl',
     'sourceCtrl',
-    
+    'personCtrl',
     'workServices',
     'richeFilter',
     'ui.bootstrap'
@@ -19,7 +19,7 @@ var richeApp = angular.module('richeApp', [
 
 //=============================CONSTANT=======================
 var ACTION_EDIT = 'edit';
-var ACTION_CREATE='create';
+var ACTION_CREATE = 'create';
 
 angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
 
@@ -34,6 +34,21 @@ richeApp.run(function ($rootScope) {
 })
 
 
+/***
+ * Directive permettant de creéer un bouton back qui retourne dans l'historique de navigation. pou rl'inclure dans une page <button back>Back</button>
+ * @param {type} param1
+ * @param {type} param2
+ */
+richeApp.directive('back', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.bind('click', function () {
+                    $window.history.back();
+                });
+            }
+        };
+    }]);
 
 
 
@@ -55,21 +70,42 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/work-view.html',
                     controller: 'workViewCtrl'
                 })
-                
-                
-                
+
+
+
                 .when("/source", {
                     templateUrl: 'partials/source-list.html',
                     controller: 'sourceListCtrl'
                 })
-                
+
                 .when("/source-create", {
-                        templateUrl: 'partials/source-create.html',
+                    templateUrl: 'partials/source-create.html',
                     controller: 'sourceCreateCtrl'
                 })
-                        .when("/source-edit/:sourceId", {
-                                 templateUrl: 'partials/source-edit.html',
+                .when("/source-edit/:sourceId", {
+                    templateUrl: 'partials/source-edit.html',
                     controller: 'sourceCreateCtrl'
+                })
+                        .when("/source-view/:sourceId", {
+                              templateUrl: 'partials/source-view.html',
+                    controller: 'sourceViewCtrl'  
+                })
+                .when("/person", {
+                    templateUrl: 'partials/person-list.html',
+                    controller: 'personListCtrl'
+                })
+                .when("/person-create", {
+                    templateUrl: 'partials/person-create.html',
+                    controller: 'personCreateCtrl'
+                })
+
+                .when("/person-edit/:personId", {
+                    templateUrl: 'partials/person-edit.html',
+                    controller: 'personCreateCtrl'
+                })
+                .when("/person-view/:personId", {
+                    templateUrl: 'partials/person-view.html',
+                    controller: 'personViewCtrl'
                 })
                 ;
 

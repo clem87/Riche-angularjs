@@ -1,5 +1,14 @@
+
+<select ng-model="orderProp">
+    <option value="title">Titre</option>
+    <option value="centuryMin">Siècle min</option>
+    <option value="centuryMax">Siècle Max</option>
+    <option value="exactDate">Date Exacte</option>
+</select>
+<!--
+
 <ul>
-    <li ng-repeat="work in works">
+    <li ng-repeat="work in works| orderBy:orderProp">
         {{work.name}}
         <p><span ng-click="viewWork(work.id)"> id : {{work.id}} {{work.title}} </span>
             <button ng-click="deleteWork(work.id)"  class="btn btn-small btn-danger">delete</button> 
@@ -7,37 +16,59 @@
         </p>
 
     </li>
+
+</ul>-->
     <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
-</ul>
+
+<style>
+    table {
+        border-width:1px; 
+        border-style:solid; 
+        border-color:black;
+        width:50%;
+    }
+    td { 
+        border-width:1px;
+        border-style:solid; 
+        border-color: #31708f;
+        width:50%;
+    }
 
 
-<table>
+</style>
+
+<table style="border: #000">
 
     <tr>
         <th>titre</th>
+        <th>Siècle min</th>
+        <th>Siècle max</th>
         <th>Auteur</th>
         <th>Sources</th>
+        <th>Actions</th>
+        <th>Actions</th>
     </tr>
-    <td></td>
-    <td></td>
 
-    <tr ng-repeat="work in works">
-        
-        <td>{{work.title}}</td>
-        
+
+    <tr ng-repeat="work in works|orderBy:orderProp">
+
+        <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
+
+        <td>{{work.centuryMin}}</td>
+        <td>{{work.centuryMax}}</td>
+
         <td> <ul>
 
-                <li ng-repeat="author in work.authors">{{author.label}}</li>
+                <li ng-repeat="author in work.authors"><a  href="#/person-view/{{author.id}}"> {{author.label}}</a></li>
             </ul></td>
         <td>
             <ul>
-                
-                
-                <li ng-repeat="src in work.relationWorkSource">{{src.source.title}}  </li>
+                <li ng-repeat="src in work.relationWorkSource"> <a href="#/source-view/{{src.id}}"><span ng-bind-html="src.source | sourceFilter"> </span> {{sr.extract}}</a></li>
             </ul>
-            
-            
         </td>
+        <td><button ng-click="deleteWork(work.id)"  class="btn btn-small btn-danger">delete</button> 
+        </td>
+        <td><button ng-click="editWork(work.id)"  class="btn btn-small btn-danger">edit</button></td>
     </tr>
 
 

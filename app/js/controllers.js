@@ -356,6 +356,9 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 // =======================================VIEW CONTROLER===================================
 workCtrl.controller('workViewCtrl', ['$scope', '$rootScope', 'WorkFactory', '$location', '$routeParams', '$http', function ($scope, $rootScope, WorkFactory, $location, $routeParams, $http) {
 
+
+
+
         $http.get($rootScope.webservice + '/rest/test?id=' + $routeParams.workId).success(function (data) {
             $scope.work = data;
         });
