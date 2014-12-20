@@ -73,11 +73,8 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         }
 
 
+        
 
-
-        $scope.back = function () {
-            $location.path('/source');
-        };
 
         $scope.getAuteurCompletion = function (userString) {
 
@@ -110,6 +107,69 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
             $scope.sourceUserSelection = null;
 
         };
+        
+          $scope.authorUserSelection2 = function ($item, $model, $label) {
+//            if ($scope.source.relationPerson === undefined) {
+//                $scope.source.relationPerson =  new Array();
+//            }
+//
+//            var i = $scope.source.relationPerson.length;
+//            present = false;
+//            while (i--) {
+//                if ($scope.source.relationPerson[i].id === $item.id) {
+//                    present = true;
+//                }
+//            }
+//            if (!present) {
+//                $scope.source.relationPerson.push(
+//                        {
+//                            source:{id : $scope.source.id},
+//                            person:{id: $item.id}
+//                        }
+//                          );
+//            }
+//
+//            $scope.sourceUserSelection2 = null;
+
+        };
+        
+        
+        $scope.btAjouterPersonSourceClick = function() {
+        
+            if ($scope.source.relationPerson === undefined) {
+                $scope.source.relationPerson =  new Array();
+            }
+
+            var i = $scope.source.relationPerson.length;
+            present = false;
+            while (i--) {
+                if ($scope.source.relationPerson[i].id === $scope.auteurUserSelection2.id) {
+                    present = true;
+                }
+            }
+            if (!present) {
+                $scope.source.relationPerson.push(
+                        {
+                            source : {id : $scope.source.id},
+                            person:{id: $scope.auteurUserSelection2.id},
+                            rolePublication : $scope.auteurUserSelectionRolePublication
+                        }
+                          );
+            }
+
+            $scope.sourceUserSelection2 = null;
+            
+        }
+        
+        $scope.removeRelationSourcePersonClick = function(id){
+            array = $scope.source.relationPerson;
+            for (var i = array.length - 1; i >= 0; i--) {
+                 if (array[i].id === id) {
+                    array.splice(i, 1);
+                }
+            }
+        }
+        
 
         $scope.removeAuthorClick = function (id) {
             array = $scope.source.authors;

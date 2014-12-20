@@ -145,7 +145,7 @@ a:hover {
 /* Content */
 
 #content {
-	width: 750px;
+	width: 950px;
 	margin: 0 auto;
 }
 
@@ -153,7 +153,7 @@ a:hover {
 
 #posts {
 	float: right;
-	width: 510px;
+	/* width: 510px; */
 }
 
 #posts .post {

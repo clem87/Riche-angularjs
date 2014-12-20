@@ -12,3 +12,16 @@
     </li>
      <button ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>
 </ul>
+
+<table>
+    <tr>
+        <th>dénomination principale</th>
+        <th>Actions</th>
+    </tr>
+    <tr ng-repeat="person in persons">
+        <td>{{person.label}}</td> 
+        <td></td> 
+    </tr>
+    
+    
+</table>

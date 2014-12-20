@@ -234,6 +234,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 //                        source: $scope.sourceUserSelection,
                         source: {id: $scope.sourceUserSelection.id},
                         extract: $scope.sourceExtractUserSelection,
+                        nature: $scope.sourceNatureUserSelection,
                         
                         workEntity: {id: $scope.work.id}
 //                        workEntity: {id: $scope.work.id}

@@ -24,30 +24,44 @@
             <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id"></select><br />
 
             <label title="Cette donnée représente la datation exacte de la source. Elle n'est précisé que si ...">Date exacte : </label>
-                    <input type="text" ng-model="$parent.work.exactDate"/><br />
-            
+            <input type="text" ng-model="$parent.work.exactDate"/><br />
+
             <label>centuryMax</label>
             <input ng-model="$parent.work.centuryMax"/><br />
-            
+
             <label>centuryMin</label>
             <input ng-model="$parent.work.centuryMin"/><br />
-            
-            
-            <label>Source : </label> <input type="text" ng-model="$parent.sourceUserSelection" placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocationsSource" class="form-control" ng-keyup="sourceKeyPressWithEnter($event)" typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
-            <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"/><button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button><br />
+
+
+            <label>Source : </label> <input type="text" ng-model="$parent.sourceUserSelection" 
+                                            placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" 
+                                            typeahead-loading="loadingLocationsSource" class="form-control"
+                                            ng-keyup="sourceKeyPressWithEnter($event)" 
+                                            typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
+            <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"/>
+
+            <select ng-model="$parent.sourceNatureUserSelection">
+                <option value="biblio">bibliographie</option>
+                <option value="source">manuscrit</option>
+                <option value="edition dource">edition de source</option>
+            </select>
+
+            <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button><br />
+
+
             <label>exactDate</label>
-            
-            
-    
-            
-            
+
+
+
+
+
             <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
 
             <p>selectionné : </p>
 
             <ul>
                 <li ng-repeat="sr in $parent.work.relationWorkSource">
-                    <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} <img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
+                    <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
                 </li>
             </ul>
 
@@ -75,12 +89,12 @@
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
                 </div>
             </script>
-            
-            
+
+
             <textarea ng-model="$parent.work.note">
                 
             </textarea>
-            
+
         </div>
     </div>
 

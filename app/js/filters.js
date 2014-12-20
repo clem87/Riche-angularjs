@@ -37,5 +37,24 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
         }
         return notice;
     }
+})
+        .filter('authorFilter', function ($sce) {
+            return function (input) {
 
-});
+                retour = "";
+                array = input;
+                for (var i = array.length - 1; i >= 0; i--) {
+
+                    array[i].label;
+
+                    retour += array[i].label + ", ";
+                }
+                return retour;
+            };
+        })
+        ;
+
+
+
+
+      
