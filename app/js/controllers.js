@@ -227,17 +227,14 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                     }
                 }
                 
-                workcopie = JSON.parse(JSON.stringify($scope.work));
-                workcopie.relationWorkSource=null;
+//                workcopie = JSON.parse(JSON.stringify($scope.work));
+//                workcopie.relationWorkSource=null;
                 if (!present) {
                     $scope.work.relationWorkSource.push({
-//                        source: $scope.sourceUserSelection,
-                        source: {id: $scope.sourceUserSelection.id},
+                        source: $scope.sourceUserSelection,
                         extract: $scope.sourceExtractUserSelection,
                         nature: $scope.sourceNatureUserSelection,
-                        
                         workEntity: {id: $scope.work.id}
-//                        workEntity: {id: $scope.work.id}
                     });
                 }
                 $scope.sourceUserSelection = null;

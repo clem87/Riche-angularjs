@@ -67,13 +67,14 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
             if ($scope.source === undefined) {
                 $scope.source = {
                     'id': null,
-                    'authors': new Array()
+//                    'authors': new Array()
+
                 };
             }
         }
 
 
-        
+
 
 
         $scope.getAuteurCompletion = function (userString) {
@@ -89,6 +90,7 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         }
 
         $scope.authorUserSelection = function ($item, $model, $label) {
+            alert("aa")
             if ($scope.source.authors === undefined) {
                 $scope.source.authors = new Array();
             }
@@ -107,8 +109,8 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
             $scope.sourceUserSelection = null;
 
         };
-        
-          $scope.authorUserSelection2 = function ($item, $model, $label) {
+
+        $scope.authorUserSelection2 = function ($item, $model, $label) {
 //            if ($scope.source.relationPerson === undefined) {
 //                $scope.source.relationPerson =  new Array();
 //            }
@@ -132,44 +134,57 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
 //            $scope.sourceUserSelection2 = null;
 
         };
-        
-        
-        $scope.btAjouterPersonSourceClick = function() {
-        
+
+
+        $scope.btAjouterPersonSourceClick = function () {
+
             if ($scope.source.relationPerson === undefined) {
-                $scope.source.relationPerson =  new Array();
+                $scope.source.relationPerson = new Array();
             }
 
-            var i = $scope.source.relationPerson.length;
-            present = false;
-            while (i--) {
-                if ($scope.source.relationPerson[i].id === $scope.auteurUserSelection2.id) {
-                    present = true;
+            if (typeof $scope.auteurUserSelection2 === 'string') {
+                $scope.source.relationPerson.push(
+                            {
+                                source: {id: $scope.source.id},
+                                person: {
+                                    label:$scope.auteurUserSelection2
+                                },
+                                rolePublication: $scope.auteurUserSelectionRolePublication
+                            }
+                    );
+            }
+            else {
+                var i = $scope.source.relationPerson.length;
+                present = false;
+                while (i--) {
+                    if ($scope.source.relationPerson[i].id === $scope.auteurUserSelection2.id) {
+                        present = true;
+                    }
+                }
+                if (!present) {
+                    $scope.source.relationPerson.push(
+                            {
+                                source: {id: $scope.source.id},
+                                person: $scope.auteurUserSelection2,
+                                rolePublication: $scope.auteurUserSelectionRolePublication
+                            }
+                    );
                 }
             }
-            if (!present) {
-                $scope.source.relationPerson.push(
-                        {
-                            source : {id : $scope.source.id},
-                            person:{id: $scope.auteurUserSelection2.id},
-                            rolePublication : $scope.auteurUserSelectionRolePublication
-                        }
-                          );
-            }
+
 
             $scope.sourceUserSelection2 = null;
-            
         }
-        
-        $scope.removeRelationSourcePersonClick = function(id){
+
+        $scope.removeRelationSourcePersonClick = function (id) {
             array = $scope.source.relationPerson;
             for (var i = array.length - 1; i >= 0; i--) {
-                 if (array[i].id === id) {
+                if (array[i].id === id) {
                     array.splice(i, 1);
                 }
             }
         }
-        
+
 
         $scope.removeAuthorClick = function (id) {
             array = $scope.source.authors;
@@ -208,8 +223,6 @@ workCtrl.controller('sourceViewCtrl', ['$scope', '$rootScope', 'SourceFactory', 
             $scope.source = data;
         });
 
-
-
         $scope.edit = function (id) {
             $location.path('/source-edit/' + id);
         }
@@ -219,7 +232,6 @@ workCtrl.controller('sourceViewCtrl', ['$scope', '$rootScope', 'SourceFactory', 
                 $scope.sources = SourceFactory.query();
                 $location.path('/source');
             });
-
         }
     }
 ]

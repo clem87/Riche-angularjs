@@ -8,20 +8,11 @@
             <select id="selectTypeBiblio" ng-model="$parent.source.bibliographicType" ng-options="sr as sr.label for sr in bibliographicTypeDispo track by sr.id"> </select><br />             
 
 
-<!--            <label>Auteurs : </label>
-            <input type="text" ng-model="auteurUserSelection" placeholder="Saisissez l'auteur" typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection($item, $model, $label)">
-            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-
-            <label>Sélectionés :</label>
-            <ul>
-                <li ng-repeat="au in $parent.source.authors">{{au.label}}  <img src="img/delete1-16px.png" ng-click="removeAuthorClick(au.id)" /></li>
-            </ul>-->
-
             <br />
-            <label>Auteurs2 : S</label>
+            <label>Auteurs : </label>
             <input type="text" ng-model="$parent.auteurUserSelection2" placeholder="Saisissez l'auteur" 
                    typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" 
-                   typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection2($item, $model, $label)">
+                   typeahead-loading="loadingLocations" class="form-control" >
             <select ng-model="$parent.auteurUserSelectionRolePublication">
                 <option value="">normale</option>
                 <option value="dir">Dir</option>
