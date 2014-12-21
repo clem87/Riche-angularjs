@@ -13,11 +13,11 @@
 angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
     return function (input) {
         var retour = "";
-        array = input.authors;
+        array = input.relationPerson;
         for (var i = array.length - 1; i >= 0; i--) {
-
-            array[i].label;
-            retour += array[i].label + ", ";
+         
+            array[i].person.label;
+            retour +=   array[i].person.label + ", ";
         }
         retour += "<i>" + input.title + "</i>, ";
         retour += input.releaseTown + ", ";
@@ -38,16 +38,33 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
         return notice;
     }
 })
-        .filter('authorFilter', function ($sce) {
-            return function (input) {
 
+//        .filter('authorFilter', function ($sce) {
+//            return function (input) {
+//
+//                retour = "";
+//                array = input;
+//                for (var i = array.length - 1; i >= 0; i--) {
+//
+//                    array[i].label;
+//
+//                    retour += array[i].label + ", ";
+//                }
+//                return retour;
+//            };
+//        })
+        
+        /***
+         * Affiche les auteurs depuis une relation person
+         * @param {type} $sce
+         * @returns {Function}
+         */
+        .filter('relationPersonAffPerson', function ($sce) {
+            return function (input) {
                 retour = "";
                 array = input;
                 for (var i = array.length - 1; i >= 0; i--) {
-
-                    array[i].label;
-
-                    retour += array[i].label + ", ";
+                    retour += array[i].person.label + ", ";
                 }
                 return retour;
             };

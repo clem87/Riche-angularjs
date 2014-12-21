@@ -61,7 +61,8 @@
 
             <ul>
                 <li ng-repeat="sr in $parent.work.relationWorkSource">
-                    <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
+                    <span ng-bind-html="sr.source|sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
+         
                 </li>
             </ul>
 

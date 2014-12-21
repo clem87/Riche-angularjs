@@ -30,7 +30,7 @@
 
     <tr ng-repeat="source in sources | filter:query|orderBy:orderProp"">
         <!--<td><span ng-bind-html="source | sourceFilter"></span></td>-->
-                <td>{{source.authors|authorFilter}}</td>
+                <td>{{source.relationPerson|relationPersonAffPerson}}</td>
                 <td>{{source.title}}</td>
                 <td>{{source.bibliographicType.label}}</td>
         <td>
