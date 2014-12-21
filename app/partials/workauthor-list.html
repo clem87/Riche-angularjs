@@ -1,0 +1,27 @@
+
+<h1>Liste des autheurs bibliogrphiques</h1>
+
+<ul>
+    <li ng-repeat="workauthor in workauthors">
+       
+        <p> {{workauthor.label}}<span ng-click="viewWork(workauthor.id)"> id : {{workauthor.id}} {{workauthor.title}} </span>
+            <button ng-click="delete(workauthor.id)"  class="btn btn-small btn-danger">delete</button> 
+            <button ng-click="edit(workauthor.id)"  class="btn btn-small btn-danger">edit</button>
+        </p>
+            
+    </li>
+     <button ng-click="create()" class="btn btn-small">Créer nouvelle auteur</button>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th>dénomination principale</th>
+        <th>Actions</th>
+    </tr>
+    <tr ng-repeat="workauthor in persons">
+        <td>{{workauthor.label}}</td> 
+        <td></td> 
+    </tr>
+    
+    
+</table>

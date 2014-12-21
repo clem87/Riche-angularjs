@@ -6,13 +6,14 @@
 
 
 /***
- * Filtre utilisé pour mettre en forme les références bibliographiques
+ * Filtre utilisé pour mettre en forme les références bibliographiques avec un lien sur les reférence
  * @param {type} param1
  * @param {type} param2
  */
 angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
     return function (input) {
         var retour = "";
+        retour += "<a href=\"#/source-view/"+input.id+"\">";
         array = input.relationPerson;
         for (var i = array.length - 1; i >= 0; i--) {
          
@@ -28,6 +29,7 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
         if (retour.length > 2) {
             retour = retour.substr(0, retour.length - 2);
         }
+        retour+="</a>";
         return $sce.trustAsHtml(retour);
     };
 

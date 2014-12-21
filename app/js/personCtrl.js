@@ -93,13 +93,20 @@ sourceCtrl.controller('personCreateCtrl', ['$scope', 'PersonFactory', '$location
                 });
             }
             else if (action === ACTION_CREATE) {
+                if($scope.person.type==='scientifique'){
+                    PersonFactory.createScientifique($scope.person).$promise.then(function () {
+                    $location.path('/person');
+                });
+                    
+                    
+                }
+                else if($scope.person.type==='historique')
+                    alert("histo")
                 PersonFactory.create($scope.person).$promise.then(function () {
                     $location.path('/person');
                 });
             }
         };
-
-
 
     }
 ]

@@ -7,6 +7,7 @@ var richeApp = angular.module('richeApp', [
     'sourceCtrl',
     'personCtrl',
     'workServices',
+    'workauthorCtrl',
     'richeFilter',
     'ui.bootstrap'
 //    'ui.bootstrap'
@@ -39,7 +40,7 @@ richeApp.run(function ($rootScope) {
  * @param {type} param1
  * @param {type} param2
  */
-richeApp.directive('back', ['$window', function($window) {
+richeApp.directive('back', ['$window', function ($window) {
         return {
             restrict: 'A',
             link: function (scope, elem, attrs) {
@@ -70,9 +71,6 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/work-view.html',
                     controller: 'workViewCtrl'
                 })
-
-
-
                 .when("/source", {
                     templateUrl: 'partials/source-list.html',
                     controller: 'sourceListCtrl'
@@ -86,9 +84,9 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/source-edit.html',
                     controller: 'sourceCreateCtrl'
                 })
-                        .when("/source-view/:sourceId", {
-                              templateUrl: 'partials/source-view.html',
-                    controller: 'sourceViewCtrl'  
+                .when("/source-view/:sourceId", {
+                    templateUrl: 'partials/source-view.html',
+                    controller: 'sourceViewCtrl'
                 })
                 .when("/person", {
                     templateUrl: 'partials/person-list.html',
@@ -106,6 +104,19 @@ richeApp.config(['$routeProvider',
                 .when("/person-view/:personId", {
                     templateUrl: 'partials/person-view.html',
                     controller: 'personViewCtrl'
+                })
+                .when("/workauthor-create", {
+                    templateUrl: 'partials/workauthor-create.html',
+                    controller: 'workauthorCreateCtrl'
+                })
+                .when("/workauthor", {
+                    templateUrl: 'partials/workauthor-list.html',
+                    controller: 'workauthorListCtrl'
+                })
+
+                .when("/workauthor-edit/:workauthorId", {
+                    templateUrl: 'partials/workauthor-edit.html',
+                    controller: 'workauthorCreateCtrl'
                 })
                 ;
 
