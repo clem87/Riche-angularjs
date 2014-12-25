@@ -1,27 +1,26 @@
 
 <h1>Liste des personnes</h1>
 
-<ul>
-    <li ng-repeat="person in persons">
-       
-        <p> {{person.label}}<span ng-click="viewWork(person.id)"> id : {{person.id}} {{person.title}} </span>
-            <button ng-click="delete(person.id)"  class="btn btn-small btn-danger">delete</button> 
-            <button ng-click="edit(person.id)"  class="btn btn-small btn-danger">edit</button>
-        </p>
-            
-    </li>
-     <button ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>
-</ul>
+
 
 <table class="table table-bordered table-striped table-condensed">
     <tr>
-        <th>dénomination principale</th>
-        <th>Actions</th>
+        <th>Label</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>edit</th>
+        <th>delete</th>
     </tr>
     <tr ng-repeat="person in persons">
-        <td>{{person.label}}</td> 
-        <td></td> 
+
+        <td><a href="#person-view/{{person.id}}">{{person.label}}</a></td> 
+        <td>{{person.lastName}}</td> 
+        <td>{{person.fistName}}</td>
+        <td><button ng-click="delete(person.id)"  class="btn btn-small btn-danger">delete</button> 
+        </td>
+        <td><button ng-click="edit(person.id)"  class="btn btn-small btn-danger">edit</button></td>
     </tr>
-    
-    
+
+
 </table>
+ <button ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>

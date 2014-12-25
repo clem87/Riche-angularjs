@@ -38,6 +38,10 @@
 
 </style>
 
+
+
+<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+
 <table class="table table-bordered table-striped table-condensed">
 
     <tr>
@@ -51,7 +55,7 @@
     </tr>
 
 
-    <tr ng-repeat="work in works|orderBy:orderProp">
+    <tr ng-repeat="work in filteredTodos|orderBy:orderProp">
 
         <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
 
@@ -60,7 +64,7 @@
 
         <td> <ul>
 
-                <li ng-repeat="author in work.authors"><a  href="#/person-view/{{author.id}}"> {{author.label}}</a></li>
+                <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
             </ul></td>
         <td>
             <ul>

@@ -118,6 +118,10 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/workauthor-edit.html',
                     controller: 'workauthorCreateCtrl'
                 })
+                        .when("/workauthor-view/:workauthorId", {
+                            templateUrl: 'partials/workauthor-view.html',
+                    controller: 'workauthorViewCtrl'
+                })
                 ;
 
 //              .

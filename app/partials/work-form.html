@@ -18,7 +18,7 @@
             </ul>
 
             <label>Thème : </label>
-            <select id="selectTheme" ng-model="$parent.work.theme" ng-options="th as th.label for th in themedispo track by th.id"> </select><br />
+            <select id="selectTheme" ng-model="$parent.work.theme" ng-options="th as th.label for th in themedispo track by th.id" multiple="true"> </select><br />
 
             <label>Origin : </label>
             <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id"></select><br />

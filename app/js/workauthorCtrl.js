@@ -83,3 +83,17 @@ workauthorCtrl.controller('workauthorCreateCtrl',
             }
         ]
         );
+//=====================================================================================
+//                              VIEW CONTROLE
+//=====================================================================================
+
+workauthorCtrl.controller('workauthorViewCtrl',
+        ['$scope', 'WorkauthorFactory', '$location', '$http', '$rootScope', '$routeParams',
+            function ($scope, WorkauthorFactory, $location, $http, $rootScope, $routeParams) {
+                
+        $http.get($rootScope.webservice + '/rest/workauthor?id=' + $routeParams.workauthorId).success(function (data) {
+            $scope.workauthor = data;
+       
+        });
+                
+            }]);

@@ -23,6 +23,33 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
 
+        WorkFactory.query().$promise.then(function (result) {
+            $scope.works = result;
+            $scope.currentPage = 1;
+          
+//             alert($scope.works.length);
+        });
+
+
+  $scope.numPerPage=10;
+        $scope.$watch('currentPage + numPerPage', function () {
+            $scope.totalItems = $scope.works.length;
+            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                    , end = begin + $scope.numPerPage;
+//                    alert(begin);
+//                    alert(end)
+            $scope.filteredTodos = $scope.works.slice(begin, end);
+        });
+
+
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+
+        $scope.pageChanged = function () {
+        };
+
+
         $scope.deleteWork = function (userId) {
             WorkFactory.delete({id: userId}).$promise.then(function (result) {
                 $scope.works = WorkFactory.query();
@@ -43,7 +70,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $location.path('/work-view/' + userId);
         };
 
-        $scope.works = WorkFactory.query();
+
 
     }]
         );
@@ -105,7 +132,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
 
         $scope.getAuteurCompletion = function (userString) {
-            return $http.get($rootScope.webservice + '/rest/author/find?userselection=' + userString).success(
+            return $http.get($rootScope.webservice + '/rest/workauthor/find?userselection=' + userString).success(
                     function (data) {
 
                     }).then(function (resp) {
@@ -226,7 +253,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                         present = true;
                     }
                 }
-                
+
 //                workcopie = JSON.parse(JSON.stringify($scope.work));
 //                workcopie.relationWorkSource=null;
                 if (!present) {
@@ -317,35 +344,35 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
 //-----------------------------> Modal Pannel
 
-        $scope.items = ['item1', 'item2', 'item3'];
-        var modalInstance
-        $scope.open = function (size) {
-
-            modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
-                size: size,
-                resolve: {
-                    items: function () {
-                        return $scope.items;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        };
-
-        $scope.ok = function () {
-            $modalInstance.close($scope.selected.item);
-        };
-
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
+//        $scope.items = ['item1', 'item2', 'item3'];
+//        var modalInstance
+//        $scope.open = function (size) {
+//
+//            modalInstance = $modal.open({
+//                templateUrl: 'myModalContent.html',
+//                controller: 'ModalInstanceCtrl',
+//                size: size,
+//                resolve: {
+//                    items: function () {
+//                        return $scope.items;
+//                    }
+//                }
+//            });
+//
+//            modalInstance.result.then(function (selectedItem) {
+//                $scope.selected = selectedItem;
+//            }, function () {
+//                $log.info('Modal dismissed at: ' + new Date());
+//            });
+//        };
+//
+//        $scope.ok = function () {
+//            $modalInstance.close($scope.selected.item);
+//        };
+//
+//        $scope.cancel = function () {
+//            $modalInstance.dismiss('cancel');
+//        };
 
 
     }]);
@@ -371,18 +398,18 @@ workCtrl.controller('workViewCtrl', ['$scope', '$rootScope', 'WorkFactory', '$lo
 
 
 // =======================================ModalInstanceCtrl===================================
-workCtrl.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
-
-    $scope.items = items;
-    $scope.selected = {
-        item: $scope.items[0]
-    };
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-});
+//workCtrl.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+//
+//    $scope.items = items;
+//    $scope.selected = {
+//        item: $scope.items[0]
+//    };
+//
+//    $scope.ok = function () {
+//        $modalInstance.close($scope.selected.item);
+//    };
+//
+//    $scope.cancel = function () {
+//        $modalInstance.dismiss('cancel');
+//    };
+//});
