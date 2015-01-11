@@ -177,9 +177,10 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         }
 
         $scope.removeRelationSourcePersonClick = function (id) {
+     
             array = $scope.source.relationPerson;
             for (var i = array.length - 1; i >= 0; i--) {
-                if (array[i].id === id) {
+                if (array[i].person.id === id) {
                     array.splice(i, 1);
                 }
             }

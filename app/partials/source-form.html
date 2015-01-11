@@ -19,7 +19,7 @@
             </select>
             <button ng-click="btAjouterPersonSourceClick()">Ajouter</button>
             <ul>
-                <li ng-repeat="au in $parent.source.relationPerson">{{au.person.label}} [{{au.rolePublication}}]  <img src="img/delete1-16px.png" ng-click="removeRelationSourcePersonClick(au.id)" /></li>
+                <li ng-repeat="au in $parent.source.relationPerson">{{au.person.label}} [{{au.rolePublication}}]  <img src="img/delete1-16px.png" ng-click="removeRelationSourcePersonClick(au.person.id)" /></li>
             </ul>
 
 

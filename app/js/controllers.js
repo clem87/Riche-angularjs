@@ -26,20 +26,20 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         WorkFactory.query().$promise.then(function (result) {
             $scope.works = result;
             $scope.currentPage = 1;
-          
-//             alert($scope.works.length);
         });
 
 
-  $scope.numPerPage=10;
+        $scope.numPerPage = 10;
         $scope.$watch('currentPage + numPerPage', function () {
+            reload();
+        });
+
+        function reload() {
             $scope.totalItems = $scope.works.length;
             var begin = (($scope.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
-//                    alert(begin);
-//                    alert(end)
             $scope.filteredTodos = $scope.works.slice(begin, end);
-        });
+        }
 
 
         $scope.setPage = function (pageNo) {
@@ -52,10 +52,16 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
         $scope.deleteWork = function (userId) {
             WorkFactory.delete({id: userId}).$promise.then(function (result) {
-                $scope.works = WorkFactory.query();
+                $scope.works = WorkFactory.query().$promise.then(function (result) {
+                    $scope.works = result;
+//                    $scope.currentPage = 1;
+                    reload();
+//                    alert()
+                });
+                ;
             }).then(function () {
                 $location.path('/work');
-            });
+            })
         };
 
         $scope.editWork = function (userid) {
