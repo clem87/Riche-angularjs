@@ -5,54 +5,61 @@
         <div class="controls">
 
             <label>Type de source : </label>
-            <select id="selectTypeBiblio" ng-model="$parent.source.bibliographicType" ng-options="sr as sr.label for sr in bibliographicTypeDispo track by sr.id"> </select><br />             
-
-
-            <br />
-            <label>Auteurs : </label>
-            <input type="text" ng-model="$parent.auteurUserSelection2" placeholder="Saisissez l'auteur" 
-                   typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" 
-                   typeahead-loading="loadingLocations" class="form-control" >
-            <select ng-model="$parent.auteurUserSelectionRolePublication">
-                <option value="">normale</option>
-                <option value="dir">Dir</option>
-            </select>
-            <button ng-click="btAjouterPersonSourceClick()">Ajouter</button>
-            <ul>
-                <li ng-repeat="au in $parent.source.relationPerson">{{au.person.label}} [{{au.rolePublication}}]  <img src="img/delete1-16px.png" ng-click="removeRelationSourcePersonClick(au.person.id)" /></li>
-            </ul>
+            <select id="selectTypeBiblio" ng-model="$parent.source.bibliographicType" ng-options="sr as sr.label for sr in bibliographicTypeDispo track by sr.id" class="form-control"> </select><br />             
 
 
 
 
+            <div class="form-inline">
+                <label title="{{'help.authors'|translate}}">{{'label.authors'| translate}}</label>
+                <input type="text" ng-model="$parent.auteurUserSelection2" placeholder="Saisissez l'auteur" 
+                       typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" 
+                       typeahead-loading="loadingLocations" class="form-control" >
+                <select ng-model="$parent.auteurUserSelectionRolePublication" class="form-control" class="form-control" >
+                    <option value="">normale</option>
+                    <option value="dir">Dir</option>
+                </select>
+                <button ng-click="btAjouterPersonSourceClick()" class="btn btn-default">Ajouter</button>
+                <ul>
+                    <li ng-repeat="au in $parent.source.relationPerson">{{au.person.label}} [{{au.rolePublication}}]  <img src="img/delete1-16px.png" ng-click="removeRelationSourcePersonClick(au.person.id)" /></li>
+                </ul>
+            </div>
 
-            <label class="control-label" for="title">Title : </label>
-            <input type="text" id="inputTitle" ng-model="$parent.source.title"/><br />
 
-            <label class="control-label" for="title">Titre article : </label>
-            <input type="text" id="inputarticleTitle" ng-model="$parent.source.articleTitle"><br />
+
+
+
+            <div title="{{'help.source.title'|translate}}">
+                <label class="control-label" for="title">{{'label.source.title'|translate}} : </label>
+                <input type="text" id="inputTitle" ng-model="$parent.source.title" class="form-control"/><br />
+            </div>
+
+            <div title="{{'label.source.articletitle'|translate}}">
+                <label class="control-label" for="title">{{'label.source.articletitle'|translate}} : </label>
+                <input type="text" id="inputarticleTitle" ng-model="$parent.source.articleTitle" class="form-control"><br />
+            </div>
 
 
             <label>Ville d'édition : </label>
-            <input type="text" ng-model="$parent.source.releaseTown"/> <br />
+            <input type="text" ng-model="$parent.source.releaseTown" class="form-control"/> <br />
 
             <label>Année d'édition : </label>
-            <input type="text" ng-model="$parent.source.releaseYear"> <br />
+            <input type="text" ng-model="$parent.source.releaseYear" class="form-control"> <br />
 
             <label>Volume : </label>
-            <input type="text" ng-model="$parent.source.volume"> <br />
+            <input type="text" ng-model="$parent.source.volume" class="form-control"> <br />
 
             <label>Series : </label>
-            <input type="text" ng-model="$parent.source.series"/> <br />
+            <input type="text" ng-model="$parent.source.series" class="form-control"/> <br />
 
             <label>publisher : </label>
-            <input type="text" ng-model="$parent.source.publisher" /> <br />
+            <input type="text" ng-model="$parent.source.publisher" class="form-control" /> <br />
 
             <label>editor : </label>
-            <input type="text" ng-model="$parent.source.editor" /> <br />
+            <input type="text" ng-model="$parent.source.editor" class="form-control" /> <br />
 
             <label>num : </label>
-            <input type="text" ng-model="$parent.source.num" /> <br />
+            <input type="text" ng-model="$parent.source.num" class="form-control" /> <br />
 
         </div>
     </div>

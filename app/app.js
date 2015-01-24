@@ -4,6 +4,7 @@
 var richeApp = angular.module('richeApp', [
     'ngRoute',
     'workCtrl',
+    'pascalprecht.translate',
     'sourceCtrl',
     'personCtrl',
     'workServices',
@@ -23,6 +24,8 @@ var ACTION_EDIT = 'edit';
 var ACTION_CREATE = 'create';
 
 angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
+
+
 
 
 /***
@@ -134,3 +137,40 @@ richeApp.config(['$routeProvider',
 //      });
     }]);
 
+/***
+La traduction
+ */
+richeApp.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations('fr', {
+    'label.authors': 'Auteurs',
+    'help.authors': "L'auteur de la source",
+    'label.source.title': "Titre",
+    'help.source.title': "Le titre le la source",
+    'label.source.articletitle':"Titre de l'article",
+    'label.help.articletitle':"Titre de l'article",
+    'FOO': 'This is a paragraph',
+    
+    
+    "label.person.label":"Nom à afficher",
+    "help.person.label":"Nom à afficher",
+    "label.person.prenom":"Prenom",
+    "help.person.prenom":"Prénom",
+    "label.person.nom":"Nom",
+    "help.person.nom":"Nom",
+    
+    'help.workauthor.label':"Saissisez le nom et le prénom de l'auteur tel que devant s'afficher",
+    'label.workauthor.label': "Nom",
+    
+    'msg.footer.txt1': "Copyright &copy; 2015 ??",
+    'msg.footer.txt2': "LAMOP"
+  });
+  
+  
+ 
+//  $translateProvider.translations('fr', {
+//    'TITLE': 'Bonjour',
+//    'FOO': 'Ceci est un paragraphr'
+//  });
+ 
+  $translateProvider.preferredLanguage('fr');
+}]);

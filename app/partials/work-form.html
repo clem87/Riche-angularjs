@@ -21,14 +21,14 @@
             <label>Thème : </label>
             <input type="text" ng-model="currentThemeUserSelection" class="form-control" placeholder="Saisissez le thème" typeahead="aut as aut.label for aut in getThemeCompletion($viewValue)" typeahead-loading="loadingLocations" typeahead-on-select="themeUserSelection($item, $model, $label)" />
             
-            <label>Selectionne
+            <label>Selectionne</label>
+            <ul>
                             <li ng-repeat="th in $parent.work.theme">{{th.label}}  <img src="img/delete1-16px.png" ng-click="removeThemeClick(th.id)" /></li>
-
-            
-            </label>
+            </ul>
             
             
-            <select id="selectTheme" ng-model="$parent.work.theme" ng-options="th as th.label for th in themedispo track by th.id" multiple="true" class="form-control"> </select><br />
+            
+            
 
             <label>Origin : </label>
             <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id" class="form-control"></select><br />
@@ -60,7 +60,7 @@
                     <option value="edition dource">edition de source</option>
                 </select>
 
-                <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button><br />
+                <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()" class="btn btn-default">Ajouter</button><br />
             </div>
 
             <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
