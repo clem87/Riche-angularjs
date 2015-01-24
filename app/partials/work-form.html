@@ -1,15 +1,16 @@
 <form novalidate="novalidate" class="form-horizontal">
     <div class="control-group">
-        <label class="control-label" for="title">Title : </label>
+
         <div class="controls">
 
-            <label>Titre : </label>
-            <input type="text" id="inputTitle" ng-model="$parent.work.title" /> <br />
+            <label for="inputTitle">Titre : </label>
+            <input type="text" id="inputTitle" ng-model="$parent.work.title" class="form-control" /> <br />
 
 
             <label>Auteurs</label>
+            
 
-            <input type="text" ng-model="auteurUserSelection" placeholder="Saisissez l'auteur" typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection($item, $model, $label)">
+            <input type="text" ng-model="auteurUserSelection" placeholder="Saisissez l'auteur" typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection($item, $model, $label)" />
             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 
             <label>Sélectionés :</label>
@@ -18,56 +19,60 @@
             </ul>
 
             <label>Thème : </label>
-            <select id="selectTheme" ng-model="$parent.work.theme" ng-options="th as th.label for th in themedispo track by th.id" multiple="true"> </select><br />
+            <input type="text" ng-model="currentThemeUserSelection" class="form-control" placeholder="Saisissez le thème" typeahead="aut as aut.label for aut in getThemeCompletion($viewValue)" typeahead-loading="loadingLocations" typeahead-on-select="themeUserSelection($item, $model, $label)" />
+            
+            <label>Selectionne
+                            <li ng-repeat="th in $parent.work.theme">{{th.label}}  <img src="img/delete1-16px.png" ng-click="removeThemeClick(th.id)" /></li>
+
+            
+            </label>
+            
+            
+            <select id="selectTheme" ng-model="$parent.work.theme" ng-options="th as th.label for th in themedispo track by th.id" multiple="true" class="form-control"> </select><br />
 
             <label>Origin : </label>
-            <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id"></select><br />
+            <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id" class="form-control"></select><br />
 
             <label title="Cette donnée représente la datation exacte de la source. Elle n'est précisé que si ...">Date exacte : </label>
-            <input type="text" ng-model="$parent.work.exactDate"/><br />
+            <input type="text" ng-model="$parent.work.exactDate" class="form-control" /><br />
 
             <label>centuryMax</label>
-            <input ng-model="$parent.work.centuryMax"/><br />
+            <input ng-model="$parent.work.centuryMax" class="form-control"/><br />
 
             <label>centuryMin</label>
-            <input ng-model="$parent.work.centuryMin"/><br />
+            <input ng-model="$parent.work.centuryMin" class="form-control"/><br />
+
+            <div class="form-inline">
+                <label>Source : </label> 
+
+                <input type="text" ng-model="$parent.sourceUserSelection" 
+                       placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" 
+                       typeahead-loading="loadingLocationsSource" class="form-control"
+                       ng-keyup="sourceKeyPressWithEnter($event)" 
+                       typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
+
+                <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"  class="form-control"/>
 
 
-            <label>Source : </label> <input type="text" ng-model="$parent.sourceUserSelection" 
-                                            placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" 
-                                            typeahead-loading="loadingLocationsSource" class="form-control"
-                                            ng-keyup="sourceKeyPressWithEnter($event)" 
-                                            typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
-            <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"/>
+                <select ng-model="$parent.sourceNatureUserSelection" class="form-control">
+                    <option value="biblio">bibliographie</option>
+                    <option value="source">manuscrit</option>
+                    <option value="edition dource">edition de source</option>
+                </select>
 
-            <select ng-model="$parent.sourceNatureUserSelection">
-                <option value="biblio">bibliographie</option>
-                <option value="source">manuscrit</option>
-                <option value="edition dource">edition de source</option>
-            </select>
-
-            <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button><br />
-
-
-            <label>exactDate</label>
-
-
-
-
+                <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()">Ajouter</button><br />
+            </div>
 
             <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
 
-            <p>selectionné : </p>
+            <label>selectionné : </label>
 
             <ul>
                 <li ng-repeat="sr in $parent.work.relationWorkSource">
-                    <span ng-bind-html="sr.source|sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
-         
+                    <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
+
                 </li>
             </ul>
-
-            <button class="btn btn-default" ng-click="open()">Ajouter une source</button>
-
 
             <script type="text/ng-template" id="myModalContent.html">
 
@@ -91,8 +96,8 @@
                 </div>
             </script>
 
-
-            <textarea ng-model="$parent.work.note">
+            <label>Notes :</label>
+            <textarea ng-model="$parent.work.note" class="form-control">
                 
             </textarea>
 

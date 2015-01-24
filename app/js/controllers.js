@@ -147,6 +147,18 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             })
 
         }
+        
+        $scope.getThemeCompletion = function (userString) {
+            return $http.get($rootScope.webservice + '/rest/theme/find?userselection=' + userString).success(
+                    function (data) {
+
+                    }).then(function (resp) {
+
+                return resp.data;
+            })
+
+        }
+        
 
 
         $scope.confirmForm = function (action) {
@@ -294,6 +306,28 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             $scope.sourceUserSelection = null;
 
         };
+        
+        
+        $scope.themeUserSelection = function ($item, $model, $label) {
+            if ($scope.work.theme === undefined) {
+                $scope.work.theme = new Array();
+            }
+
+            var i = $scope.work.theme.length;
+            present = false;
+            while (i--) {
+                if ($scope.work.theme[i].id === $item.id) {
+                    present = true;
+                }
+            }
+            if (!present) {
+                $scope.work.theme.push($item);
+            }
+
+            $scope.currentThemeUserSelection = null;
+
+        };
+        
 
         $scope.onSelectsourceUserSelection = function ($item, $model, $label) {
 
