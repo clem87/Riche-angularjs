@@ -121,8 +121,8 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/workauthor-edit.html',
                     controller: 'workauthorCreateCtrl'
                 })
-                        .when("/workauthor-view/:workauthorId", {
-                            templateUrl: 'partials/workauthor-view.html',
+                .when("/workauthor-view/:workauthorId", {
+                    templateUrl: 'partials/workauthor-view.html',
                     controller: 'workauthorViewCtrl'
                 })
                 ;
@@ -138,39 +138,51 @@ richeApp.config(['$routeProvider',
     }]);
 
 /***
-La traduction
+ La traduction
  */
 richeApp.config(['$translateProvider', function ($translateProvider) {
-  $translateProvider.translations('fr', {
-    'label.authors': 'Auteurs',
-    'help.authors': "L'auteur de la source",
-    'label.source.title': "Titre",
-    'help.source.title': "Le titre le la source",
-    'label.source.articletitle':"Titre de l'article",
-    'label.help.articletitle':"Titre de l'article",
-    'FOO': 'This is a paragraph',
-    
-    
-    "label.person.label":"Nom à afficher",
-    "help.person.label":"Nom à afficher",
-    "label.person.prenom":"Prenom",
-    "help.person.prenom":"Prénom",
-    "label.person.nom":"Nom",
-    "help.person.nom":"Nom",
-    
-    'help.workauthor.label':"Saissisez le nom et le prénom de l'auteur tel que devant s'afficher",
-    'label.workauthor.label': "Nom",
-    
-    'msg.footer.txt1': "Copyright &copy; 2015 ??",
-    'msg.footer.txt2': "LAMOP"
-  });
-  
-  
- 
+        $translateProvider.translations('fr', {
+            'help.work.origin': "Origine géographique de l'oeuvre. Séparée par des points virgules",
+            'label.work.origin': "Origine",
+            'help.work.exactDate': "Date exacte a préciser si elle est connue. C'est un champs texte libre",
+            'label.work.exactDate': "Date exacte",
+            'label.work.centuryMin': 'Siècle max',
+            'help.work.centuryMin': 'Année minimum saisir un nombre',
+            'label.work.centuryMax': 'Siècle maximum',
+            'help.work.centuryMax': 'Année maximal de datation saisir un nombre',
+            'form.creation.work.title': "Création d'une source",
+            'form.edit.work.title':"Edition d'une source",
+            'form.creation.work.desc': "Ce formulaire permet de créer une oeuvre historique.",
+            'form.edit.work.desc': "Ce formulaire permet de d'éditer une oeuvre historique.",
+            'label.authors': 'Auteurs',
+            'help.authors': "L'auteur de la source",
+            'label.source.title': "Titre de l'ouvrage",
+            'help.source.title': "Le titre le la source",
+            'label.source.articletitle': "Titre de l'article",
+            'label.help.articletitle': "Titre de l'article",
+            'label.source.volume': "Tomaison",
+            'help.source.volume': "Saisir le nombre de tome de l'ouvrage ou le volume de la revue",
+            'FOO': 'This is a paragraph',
+            'label.source.journal': "Titre de la revue",
+            'help.source.journal': "Saisissez le titre de la revue",
+            "label.person.label": "Nom à afficher",
+            "help.person.label": "Nom à afficher",
+            "label.person.prenom": "Prenom",
+            "help.person.prenom": "Prénom",
+            "label.person.nom": "Nom",
+            "help.person.nom": "Nom",
+            'help.workauthor.label': "Saissisez le nom et le prénom de l'auteur tel que devant s'afficher",
+            'label.workauthor.label': "Nom",
+            'msg.footer.txt1': "Copyright &copy; 2015 ??",
+            'msg.footer.txt2': "LAMOP"
+        });
+
+
+
 //  $translateProvider.translations('fr', {
 //    'TITLE': 'Bonjour',
 //    'FOO': 'Ceci est un paragraphr'
 //  });
- 
-  $translateProvider.preferredLanguage('fr');
-}]);
+
+        $translateProvider.preferredLanguage('fr');
+    }]);

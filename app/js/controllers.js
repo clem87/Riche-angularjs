@@ -19,7 +19,7 @@ Array.prototype.contains = function (obj) {
 //var richeApp = angular.module('richeApp', []);
 var workCtrl = angular.module('workCtrl', []);
 
-workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', function ($scope, WorkFactory, $location, $http, $rootScope) {
+workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter', function ($scope, WorkFactory, $location, $http, $rootScope, $filter) {
 
 
 
@@ -30,17 +30,30 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
         $scope.numPerPage = 10;
+
         $scope.$watch('currentPage + numPerPage', function () {
             reload();
         });
 
         function reload() {
-            $scope.totalItems = $scope.works.length;
+//            $scope.totalItems = $scope.works.length;
             var begin = (($scope.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
-            $scope.filteredTodos = $scope.works.slice(begin, end);
+
+            //recup du filtre 
+            myquery = $scope.query;
+            $scope.filteredWorks = $scope.works;
+            $scope.filteredWorks = $filter('filter')($scope.filteredWorks, myquery);
+            $scope.totalItems = $scope.filteredWorks.length;
+            $scope.filteredWorks = $scope.filteredWorks.slice(begin, end);
         }
 
+
+
+        $scope.addSearchFilter = function () {
+            $scope.query = $scope.userSelectionquery;
+            reload();
+        }
 
         $scope.setPage = function (pageNo) {
             $scope.currentPage = pageNo;
@@ -111,6 +124,12 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
         });
 
 
+        $scope.setFormScope = function (f) {
+//    alert("coucou")
+            $scope.form = f;
+//   this.form = f;
+        }
+
 
 
         /***
@@ -147,7 +166,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             })
 
         }
-        
+
         $scope.getThemeCompletion = function (userString) {
             return $http.get($rootScope.webservice + '/rest/theme/find?userselection=' + userString).success(
                     function (data) {
@@ -158,20 +177,31 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             })
 
         }
-        
+
 
 
         $scope.confirmForm = function (action) {
-            if (action === ACTION_EDIT) {
-                WorkFactory.update({'id': $scope.work.id}, $scope.work).$promise.then(function () {
-                    $location.path('/work');
-                });
 
+
+            if ($scope.form.form.$valid) {
+                if (action === ACTION_EDIT) {
+                    WorkFactory.update({'id': $scope.work.id}, $scope.work).$promise.then(function () {
+                        $location.path('/work');
+                    }, function (reason) {
+                        alert("Errreur lors de : l'enregistrement");
+                    });
+
+                }
+                else if (action === ACTION_CREATE) {
+                    WorkFactory.create($scope.work).$promise.then(function () {
+                        $location.path('/work');
+                    }, function (reason) {
+                        alert("Errreur lors de : l'enregistrement");
+                    });
+                }
             }
-            else if (action === ACTION_CREATE) {
-                WorkFactory.create($scope.work).$promise.then(function () {
-                    $location.path('/work');
-                });
+            else {
+                alert("Verrifier les valeurs saisies");
             }
         };
 
@@ -278,6 +308,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                     $scope.work.relationWorkSource.push({
                         source: $scope.sourceUserSelection,
                         extract: $scope.sourceExtractUserSelection,
+                        tome: $scope.sourceExtractUserSelection,
                         nature: $scope.sourceNatureUserSelection,
                         workEntity: {id: $scope.work.id}
                     });
@@ -306,8 +337,8 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             $scope.sourceUserSelection = null;
 
         };
-        
-        
+
+
         $scope.themeUserSelection = function ($item, $model, $label) {
             if ($scope.work.theme === undefined) {
                 $scope.work.theme = new Array();
@@ -327,7 +358,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             $scope.currentThemeUserSelection = null;
 
         };
-        
+
 
         $scope.onSelectsourceUserSelection = function ($item, $model, $label) {
 

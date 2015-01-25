@@ -1,108 +1,142 @@
-<form novalidate="novalidate" class="form-horizontal">
+<form  class="form-horizontal" name="form" ng-init="setFormScope(this)">
     <div class="control-group">
 
         <div class="controls">
 
-            <label for="inputTitle">Titre : </label>
-            <input type="text" id="inputTitle" ng-model="$parent.work.title" class="form-control" /> <br />
+            <div class="form-horizontal">
+                <label for="inputTitle">Titre : </label>
+                <input type="text" id="inputTitle" name="inputTitle" ng-model="$parent.work.title" class="form-control" required />
+                <span ng-show="form.inputTitle.$error.required" class="alert-danger">Champ requis</span>
 
-
-            <label>Auteurs</label>
-            
-
-            <input type="text" ng-model="auteurUserSelection" placeholder="Saisissez l'auteur" typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection($item, $model, $label)" />
-            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-
-            <label>Sélectionés :</label>
-            <ul>
-                <li ng-repeat="au in $parent.work.authors">{{au.label}}  <img src="img/delete1-16px.png" ng-click="removeAuthorClick(au.id)" /></li>
-            </ul>
-
-            <label>Thème : </label>
-            <input type="text" ng-model="currentThemeUserSelection" class="form-control" placeholder="Saisissez le thème" typeahead="aut as aut.label for aut in getThemeCompletion($viewValue)" typeahead-loading="loadingLocations" typeahead-on-select="themeUserSelection($item, $model, $label)" />
-            
-            <label>Selectionne</label>
-            <ul>
-                            <li ng-repeat="th in $parent.work.theme">{{th.label}}  <img src="img/delete1-16px.png" ng-click="removeThemeClick(th.id)" /></li>
-            </ul>
-            
-            
-            
-            
-
-            <label>Origin : </label>
-            <select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id" class="form-control"></select><br />
-
-            <label title="Cette donnée représente la datation exacte de la source. Elle n'est précisé que si ...">Date exacte : </label>
-            <input type="text" ng-model="$parent.work.exactDate" class="form-control" /><br />
-
-            <label>centuryMax</label>
-            <input ng-model="$parent.work.centuryMax" class="form-control"/><br />
-
-            <label>centuryMin</label>
-            <input ng-model="$parent.work.centuryMin" class="form-control"/><br />
+            </div>
+            <br />
 
             <div class="form-inline">
-                <label>Source : </label> 
+                <label>Auteurs</label>
 
-                <input type="text" ng-model="$parent.sourceUserSelection" 
+
+                <input type="text" ng-model="auteurUserSelection" placeholder="Saisissez l'auteur" typeahead="aut as aut.label for aut in getAuteurCompletion($viewValue) | filter:{title:$viewValue}" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="authorUserSelection($item, $model, $label)" />
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+                <label>Sélectionés :</label>
+                <ul>
+                    <li ng-repeat="au in $parent.work.authors">{{au.label}}  <img src="img/delete1-16px.png" ng-click="removeAuthorClick(au.id)" /></li>
+                </ul>
+            </div>
+
+            <div class="form-inline">
+                <label>Thème : </label>
+                <input type="text" ng-model="currentThemeUserSelection" class="form-control" placeholder="Saisissez le thème" typeahead="aut as aut.label for aut in getThemeCompletion($viewValue)" typeahead-loading="loadingLocations" typeahead-on-select="themeUserSelection($item, $model, $label)" />
+
+                <label>Selectionne</label>
+                <ul>
+                    <li ng-repeat="th in $parent.work.theme">{{th.label}}  <img src="img/delete1-16px.png" ng-click="removeThemeClick(th.id)" /></li>
+                </ul>
+            </div>
+
+
+
+
+
+            <div title="{{'help.work.origin'|translate}}">
+                <label>{{'label.work.origin'|translate}} : </label>
+                <input type="text"  ng-model="$parent.work.origin" class="form-control"/>
+            </div>
+            <!--<select id="selectOrigine" ng-model="$parent.work.origin" ng-options="or as or.label for or in origindispo track by or.id" class="form-control"></select><br />-->
+
+            <div title="{{'help.work.exactDate'|translate}}">
+                <label>{{'label.work.exactDate'|translate}}</label>
+                <input type="text" ng-model="$parent.work.exactDate" class="form-control" />
+            </div>
+
+            <div title="{{'help.work.centuryMin'|translate}}">
+                <label>{{'label.work.centuryMin'|translate}}</label>
+                <input ng-model="$parent.work.centuryMin" class="form-control" type="number" name="centuryMin" />
+                <span ng-show="form.centuryMin.$error.number" class="alert-danger">The value is not a valid integer!</span>
+            </div>
+
+
+            <div title="{{'help.work.centuryMax'|translate}}" class="form-horizontal">
+                <label>{{'label.work.centuryMax'|translate}}</label>
+                <input ng-model="$parent.work.centuryMax" class="form-control" type="number" name="centuryMax" integer />
+                <span ng-show="form.centuryMax.$error.number" class="alert-danger">The value is not a valid integer!</span>
+            </div>
+
+
+
+            <div>
+                <label>Notes :</label>
+                <textarea ng-model="$parent.work.note" class="form-control">
+                
+                </textarea>
+            </div>
+            <br />
+
+            <div class="form-inline">
+                
+                <label for="sourceForm">Source : </label> 
+
+                <input type="text" id="sourceForm" ng-model="$parent.sourceUserSelection" 
                        placeholder="Saisissez la source" typeahead="state as state.title for state in getStates($viewValue) | filter:{title:$viewValue}" 
                        typeahead-loading="loadingLocationsSource" class="form-control"
                        ng-keyup="sourceKeyPressWithEnter($event)" 
-                       typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)">
+                       typeahead-on-select="onSelectsourceUserSelection($item, $model, $label)" />
 
-                <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="Extrait (ex : p 10-15)"  class="form-control"/>
+                <label>Pagination : </label> <input type="text" ng-model="$parent.sourceExtractUserSelection" placeholder="p. 10-15 ou col. 2 ou fol. 10v-11"  class="form-control"/>
 
+                <label>Tomaison :</label>
+                <input type="text" ng-model="$parent.sourceTomaisonUserSelection"/>
 
+                <label>Nature</label>
                 <select ng-model="$parent.sourceNatureUserSelection" class="form-control">
-                    <option value="biblio">bibliographie</option>
-                    <option value="source">manuscrit</option>
-                    <option value="edition dource">edition de source</option>
+                    <option>Bibliographie</option>
+                    <option>Manuscrit</option>
+                    <option>Edition</option>
+                    <option>Traduction</option>
                 </select>
 
-                <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()" class="btn btn-default">Ajouter</button><br />
-            </div>
+                <button type="button" id="btValideSourceUserSelection" ng-click="sourceBtAjouterClick()" class="btn btn-default">Ajouter</button>
 
-            <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
+                <label>selectionné : <label>
 
-            <label>selectionné : </label>
+                        <ul>
+                            <li ng-repeat="sr in $parent.work.relationWorkSource">
+                                <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
 
-            <ul>
-                <li ng-repeat="sr in $parent.work.relationWorkSource">
-                    <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]<img src="img/delete1-16px.png" ng-click="removeSourceClick(sr.id)">
+                            </li>
+                        </ul>
+                        </div>
 
-                </li>
-            </ul>
-
-            <script type="text/ng-template" id="myModalContent.html">
-
-                <div id="header" ng-include src='"partials/source-create.html"' onload="onHtmlLoaded()" ng-controller="sourceCreateCtrl"></div>
+                        <i ng-show="loadingLocationsSource" class="glyphicon glyphicon-refresh"></i>
 
 
-                <div class="modal-header">
-                <h3 class="modal-title">Ajout d'une source</h3>
-                </div>
-                <div class="modal-body">
-                <ul>
-                <li ng-repeat="item in items">
-                <a ng-click="selected.item = item">{{ item }}</a>
-                </li>
-                </ul>
-                Selected: <b>{{ selected.item }}</b>
-                </div>
-                <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="ok()">OK</button>
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-                </div>
-            </script>
 
-            <label>Notes :</label>
-            <textarea ng-model="$parent.work.note" class="form-control">
-                
-            </textarea>
+                        <script type="text/ng-template" id="myModalContent.html">
 
-        </div>
-    </div>
+                            <div id="header" ng-include src='"partials/source-create.html"' onload="onHtmlLoaded()" ng-controller="sourceCreateCtrl"></div>
 
 
-</form>
+                            <div class="modal-header">
+                            <h3 class="modal-title">Ajout d'une source</h3>
+                            </div>
+                            <div class="modal-body">
+                            <ul>
+                            <li ng-repeat="item in items">
+                            <a ng-click="selected.item = item">{{ item }}</a>
+                            </li>
+                            </ul>
+                            Selected: <b>{{ selected.item }}</b>
+                            </div>
+                            <div class="modal-footer">
+                            <button class="btn btn-primary" ng-click="ok()">OK</button>
+                            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </script>
+
+
+
+                        </div>
+                        </div>
+
+
+                        </form>
