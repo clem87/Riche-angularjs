@@ -71,6 +71,39 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
                 return retour;
             };
         })
+        
+        /***
+         * Affiche une concaténation du siècle min et max dans le listing des sources
+         * @param {type} $sce
+         * @returns {Function}
+         */
+        .filter('centuryFilter', function ($sce){
+            console.log($sce);
+            return function (input, arg){
+                var centuryMin = input;
+                var centuryMax = arg;
+                var result = "";
+                
+                if(centuryMin !== 'undefined' && centuryMax !== 'undefined'){
+                    
+                    if(centuryMin === centuryMax){
+                        return centuryMin+" e s";
+                    }
+                    else{
+                        return centuryMin + "e - " + centuryMax+"e s";
+                    }               
+                }
+                else if (centuryMin !== 'undefined'){
+                    return centuryMin + " e s";
+                }
+                else if (centuryMax !== 'undefined'){
+                    return centuryMax + " e s";
+                }
+                else{
+                    return "";
+                }
+            };
+        })
         ;
 
 

@@ -49,32 +49,42 @@
 <table class="table table-bordered table-striped table-condensed">
 
     <tr>
-        <th>titre</th>
-        <th>Siècle min</th>
-        <th>Siècle max</th>
+        <th>Numéro</th>
+        <th>Titre</th>
+        <th>Période</th>
+        <th>Thèmes</th>
         <th>Auteur</th>
-        <th>Sources</th>
         <th>Actions</th>
         <th>Actions</th>
     </tr>
 
-
+    <input ng-model="work.centuryMax">
     <tr ng-repeat="work in filteredWorks|orderBy:orderProp ">
+
+        <td>{{work.id}}</td>
 
         <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
 
-        <td>{{work.centuryMin}}</td>
-        <td>{{work.centuryMax}}</td>
 
-        <td> <ul>
+        <td>{{work.centuryMin|centuryFilter:work.centuryMax}}</td>
+        <td>
 
-                <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
-            </ul></td>
+            <ul>
+                <li ng-repeat="theme in work.theme">{{theme.label}}</span></li>
+            </ul>
+
+        </td>
         <td>
             <ul>
-                <li ng-repeat="src in work.relationWorkSource"> <span ng-bind-html="src.source | sourceFilter"> </span> {{sr.extract}}</li>
+
+                <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
             </ul>
         </td>
+        <!--<td>-->
+        <!--            <ul>
+                        <li ng-repeat="src in work.relationWorkSource"> <span ng-bind-html="src.source | sourceFilter"> </span> {{sr.extract}}</li>
+                    </ul>-->
+        <!--</td>-->
         <td><button ng-click="deleteWork(work.id)"  class="btn btn-small btn-danger">delete</button> 
         </td>
         <td><button ng-click="editWork(work.id)"  class="btn btn-small btn-danger">edit</button></td>

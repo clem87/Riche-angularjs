@@ -13,28 +13,24 @@ and open the template in the editor.
     <body>
         
         <h1>Fiche Oeuvre</h1>
-
+        
+        <p><strong>Numéro : </strong> {{work.id}}</p>
+        
+        <p><strong>Auteur : </strong><span ng-repeat="person in work.authors"><a href="#/workauthor-view/{{person.id}}"> {{person.label}} </a></span></p>
+        
         <p><strong>Titre : </strong> {{work.title}}</p>
-
-        <p><strong>Auteur : </strong><span ng-repeat="person in work.authors"> {{person.label}} </span></p>
         
-        <p><strong>Thème :</strong> {{work.theme}}</p>
+         <p><strong>Origine : </strong> {{work.origin}}</p>
+         
+         <p><strong>Période : </strong>{{work.centuryMin|centuryFilter:work.centuryMax}}</p>
+         
+          <p><strong>Date exacte :</strong> {{work.exactDate}}</p>
+         
+        <p><strong>Thème :</strong> <span ng-repeat="theme in work.theme">{{theme.label}} ; </span> </p>
         
-        <p><strong>Origine :</strong> {{work.origin}}</p>
-        
-        <p><strong>Date exacte :</strong> {{work.exactDate}}</p>
-        
-        <p><strong>Siècle max :</strong> {{work.centuryMax}}</p>
-        
-        <p><strong>Siècle min :</strong> {{work.centuryMin}}</p>
-        
-        <p><strong>Notes : </strong></p>
-
-        <p><strong>Notes</strong></p>
+      <p><strong>Notes</strong></p>
         <p>{{work.note}}</p>
-
-
-
+        
         <button back>Retour page précédente</button>
     </body>
 </html>

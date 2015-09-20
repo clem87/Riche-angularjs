@@ -13,12 +13,12 @@ workServices.factory('WorkFactory', ['$resource', '$rootScope',
 
 
 
-        return $resource($rootScope.webservice + '/rest/test/', {}, {
-            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/test/getall'},
-            create: {method: 'POST', header: 'application/json', url: $rootScope.webservice + 'rest/test/add'},
+        return $resource($rootScope.webservice + '/rest/work/', {}, {
+            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/work/getall'},
+            create: {method: 'POST', header: 'application/json', url: $rootScope.webservice + 'rest/work/add'},
             delete: {method: 'DELETE', params: {id: '@id'}},
 //            get: {method: 'GET', header: 'application/json', url:"http://192.168.0.11:8084/springnb/rest/test", params: {id: 6}},
-            update: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + "/rest/test", params: {id: '\n\
+            update: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + "/rest/work", params: {id: '\n\
 '}}
         });
     }]);

@@ -1,6 +1,18 @@
 <div>
 <p><strong>Label : </strong> {{workauthor.label}}</p>
 
+<p><strong>Liste des oeuvres : </strong>
+
+<ul>
+    <li ng-repeat="work in works"><a href="#/work-view/{{work.id}}"> {{work.title}}</a></li>
+ 
+    
+    
+    
+</ul>
+
+
+
 <button back>Retour page précédente</button>
 
 </div>

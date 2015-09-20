@@ -110,7 +110,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             initWorkIfNeed();
         }
         else if (/^\/work-edit\//.test($location.path())) {
-            $http.get($rootScope.webservice + '/rest/test?id=' + $routeParams.workId).success(function (data) {
+            $http.get($rootScope.webservice + '/rest/work?id=' + $routeParams.workId).success(function (data) {
                 $scope.work = data;
             });
         }
@@ -455,7 +455,7 @@ workCtrl.controller('workViewCtrl', ['$scope', '$rootScope', 'WorkFactory', '$lo
 
 
 
-        $http.get($rootScope.webservice + '/rest/test?id=' + $routeParams.workId).success(function (data) {
+        $http.get($rootScope.webservice + '/rest/work?id=' + $routeParams.workId).success(function (data) {
             $scope.work = data;
         });
 

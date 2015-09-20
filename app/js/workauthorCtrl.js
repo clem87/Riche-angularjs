@@ -95,5 +95,10 @@ workauthorCtrl.controller('workauthorViewCtrl',
             $scope.workauthor = data;
        
         });
+        $http.get($rootScope.webservice + '/rest/work/getWorkForAuthor?authorId=' + $routeParams.workauthorId).success(function (data) {
+            $scope.works = data;
+       
+        });
+        
                 
             }]);
