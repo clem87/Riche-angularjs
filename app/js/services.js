@@ -9,10 +9,6 @@ var workServices = angular.module('workServices', ['ngResource']);
 
 workServices.factory('WorkFactory', ['$resource', '$rootScope',
     function ($resource, $rootScope) {
-
-
-
-
         return $resource($rootScope.webservice + '/rest/work/', {}, {
             query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/work/getall'},
             create: {method: 'POST', header: 'application/json', url: $rootScope.webservice + 'rest/work/add'},
@@ -24,13 +20,12 @@ workServices.factory('WorkFactory', ['$resource', '$rootScope',
     }]);
 
 
-//var personServices = angular.module('personServices', ['ngResource']);
 workServices.factory('PersonFactory', ['$resource', '$rootScope',
     function ($resource, $rootScope) {
 
         return $resource($rootScope.webservice + '/rest/author/', {}, {
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/author/find'},
-            createScientifique:{method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/source/addScientifique'}
+            createScientifique: {method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/source/addScientifique'}
         });
     }]
         );
@@ -42,7 +37,6 @@ workServices.factory('SourceFactory', ['$resource', '$rootScope',
             query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/source/getall'},
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/source/find'},
             create: {method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/source/add'},
-            
             update: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + "/rest/source", params: {id: '\n\
 '}},
         });
@@ -57,14 +51,15 @@ workServices.factory('PersonFactory', ['$resource', '$rootScope', function ($res
             query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/author/getall'},
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/source/find'},
             create: {method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/author/add'},
-                       createScientifique:{method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/author/addScientifique'},
-
+            createScientifique: {method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/author/addScientifique'},
             update: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + "/rest/author", params: {id: '\n\
 '}}
         });
     }]);
 
 workServices.factory('WorkauthorFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
+        
+
         return $resource($rootScope.webservice + '/rest/workauthor/', {}, {
             delete: {method: 'DELETE', params: {id: '@id'}},
             query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/workauthor/getall'},
@@ -75,3 +70,14 @@ workServices.factory('WorkauthorFactory', ['$resource', '$rootScope', function (
 '}}
         });
     }]);
+
+
+
+
+workServices.factory('userService', ['$rootScope', '$http', function ($rootScope, $http) {
+        
+}]);
+
+
+
+

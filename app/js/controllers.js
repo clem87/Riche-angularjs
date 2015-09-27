@@ -125,36 +125,8 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
 
         $scope.setFormScope = function (f) {
-//    alert("coucou")
             $scope.form = f;
-//   this.form = f;
         }
-
-
-
-        /***
-         * Confirm form. action are different for edit and create
-         * @param {type} action edit or create
-         * @returns {undefined}
-         */
-//        $scope.confirmForm = function (action) {
-//            if (action === 'edit') {
-//                WorkFactory.update({'id': $scope.work.id}, $scope.work);
-//            }
-//            else if (action === 'create') {
-//                WorkFactory.create($scope.work);
-//                $location.path('/work');
-//            }
-//        };
-
-
-//        // callback for ng-click 'createNewUser':
-//        $scope.confirmCreation = function () {
-//            WorkFactory.create($scope.work);
-//            $location.path('/work');
-//        };
-
-
 
         $scope.getAuteurCompletion = function (userString) {
             return $http.get($rootScope.webservice + '/rest/workauthor/find?userselection=' + userString).success(
@@ -178,11 +150,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
         }
 
-
-
         $scope.confirmForm = function (action) {
-
-
             if ($scope.form.form.$valid) {
                 if (action === ACTION_EDIT) {
                     WorkFactory.update({'id': $scope.work.id}, $scope.work).$promise.then(function () {
@@ -193,6 +161,8 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
                 }
                 else if (action === ACTION_CREATE) {
+
+
                     WorkFactory.create($scope.work).$promise.then(function () {
                         $location.path('/work');
                     }, function (reason) {
@@ -209,8 +179,6 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
         $scope.back = function () {
             $location.path('/work');
         };
-
-
 
         function initWorkIfNeed() {
             if ($scope.work === undefined) {

@@ -10,12 +10,68 @@ var richeApp = angular.module('richeApp', [
     'workServices',
     'workauthorCtrl',
     'richeFilter',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'userService',
+    'ngCookies'
+
 //    'ui.bootstrap'
 //    'personServices'
 //  'phonecatServices'
 ]
         );
+
+
+
+
+richeApp.controller('navigation',['$cookies',
+        function ($rootScope, $scope, $http, $location) {
+
+            var authenticate = function (credentials, callback) {
+                if (credentials !== undefined) {
+                    var req = {
+                        method: 'POST',
+                        url: 'http://localhost:9090/springnb/j_spring_security_check',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Accept': 'application/json'
+                        },
+                        data: "j_username=" + credentials.j_username + "&j_password=" + credentials.j_password};
+
+                    $http(req).then(
+                            function (data) {
+
+                                alert("succes " + JSON.stringify(data));
+                            },
+                            function () {
+                                alert("fail");
+                            });
+                }
+            };
+
+            authenticate();
+            $scope.credentials = {};
+            $scope.login = function () {
+                alert($scope.credentials.j_username);
+
+                authenticate($scope.credentials, function () {
+
+                    if ($rootScope.authenticated) {
+                        alert("1")
+                        $location.path("/");
+                        $scope.error = false;
+                    } else {
+                        alert("2")
+                        $location.path("/login");
+                        $scope.error = true;
+                    }
+                }
+
+                );
+            };
+        }]);
+
+
+
 
 //angular.module('myModule', ['ui.bootstrap']);
 
@@ -24,6 +80,9 @@ var ACTION_EDIT = 'edit';
 var ACTION_CREATE = 'create';
 
 angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
+
+
+
 
 
 
@@ -56,6 +115,42 @@ richeApp.directive('back', ['$window', function ($window) {
 
 
 
+richeApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push(function ($location) {
+
+
+        return {
+            'request': function (test) {
+//                alert('request ' + test);
+
+                return test;
+
+            },
+            'responseError': function (rejection
+                    ) {
+
+                console.log("return " + JSON.stringify(rejection
+                        ));
+
+                if (rejection.status === 401) {
+                    $location.url('/login?returnUrl=' + $location.path());
+                }
+            }
+        };
+    });
+});
+
+
+
+//richeApp
+//        .run(function ($rootScope, $location, userService) {
+//            $rootScope.$on("$routeChangeStart", function (event, next, current) {
+//                if (next.$$route.authorized && !userService.isConnected()) {
+//                    $location.url("/login?returnUrl=" + $location.path());
+//                }
+//            });
+//        });
+
 richeApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -64,7 +159,10 @@ richeApp.config(['$routeProvider',
                     controller: 'workListCtrl'
                 }).when('/work-create/', {
             templateUrl: 'partials/work-create.html',
-            controller: 'workCreateCtrl'
+            controller: 'workCreateCtrl',
+            authorized: true
+
+
         })
                 .when("/work-edit/:workId", {
                     templateUrl: 'partials/work-edit.html',
@@ -125,16 +223,11 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/workauthor-view.html',
                     controller: 'workauthorViewCtrl'
                 })
+                .when("/login", {
+                    templateUrl: 'partials/login.html',
+                    controller: 'navigation'
+                })
                 ;
-
-//              .
-//      when('/work/:workId', {
-//        templateUrl: 'partials/phone-detail.html',
-//        controller: 'PhoneDetailCtrl'
-//      }).
-//      otherwise({
-//        redirectTo: '/phones'
-//      });
     }]);
 
 /***
@@ -151,7 +244,7 @@ richeApp.config(['$translateProvider', function ($translateProvider) {
             'label.work.centuryMax': 'Siècle maximum',
             'help.work.centuryMax': 'Année maximal de datation saisir un nombre',
             'form.creation.work.title': "Création d'une source",
-            'form.edit.work.title':"Edition d'une source",
+            'form.edit.work.title': "Edition d'une source",
             'form.creation.work.desc': "Ce formulaire permet de créer une oeuvre historique.",
             'form.edit.work.desc': "Ce formulaire permet de d'éditer une oeuvre historique.",
             'label.authors': 'Auteurs',
