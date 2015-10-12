@@ -4,18 +4,21 @@
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
+        
         <script src="app.js"></script>
-        <!--<script src="angular-cookies.js">-->
         <script src="js/controllers.js"></script>
         <script src="js/sourceCtrl.js"></script>
         <script src="js/userService.js"></script>
         <script src="js/workauthorCtrl.js"></script>
         <script src="js/personCtrl.js"></script>
+        <script src="js/loginCtrl.js"></script>
         <script src="js/filters.js"></script>
         <script src="ngAutocomplete.js"></script>
         <script src="ui-bootstrap-tpls-0.12.0.min.js"></script>
         <script src="bower_components/angular-translate/angular-translate.js"></script>
-        
+        <!--<script src="bower_components/angular-cookies/angular-cookies.js"></script>-->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>-->
         
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -26,21 +29,13 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-        
-        
-
         <script src="js/services.js"></script>
         <link href="default.css" rel="stylesheet" type="text/css" />
         
-        
-
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     </head>
     <!--<body ng-controller="WorkListCtrl">-->
     <body>
-        
-        
-
 
         <div id="menu">
             <ul>
@@ -49,9 +44,21 @@
                 <li><a href="index.html#/source" accesskey="2">Sources</a></li>
                 <li><a href="index.html#/person" accesskey="2">Auteurs bibliographiques</a></li>
                 <li><a href="index.html#/workauthor" accesskey="2">Auteurs historiques</a></li>
-               
 
             </ul>
+
+            <div ng-controller="loginCtrl" class="container">
+                
+                 OO{{authenticated}}OO
+                 
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="active"><a href="#/">home</a></li>
+                    <li ng-hide="authenticated"><a href="#/login">login</a></li>
+                    <li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
+                </ul>
+            </div>
+           
+            
         </div>
         <div id="header">
             <h1>Projet Pierre Riché</h1>
