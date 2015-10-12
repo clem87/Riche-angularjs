@@ -1,7 +1,7 @@
-# packaged angular-loader
+# packaged angular-cookies
 
 This repo is for distribution on `npm` and `bower`. The source for this module is in the
-[main AngularJS repo](https://github.com/angular/angular.js/blob/master/src/loader.js).
+[main AngularJS repo](https://github.com/angular/angular.js/tree/master/src/ngCookies).
 Please file issues and pull requests against that repo.
 
 ## Install
@@ -11,40 +11,43 @@ You can install this package either with `npm` or with `bower`.
 ### npm
 
 ```shell
-npm install angular-loader
+npm install angular-cookies
 ```
 
-Add a `<script>` to your `index.html`:
+Then add `ngCookies` as a dependency for your app:
 
-```html
-<script src="/node_modules/angular-loader/angular-loader.js"></script>
+```javascript
+angular.module('myApp', [require('angular-cookies')]);
 ```
-
-Note that this package is not in CommonJS format, so doing `require('angular-loader')` will
-return `undefined`.
 
 ### bower
 
 ```shell
-bower install angular-loader
+bower install angular-cookies
 ```
 
 Add a `<script>` to your `index.html`:
 
 ```html
-<script src="/bower_components/angular-loader/angular-loader.js"></script>
+<script src="/bower_components/angular-cookies/angular-cookies.js"></script>
+```
+
+Then add `ngCookies` as a dependency for your app:
+
+```javascript
+angular.module('myApp', ['ngCookies']);
 ```
 
 ## Documentation
 
 Documentation is available on the
-[AngularJS docs site](http://docs.angularjs.org/guide/bootstrap).
+[AngularJS docs site](http://docs.angularjs.org/api/ngCookies).
 
 ## License
 
 The MIT License
 
-Copyright (c) 2010-2012 Google, Inc. http://angularjs.org
+Copyright (c) 2010-2015 Google, Inc. http://angularjs.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
