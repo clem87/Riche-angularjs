@@ -3,75 +3,24 @@
 // Declare app level module which depends on views, and components
 var richeApp = angular.module('richeApp', [
     'ngRoute',
+    'ngCookies',
     'workCtrl',
     'pascalprecht.translate',
     'sourceCtrl',
     'personCtrl',
     'workServices',
     'workauthorCtrl',
+    'loginCtrlModule',
     'richeFilter',
     'ui.bootstrap',
     'userService',
-    'ngCookies'
+    
 
 //    'ui.bootstrap'
 //    'personServices'
 //  'phonecatServices'
 ]
         );
-
-
-
-
-richeApp.controller('navigation',['$cookies',
-        function ($rootScope, $scope, $http, $location) {
-
-            var authenticate = function (credentials, callback) {
-                if (credentials !== undefined) {
-                    var req = {
-                        method: 'POST',
-                        url: 'http://localhost:9090/springnb/j_spring_security_check',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'Accept': 'application/json'
-                        },
-                        data: "j_username=" + credentials.j_username + "&j_password=" + credentials.j_password};
-
-                    $http(req).then(
-                            function (data) {
-
-                                alert("succes " + JSON.stringify(data));
-                            },
-                            function () {
-                                alert("fail");
-                            });
-                }
-            };
-
-            authenticate();
-            $scope.credentials = {};
-            $scope.login = function () {
-                alert($scope.credentials.j_username);
-
-                authenticate($scope.credentials, function () {
-
-                    if ($rootScope.authenticated) {
-                        alert("1")
-                        $location.path("/");
-                        $scope.error = false;
-                    } else {
-                        alert("2")
-                        $location.path("/login");
-                        $scope.error = true;
-                    }
-                }
-
-                );
-            };
-        }]);
-
-
-
 
 //angular.module('myModule', ['ui.bootstrap']);
 
@@ -80,11 +29,6 @@ var ACTION_EDIT = 'edit';
 var ACTION_CREATE = 'create';
 
 angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
-
-
-
-
-
 
 
 /***
@@ -114,17 +58,17 @@ richeApp.directive('back', ['$window', function ($window) {
     }]);
 
 
-
+/***
+ * Interceptor permettant de redigiger vers le login en cas d'erreur 401 (acces non permis)
+ * @param {type} param
+ */
 richeApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push(function ($location) {
-
+        $httpProvider.defaults.withCredentials = true;
 
         return {
             'request': function (test) {
-//                alert('request ' + test);
-
                 return test;
-
             },
             'responseError': function (rejection
                     ) {
@@ -133,6 +77,7 @@ richeApp.config(function ($httpProvider) {
                         ));
 
                 if (rejection.status === 401) {
+                    alert("redir");
                     $location.url('/login?returnUrl=' + $location.path());
                 }
             }
@@ -151,7 +96,7 @@ richeApp.config(function ($httpProvider) {
 //            });
 //        });
 
-richeApp.config(['$routeProvider',
+richeApp.config(['$routeProvider', 
     function ($routeProvider) {
         $routeProvider.
                 when('/work', {
@@ -225,7 +170,7 @@ richeApp.config(['$routeProvider',
                 })
                 .when("/login", {
                     templateUrl: 'partials/login.html',
-                    controller: 'navigation'
+                    controller: 'loginCtrl'
                 })
                 ;
     }]);
@@ -269,13 +214,6 @@ richeApp.config(['$translateProvider', function ($translateProvider) {
             'msg.footer.txt1': "Copyright &copy; 2015 ??",
             'msg.footer.txt2': "LAMOP"
         });
-
-
-
-//  $translateProvider.translations('fr', {
-//    'TITLE': 'Bonjour',
-//    'FOO': 'Ceci est un paragraphr'
-//  });
 
         $translateProvider.preferredLanguage('fr');
     }]);
