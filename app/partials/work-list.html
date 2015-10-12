@@ -54,8 +54,8 @@
         <th>Période</th>
         <th>Thèmes</th>
         <th>Auteur</th>
-        <th>Actions</th>
-        <th>Actions</th>
+        <th ng-show="authenticated">Actions</th>
+        <th ng-show="authenticated">Actions</th>
     </tr>
 
     <input ng-model="work.centuryMax">
@@ -85,15 +85,15 @@
                         <li ng-repeat="src in work.relationWorkSource"> <span ng-bind-html="src.source | sourceFilter"> </span> {{sr.extract}}</li>
                     </ul>-->
         <!--</td>-->
-        <td><button ng-click="deleteWork(work.id)"  class="btn btn-small btn-danger">delete</button> 
+        <td ng-show="authenticated"><button ng-click="delete(work.id)"  class="btn btn-small btn-danger">delete</button> 
         </td>
-        <td><button ng-click="editWork(work.id)"  class="btn btn-small btn-danger">edit</button></td>
+        <td ng-show="authenticated"><button ng-click="edit(work.id)"  class="btn btn-small btn-danger">edit</button></td>
     </tr>
 
 
 </table>
 <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
-<div class="div_action_button">
+<div class="div_action_button" ng-show="authenticated">
     <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
 
 </div>

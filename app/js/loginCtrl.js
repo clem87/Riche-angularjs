@@ -45,11 +45,9 @@ loginCtrlModule.controller('loginCtrl',
 
                     authenticate($scope.credentials, function () {
                         if ($rootScope.authenticated) {
-                            alert("1")
                             $location.path("/");
                             $scope.error = false;
                         } else {
-                            alert("2")
                             $location.path("/login");
                             $scope.error = true;
                         }

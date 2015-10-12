@@ -1,17 +1,17 @@
 <div>
+    
+    <div ng-show="authenticated" style="float: right" ng-controller="workauthorListCtrl">
+    <button ng-click="delete(workauthor.id)"  class="btn btn-small btn-danger">delete</button> 
+        <button ng-click="edit(workauthor.id)"  class="btn btn-small btn-danger">edit</button>
+    </div>
+    
 <p><strong>Label : </strong> {{workauthor.label}}</p>
 
 <p><strong>Liste des oeuvres : </strong>
 
 <ul>
     <li ng-repeat="work in works"><a href="#/work-view/{{work.id}}"> {{work.title}}</a></li>
- 
-    
-    
-    
 </ul>
-
-
 
 <button back>Retour page précédente</button>
 

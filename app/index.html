@@ -41,25 +41,18 @@
             <ul>
                 <li><a href="index.html#/" accesskey="1">Accueil</a></li>
                   <li><a href="index.html#/work" accesskey="2">Oeuvres</a></li>
-                <li><a href="index.html#/source" accesskey="2">Sources</a></li>
-                <li><a href="index.html#/person" accesskey="2">Auteurs bibliographiques</a></li>
-                <li><a href="index.html#/workauthor" accesskey="2">Auteurs historiques</a></li>
+                <li ng-show="authenticated"><a href="index.html#/source" accesskey="2">Sources</a></li>
+                <li ng-show="authenticated"><a href="index.html#/person" accesskey="2">Auteurs bibliographiques</a></li>
+                <li ng-show="authenticated"><a href="index.html#/workauthor" accesskey="2">Auteurs historiques</a></li>
+                
+                <div ng-controller="loginCtrl" class="container">
+                 <li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
+                 <li ng-hide="authenticated"><a href="#/login">login</a></li>
+                </div>
 
             </ul>
-
-            <div ng-controller="loginCtrl" class="container">
-                
-                 OO{{authenticated}}OO
-                 
-                <ul class="nav nav-pills" role="tablist">
-                    <li class="active"><a href="#/">home</a></li>
-                    <li ng-hide="authenticated"><a href="#/login">login</a></li>
-                    <li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
-                </ul>
             </div>
-           
             
-        </div>
         <div id="header">
             <h1>Projet Pierre Riché</h1>
             <h2>Base de données des fiches </h2>

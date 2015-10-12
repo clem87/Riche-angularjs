@@ -25,7 +25,6 @@ workauthorCtrl.controller('workauthorListCtrl',
                         $scope.workauthors = WorkauthorFactory.query();
                         $location.path('/workauthor');
                     });
-
                 }
 
                 $scope.edit = function (id) {
@@ -100,5 +99,10 @@ workauthorCtrl.controller('workauthorViewCtrl',
        
         });
         
+                
+                
+//                           $scope.edit = function (id) {
+//                    $location.path('/workauthor-edit/' + id);
+//                }
                 
             }]);

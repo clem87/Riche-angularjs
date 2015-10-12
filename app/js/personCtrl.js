@@ -43,13 +43,6 @@ workCtrl.controller('personViewCtrl', ['$scope', '$rootScope', 'WorkFactory', '$
             $scope.person = data;
         });
 
-        $scope.edit = function (id) {
-            $location.path('/person-edit/' + id);
-        }
-
-
-
-
     }
 ]
         );

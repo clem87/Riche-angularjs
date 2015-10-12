@@ -223,17 +223,6 @@ workCtrl.controller('sourceViewCtrl', ['$scope', '$rootScope', 'SourceFactory', 
         $http.get($rootScope.webservice + '/rest/source?id=' + $routeParams.sourceId).success(function (data) {
             $scope.source = data;
         });
-
-        $scope.edit = function (id) {
-            $location.path('/source-edit/' + id);
-        }
-
-        $scope.delete = function (userId) {
-            SourceFactory.delete({id: userId}).$promise.then(function () {
-                $scope.sources = SourceFactory.query();
-                $location.path('/source');
-            });
-        }
     }
 ]
         );

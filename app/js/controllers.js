@@ -56,13 +56,12 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         };
 
 
-        $scope.deleteWork = function (userId) {
+        $scope.delete = function (userId) {
             WorkFactory.delete({id: userId}).$promise.then(function (result) {
                 $scope.works = WorkFactory.query().$promise.then(function (result) {
                     $scope.works = result;
 //                    $scope.currentPage = 1;
                     reload();
-//                    alert()
                 });
                 ;
             }).then(function () {
@@ -70,7 +69,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             })
         };
 
-        $scope.editWork = function (userid) {
+        $scope.edit = function (userid) {
             $location.path('/work-edit/' + userid);
         };
 
@@ -367,7 +366,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 // =======================================VIEW CONTROLER===================================
 workCtrl.controller('workViewCtrl', ['$scope', '$rootScope', 'WorkFactory', '$location', '$routeParams', '$http', function ($scope, $rootScope, WorkFactory, $location, $routeParams, $http) {
 
-        $http.get($rootScope.webservice + '/rest/work?id=' + $routeParams.workId).success(function (data) {
+        $http.get($rootScope.webservice + '/rest/work/get?id=' + $routeParams.workId).success(function (data) {
             $scope.work = data;
         });
 

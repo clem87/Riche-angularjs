@@ -37,7 +37,7 @@ angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
  */
 richeApp.run(function ($rootScope) {
     $rootScope.webservice = "http://localhost:9090/springnb/";
-    var Constant = 'TUTU';
+    $rootScope.authenticated= false;
 })
 
 
