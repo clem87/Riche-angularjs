@@ -37,6 +37,13 @@ and open the template in the editor.
       <p><strong>Notes</strong></p>
         <p>{{work.note}}</p>
         
+        <p><strong>Sources : </strong></p>
+        <ul>
+            <li ng-repeat="sr in work.relationWorkSource">
+                <span ng-bind-html="sr.source | sourceFilter"> </span> {{sr.extract}} [{{sr.nature}}]
+            </li>
+        </ul>
+        
         <button back>Retour page précédente</button>
     </body>
 </html>

@@ -10,12 +10,11 @@ var richeApp = angular.module('richeApp', [
     'personCtrl',
     'workServices',
     'workauthorCtrl',
+    'articleCtrl',
     'loginCtrlModule',
     'richeFilter',
     'ui.bootstrap',
     'userService',
-    
-
 //    'ui.bootstrap'
 //    'personServices'
 //  'phonecatServices'
@@ -37,8 +36,10 @@ angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
  */
 richeApp.run(function ($rootScope) {
     $rootScope.webservice = "http://localhost:9090/springnb/";
-    $rootScope.authenticated= false;
+    $rootScope.authenticated = false;
+    $rootScope.workQuery ="";
 })
+
 
 
 /***
@@ -96,7 +97,7 @@ richeApp.config(function ($httpProvider) {
 //            });
 //        });
 
-richeApp.config(['$routeProvider', 
+richeApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
                 when('/work', {
@@ -172,6 +173,17 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/login.html',
                     controller: 'loginCtrl'
                 })
+                .when("/article", {
+                    templateUrl: 'partials/article-list.html',
+                    controller: 'articleCtrlList'
+                })
+                .when("/article-edit/:articleId", {
+                    templateUrl: 'partials/article-edit.html',
+                    controller: 'articleCtrlEdit'
+                })
+
+        
+
                 ;
     }]);
 
@@ -184,7 +196,7 @@ richeApp.config(['$translateProvider', function ($translateProvider) {
             'label.work.origin': "Origine",
             'help.work.exactDate': "Date exacte a préciser si elle est connue. C'est un champs texte libre",
             'label.work.exactDate': "Date exacte",
-            'label.work.centuryMin': 'Siècle max',
+            'label.work.centuryMin': 'Siècle minimum',
             'help.work.centuryMin': 'Année minimum saisir un nombre',
             'label.work.centuryMax': 'Siècle maximum',
             'help.work.centuryMax': 'Année maximal de datation saisir un nombre',

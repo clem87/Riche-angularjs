@@ -17,6 +17,8 @@ Array.prototype.contains = function (obj) {
 //var richeApp = angular.module('richeApp', []);
 var workCtrl = angular.module('workCtrl', []);
 
+// ======================================= LIST CONTROLER===================================
+
 workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter', function ($scope, WorkFactory, $location, $http, $rootScope, $filter) {
 
         WorkFactory.query().$promise.then(function (result) {
@@ -25,26 +27,29 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         });
 
         $scope.numPerPage = 10;
-
+      
         $scope.$watch('currentPage + numPerPage', function () {
             reload();
         });
-
+        
+        /***
+         * Recharge les la liste d'oeuvre a afficher en fonction des critère de recherche et de la pagination
+         * @returns {undefined}
+         */
         function reload() {
 //            $scope.totalItems = $scope.works.length;
             var begin = (($scope.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
 
-            //recup du filtre 
-            myquery = $scope.query;
             $scope.filteredWorks = $scope.works;
-            $scope.filteredWorks = $filter('filter')($scope.filteredWorks, myquery);
+            $scope.filteredWorks = $filter('filter')($scope.filteredWorks, $rootScope.workQuery);
             $scope.totalItems = $scope.filteredWorks.length;
             $scope.filteredWorks = $scope.filteredWorks.slice(begin, end);
         }
 
         $scope.addSearchFilter = function () {
-            $scope.query = $scope.userSelectionquery;
+            $rootScope.workQuery = $scope.userSelectionquery;
+//            $scope.query = $scope.userSelectionquery;
             reload();
         }
 

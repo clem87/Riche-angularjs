@@ -7,6 +7,18 @@
 
 var workServices = angular.module('workServices', ['ngResource']);
 
+workServices.factory('ArticleFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
+        return $resource($rootScope.webservice + '/rest/article/', {}, {
+            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + 'rest/article/delete', withCredentials: true, async: true},
+            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + 'rest/article/getall',withCredentials: true},
+            find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/article/find'},
+            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + 'rest/article/put', withCredentials: true, async: true},
+            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "rest/article/post", params: {id: '\n\
+', withCredentials: true, async: true}}
+        });
+    }]);
+
+
 workServices.factory('WorkFactory', ['$resource', '$rootScope',
     function ($resource, $rootScope) {
         return $resource($rootScope.webservice + '/rest/work/', {}, {
@@ -42,11 +54,10 @@ workServices.factory('SourceFactory', ['$resource', '$rootScope',
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/source/find'},
             create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + '/rest/source/put',  withCredentials: true, async: true},
             update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "/rest/source/post", params: {id: '\n\
-'},  withCredentials: true, async: true},
+'},  withCredentials: true, async: true}
         });
-    }
+    }]);
 
-])
 
 
 workServices.factory('PersonFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
