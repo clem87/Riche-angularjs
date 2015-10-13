@@ -21,10 +21,13 @@ workauthorCtrl.controller('workauthorListCtrl',
                 };
 
                 $scope.delete = function (workauthorId) {
-                    WorkauthorFactory.delete({id: workauthorId}).$promise.then(function () {
-                        $scope.workauthors = WorkauthorFactory.query();
-                        $location.path('/workauthor');
-                    });
+                    if (confirm("Confirmez vous la suppression ?")) {
+                        WorkauthorFactory.delete({id: workauthorId}).$promise.then(function () {
+                           
+                            $scope.workauthors = WorkauthorFactory.query();
+                            $location.path('/workauthor');
+                        });
+                    }
                 }
 
                 $scope.edit = function (id) {
@@ -89,20 +92,20 @@ workauthorCtrl.controller('workauthorCreateCtrl',
 workauthorCtrl.controller('workauthorViewCtrl',
         ['$scope', 'WorkauthorFactory', '$location', '$http', '$rootScope', '$routeParams',
             function ($scope, WorkauthorFactory, $location, $http, $rootScope, $routeParams) {
-                
-        $http.get($rootScope.webservice + '/rest/workauthor?id=' + $routeParams.workauthorId).success(function (data) {
-            $scope.workauthor = data;
-       
-        });
-        $http.get($rootScope.webservice + '/rest/work/getWorkForAuthor?authorId=' + $routeParams.workauthorId).success(function (data) {
-            $scope.works = data;
-       
-        });
-        
-                
-                
+
+                $http.get($rootScope.webservice + '/rest/workauthor?id=' + $routeParams.workauthorId).success(function (data) {
+                    $scope.workauthor = data;
+
+                });
+                $http.get($rootScope.webservice + '/rest/work/getWorkForAuthor?authorId=' + $routeParams.workauthorId).success(function (data) {
+                    $scope.works = data;
+
+                });
+
+
+
 //                           $scope.edit = function (id) {
 //                    $location.path('/workauthor-edit/' + id);
 //                }
-                
+
             }]);

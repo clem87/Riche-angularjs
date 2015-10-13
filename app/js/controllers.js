@@ -62,6 +62,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
         $scope.delete = function (userId) {
+            if (confirm("Confirmez vous la suppression ?")) {
             WorkFactory.delete({id: userId}).$promise.then(function (result) {
                 $scope.works = WorkFactory.query().$promise.then(function (result) {
                     $scope.works = result;
@@ -72,6 +73,8 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             }).then(function () {
                 $location.path('/work');
             })
+            
+            }
         };
 
         $scope.edit = function (userid) {

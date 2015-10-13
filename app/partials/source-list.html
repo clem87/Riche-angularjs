@@ -14,9 +14,9 @@
  <div class="col-sm-3 col-md-3 pull-right">
     <form class="navbar-form" role="search">
         <div class="input-group">
-            <input   ng-model="query" type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="query">
+            <input   ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
             <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
     </form>
@@ -31,8 +31,10 @@
                 <th>type</th>
         <th ng-show="authenticated">Actions</th>
     </tr>
+    
 
-    <tr ng-repeat="source in sources | filter:query|orderBy:orderProp"">
+
+    <tr ng-repeat="source in filteredSources | orderBy:orderProp"">
         <!--<td><span ng-bind-html="source | sourceFilter"></span></td>-->
                 <td>{{source.relationPerson|relationPersonAffPerson}}</td>
                 <td> <a  href="#/source-view/{{source.id}}"/> {{source.title}}  </a></td>
@@ -40,10 +42,10 @@
         <td ng-show="authenticated">
             <button ng-click="delete(source.id)"  class="btn btn-small btn-danger">delete</button> 
             <button ng-click="edit(source.id)"  class="btn btn-small btn-danger">edit</button>
-
         </td>
     </tr>
 
 
 </table>
+<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
  <button ng-show="authenticated" ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>

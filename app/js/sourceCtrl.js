@@ -13,21 +13,35 @@ var sourceCtrl = angular.module('sourceCtrl', []);
 //=======================================================================================
 
 
-sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', function ($scope, SourceFactory, $location, $http, $rootScope) {
+sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', '$filter', function ($scope, SourceFactory, $location, $http, $rootScope, $filter) {
 
-        $scope.sources = SourceFactory.query();
+//        $scope.sources = SourceFactory.query();
+
+//        WorkFactory.query().$promise.then(function (result) {
+        SourceFactory.query().$promise.then(function (result) {
+            $scope.currentPage = 1;
+            $scope.sources = result;
+//            $scope.currentPage = 1;
+        });
+
+        $scope.numPerPage = 10;
 
         $scope.create = function () {
             $location.path('/source-create');
         };
 
         $scope.delete = function (userId) {
-
-            SourceFactory.delete({id: userId}).$promise.then(function () {
-                $scope.sources = SourceFactory.query();
+            if (confirm("Confirmez vous la suppression ?")) {
+               $scope.sources= SourceFactory.delete({id: userId}).$promise.then(function () {
+                    $scope.sources = SourceFactory.query().$promise.then(function (result) {
+                        $scope.sources = result;
+                               reload();
+                    });
+                })
+                .then(function () {
                 $location.path('/source');
             });
-
+            }
         }
 
         $scope.edit = function (id) {
@@ -37,6 +51,26 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
         $scope.back = function () {
             $location.path('/source');
         };
+
+        $scope.addSearchFilter = function () {
+            $rootScope.sourceQuery = $scope.sourceQueryUserSelection;
+            reload();
+        }
+
+
+        $scope.$watch('currentPage + numPerPage', function () {
+            reload();
+        });
+
+        function reload() {
+//                    alert("total " + totalItems);
+            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                    , end = begin + $scope.numPerPage;
+            $scope.filteredSources = $scope.sources;
+            $scope.filteredSources = $filter('filter')($scope.filteredSources, $rootScope.sourceQuery);
+            $scope.totalItems = $scope.filteredSources.length;
+            $scope.filteredSources = $scope.filteredSources.slice(begin, end);
+        }
 
     }]);
 
@@ -68,14 +102,9 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
                 $scope.source = {
                     'id': null,
 //                    'authors': new Array()
-
                 };
             }
         }
-
-
-
-
 
         $scope.getAuteurCompletion = function (userString) {
 
@@ -144,14 +173,14 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
 
             if (typeof $scope.auteurUserSelection2 === 'string') {
                 $scope.source.relationPerson.push(
-                            {
-                                source: {id: $scope.source.id},
-                                person: {
-                                    label:$scope.auteurUserSelection2
-                                },
-                                rolePublication: $scope.auteurUserSelectionRolePublication
-                            }
-                    );
+                        {
+                            source: {id: $scope.source.id},
+                            person: {
+                                label: $scope.auteurUserSelection2
+                            },
+                            rolePublication: $scope.auteurUserSelectionRolePublication
+                        }
+                );
             }
             else {
                 var i = $scope.source.relationPerson.length;
@@ -177,7 +206,7 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         }
 
         $scope.removeRelationSourcePersonClick = function (id) {
-     
+
             array = $scope.source.relationPerson;
             for (var i = array.length - 1; i >= 0; i--) {
                 if (array[i].person.id === id) {

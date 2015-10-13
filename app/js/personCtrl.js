@@ -17,11 +17,12 @@ sourceCtrl.controller('personListCtrl', ['$scope', 'PersonFactory', '$location',
 
 
         $scope.delete = function (personId) {
-            PersonFactory.delete({id: personId}).$promise.then(function () {
-                $scope.persons = PersonFactory.query();
-                $location.path('/person');
-            });
-
+            if (confirm("Confirmez vous la suppression ?")) {
+                PersonFactory.delete({id: personId}).$promise.then(function () {
+                    $scope.persons = PersonFactory.query();
+                    $location.path('/person');
+                });
+            }
         }
 
         $scope.edit = function (id) {
@@ -86,14 +87,14 @@ sourceCtrl.controller('personCreateCtrl', ['$scope', 'PersonFactory', '$location
                 });
             }
             else if (action === ACTION_CREATE) {
-                if($scope.person.type==='scientifique'){
+                if ($scope.person.type === 'scientifique') {
                     PersonFactory.createScientifique($scope.person).$promise.then(function () {
-                    $location.path('/person');
-                });
-                    
-                    
+                        $location.path('/person');
+                    });
+
+
                 }
-                else if($scope.person.type==='historique')
+                else if ($scope.person.type === 'historique')
                     alert("histo")
                 PersonFactory.create($scope.person).$promise.then(function () {
                     $location.path('/person');
