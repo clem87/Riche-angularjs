@@ -50,18 +50,25 @@
 
     <tr>
         <th>Numéro</th>
+        <th>Auteur</th>
         <th>Titre</th>
         <th>Période</th>
         <th>Thèmes</th>
-        <th>Auteur</th>
         <th ng-show="authenticated">Actions</th>
         <th ng-show="authenticated">Actions</th>
     </tr>
 
-<!--    <input ng-model="work.centuryMax">-->
+    <!--    <input ng-model="work.centuryMax">-->
     <tr ng-repeat="work in filteredWorks|orderBy:orderProp ">
 
         <td>{{work.id}}</td>
+
+        <td>
+            <ul>
+
+                <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
+            </ul>
+        </td>
 
         <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
 
@@ -74,12 +81,7 @@
             </ul>
 
         </td>
-        <td>
-            <ul>
 
-                <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
-            </ul>
-        </td>
         <!--<td>-->
         <!--            <ul>
                         <li ng-repeat="src in work.relationWorkSource"> <span ng-bind-html="src.source | sourceFilter"> </span> {{sr.extract}}</li>
