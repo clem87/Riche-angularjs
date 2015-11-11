@@ -104,9 +104,24 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
                 }
             };
         })
+        
+        .filter('articleHtml', function($sce){
+            return function (myHtml) {
+                return $sce.trustAsHtml(myHtml);
+            }
+        })
         ;
 
 
-
+//app.filter('convertState', function ($sce) {
+//        return function (state) {
+//            if (state == 1) {
+//                return $sce.trustAsHtml("<strong>" + state + "</strong> special state");
+//            }
+//            else {
+//                return $sce.trustAsHtml("<strong>"+state + "</strong> normal state");
+//            }
+//        }
+//    });
 
       

@@ -24,7 +24,7 @@ articleCtrl.controller('articleCtrlList',
 
 
                 $scope.edit = function (id) {
-                    $location.path('/article-edit/1');
+                    $location.path('/article-edit/'+id);
                 }
 
 
@@ -45,15 +45,15 @@ workauthorCtrl.controller('articleCtrlEdit',
                 /***
                  * Récupération de l'article principal
                  */
-                $http.get($rootScope.webservice + '/rest/article/get?id='+$routeParams.articleId).success(function (data) {
+                $http.get($rootScope.webservice + '/rest/article/get?id=' + $routeParams.articleId).success(function (data) {
                     $scope.article = data;
                 });
-       
+
 
 
                 $scope.confirmForm = function (action) {
                     if (action === ACTION_EDIT) {
-                        alert("EDITION " + $scope.article.id + " "+$scope.article)
+                        alert("EDITION " + $scope.article.id + " " + $scope.article)
                         ArticleFactory.update({'id': $scope.article.id}, $scope.article).$promise.then(function () {
                             $location.path('/home');
                         });
@@ -66,3 +66,20 @@ workauthorCtrl.controller('articleCtrlEdit',
                 };
 
             }]);
+
+
+//================================================================================
+//                  CONTROLEUR VIEW
+//================================================================================
+
+workCtrl.controller('articleCtrlView', ['$scope', '$rootScope', 'WorkFactory', '$location', '$routeParams', '$http', function ($scope, $rootScope, WorkFactory, $location, $routeParams, $http) {
+
+//alert("ID : " + $routeParams.articleId)
+
+        $http.get($rootScope.webservice + '/rest/article/get?id=' + $routeParams.articleId).success(function (data) {
+            $scope.article = data;
+        });
+
+    }
+]
+        );

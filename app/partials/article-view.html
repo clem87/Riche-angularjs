@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+
+
+ <div style="float: right" ng-show="authenticated" ng-controller="articleCtrlList">
+                <!--<button ng-click="delete(work.id)"  class="btn btn-small btn-danger">delete</button>--> 
+                <button ng-click="edit(article.id)"  class="btn btn-small btn-danger">edit</button>
+            </div>
+
+
+            <h1>{{article.title}}</h1>
+            
+
+
+
+ <div ng-bind-html="article.content | articleHtml"></div>
+
+<!--<div>{{article.content|html}}</div>-->
+    
+            
+            
+<button back>Retour page précédente</button>

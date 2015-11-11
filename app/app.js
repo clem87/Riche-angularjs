@@ -181,6 +181,10 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/article-edit.html',
                     controller: 'articleCtrlEdit'
                 })
+                 .when("/article-view/:articleId", {
+                    templateUrl: 'partials/article-view.html',
+                    controller: 'articleCtrlView'
+                })
 
         
 
