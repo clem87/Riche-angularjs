@@ -38,6 +38,7 @@ richeApp.run(function ($rootScope) {
     $rootScope.webservice = "http://localhost:9090/springnb/";
     $rootScope.authenticated = false;
     $rootScope.workQuery ="";
+    $rootScope.workOrderProp="id";
 })
 
 

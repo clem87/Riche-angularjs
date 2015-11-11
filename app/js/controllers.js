@@ -25,6 +25,10 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.works = result;
             $scope.currentPage = 1;
         });
+        
+        if($rootScope.workOrderProp !== 'undefinded'){
+            $scope.workOrderPropSelection=$rootScope.workOrderProp;
+        }
 
         $scope.numPerPage = 10;
       
@@ -42,7 +46,24 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
                     , end = begin + $scope.numPerPage;
 
             $scope.filteredWorks = $scope.works;
+            /***
+             * pour les autheur il faut trier en fonction du premier auteur (attention c'est un tableau on fait une fonction spécifique
+             */
+            if($rootScope.workOrderProp ==='author'){
+                $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, function(a){
+                    if(a.authors.length===0){
+                        return "ZZZ";
+                    }
+                    else{
+                        return a.authors[0].label
+                    }                    
+                }, false);
+            }else{
+                $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, $rootScope.workOrderProp, false);
+            }
             $scope.filteredWorks = $filter('filter')($scope.filteredWorks, $rootScope.workQuery);
+
+
             $scope.totalItems = $scope.filteredWorks.length;
             $scope.filteredWorks = $scope.filteredWorks.slice(begin, end);
         }
@@ -50,6 +71,12 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         $scope.addSearchFilter = function () {
             $rootScope.workQuery = $scope.userSelectionquery;
 //            $scope.query = $scope.userSelectionquery;
+            reload();
+        }
+        
+        $scope.workOrderPropChange = function(){
+//            alert("chrg");
+            $rootScope.workOrderProp = $scope.workOrderPropSelection;
             reload();
         }
 

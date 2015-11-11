@@ -1,10 +1,12 @@
 <h1>Liste des oeuvres</h1>
 <label>Trier par :</label>
-<select ng-model="orderProp">
+<select ng-model="workOrderPropSelection" ng-change="workOrderPropChange();">
     <option value="title">Titre</option>
     <option value="centuryMin">Siècle min</option>
     <option value="centuryMax">Siècle Max</option>
-    <option value="exactDate">Date Exacte</option>
+    <option value="author">Auteur</option>
+    <option value="id">Numero</option>
+    <!--<option value="exactDate">Date Exacte</option>-->
 </select><br />
 
 <!--<label>Recherche : </label>
@@ -59,7 +61,7 @@
     </tr>
 
     <!--    <input ng-model="work.centuryMax">-->
-    <tr ng-repeat="work in filteredWorks|orderBy:orderProp ">
+    <tr ng-repeat="work in filteredWorks">
 
         <td>{{work.id}}</td>
 
