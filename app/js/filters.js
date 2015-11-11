@@ -82,9 +82,8 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
             return function (input, arg){
                 var centuryMin = input;
                 var centuryMax = arg;
-                var result = "";
                 
-                if(centuryMin !== 'undefined' && centuryMax !== 'undefined'){
+                if(centuryMin !== null && centuryMax !== null){
                     
                     if(centuryMin === centuryMax){
                         return centuryMin+" e s";
@@ -93,10 +92,10 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
                         return centuryMin + "e - " + centuryMax+"e s";
                     }               
                 }
-                else if (centuryMin !== 'undefined'){
+                else if (centuryMin !== null){
                     return centuryMin + " e s";
                 }
-                else if (centuryMax !== 'undefined'){
+                else if (centuryMax !== null){
                     return centuryMax + " e s";
                 }
                 else{
