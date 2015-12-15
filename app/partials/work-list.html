@@ -1,4 +1,44 @@
 <h1>Liste des oeuvres</h1>
+
+
+Recherche : 
+
+
+<ul>
+    <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
+ 
+</ul>
+<button ng-click="search()">Rechercher</button>
+    
+    
+<form name="searchCriteriaWorkForm" novalidate>
+    <div>
+        Ajouter un critère de recherche : 
+        <select ng-model="searchCriteria.operator" required>
+            <option>Operateur</option>
+            <option>AND</option>
+            <option>OR</option>
+        </select>
+        <select ng-model="searchCriteria.field" required>
+            <option value="theme">theme</option>
+            <option value="centuryMax">centuryMax</option>
+            <option value="centuryMin">centuryMin</option>
+                
+        </select>
+        
+        
+        <input name="value" type="text" ng-model="searchCriteria.value" required />
+         <button ng-click="addSearchCriteria()">Ajout</button>
+          
+
+       
+    </div>
+</form>
+    
+
+
+<p></p>
+
 <label>Trier par :</label>
 <select ng-model="workOrderPropSelection" ng-change="workOrderPropChange();">
     <option value="title">Titre</option>
@@ -96,7 +136,14 @@
 
 
 </table>
+
+
 <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+
+<ul>
+    <li>Nombre d'oeuvre pour cette recherche : {{totalItems}}</li>
+    <li>Nombre d'oeuvre en base de données : {{totalItemsInDB}}</li>
+</ul>
 <div class="div_action_button" ng-show="authenticated">
     <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
 

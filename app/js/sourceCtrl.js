@@ -23,6 +23,12 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
             $scope.sources = result;
 //            $scope.currentPage = 1;
         });
+        
+        //Chargement du total d'item en base
+        $http.get($rootScope.webservice + '/rest/source/getallcount').success(function (data) {
+            $scope.totalItemsInDB = data;
+        });
+        
 
         $scope.numPerPage = 10;
 

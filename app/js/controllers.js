@@ -25,17 +25,25 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.works = result;
             $scope.currentPage = 1;
         });
-        
-        if($rootScope.workOrderProp !== 'undefinded'){
-            $scope.workOrderPropSelection=$rootScope.workOrderProp;
+
+
+//Chargement du total d'item en base
+        $http.get($rootScope.webservice + '/rest/work/getallcount').success(function (data) {
+            $scope.totalItemsInDB = data;
+        });
+
+
+
+        if ($rootScope.workOrderProp !== 'undefinded') {
+            $scope.workOrderPropSelection = $rootScope.workOrderProp;
         }
 
         $scope.numPerPage = 10;
-      
+
         $scope.$watch('currentPage + numPerPage', function () {
             reload();
         });
-        
+
         /***
          * Recharge les la liste d'oeuvre a afficher en fonction des critère de recherche et de la pagination
          * @returns {undefined}
@@ -49,16 +57,16 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             /***
              * pour les autheur il faut trier en fonction du premier auteur (attention c'est un tableau on fait une fonction spécifique
              */
-            if($rootScope.workOrderProp ==='author'){
-                $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, function(a){
-                    if(a.authors.length===0){
+            if ($rootScope.workOrderProp === 'author') {
+                $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, function (a) {
+                    if (a.authors.length === 0) {
                         return "ZZZ";
                     }
-                    else{
+                    else {
                         return a.authors[0].label
-                    }                    
+                    }
                 }, false);
-            }else{
+            } else {
                 $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, $rootScope.workOrderProp, false);
             }
             $scope.filteredWorks = $filter('filter')($scope.filteredWorks, $rootScope.workQuery);
@@ -73,8 +81,8 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 //            $scope.query = $scope.userSelectionquery;
             reload();
         }
-        
-        $scope.workOrderPropChange = function(){
+
+        $scope.workOrderPropChange = function () {
 //            alert("chrg");
             $rootScope.workOrderProp = $scope.workOrderPropSelection;
             reload();
@@ -89,18 +97,19 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
         $scope.delete = function (userId) {
+            alert("aa")
             if (confirm("Confirmez vous la suppression ?")) {
-            WorkFactory.delete({id: userId}).$promise.then(function (result) {
-                $scope.works = WorkFactory.query().$promise.then(function (result) {
-                    $scope.works = result;
+                WorkFactory.delete({id: userId}).$promise.then(function (result) {
+                    $scope.works = WorkFactory.query().$promise.then(function (result) {
+                        $scope.works = result;
 //                    $scope.currentPage = 1;
-                    reload();
-                });
-                ;
-            }).then(function () {
-                $location.path('/work');
-            })
-            
+                        reload();
+                    });
+                    ;
+                }).then(function () {
+                    $location.path('/work');
+                })
+
             }
         };
 
@@ -116,7 +125,57 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $location.path('/work-view/' + userId);
         };
 
+        /** 
+         * Ajoute un critere de recherche
+         * @returns {undefined}
+         */
+        $scope.addSearchCriteria = function () {
+            
+            
 
+            if($scope.searchCriteriaWorkForm.$valid){
+                
+            
+            if ($scope.searchCriterias === undefined) {
+                $scope.searchCriterias = new Array();
+            }
+
+            $scope.searchCriterias.push({
+                field: $scope.searchCriteria.field,
+                operator: $scope.searchCriteria.operator,
+                value: $scope.searchCriteria.value
+            });
+            
+            $scope.searchCriteria.field = null;
+            $scope.searchCriteria.operator = null;
+            $scope.searchCriteria.value = null;
+        }
+            
+        };
+        
+        $scope.search = function (){
+            
+            alert('recherche');
+            WorkFactory.search({}, {searchCriteria : $scope.searchCriterias}).$promise.then(function (data) {
+                alert("oui");
+              $scope.works = data;
+                reload();
+            });
+            alert("fin")
+        }
+
+
+        /***
+         * Supprime le criteria de recherche de la liste
+         * @param {type} criteriaToremove
+         * @returns {undefined}
+         */
+        $scope.removeSearchCriteria = function (criteriaToremove) {
+            var index = $scope.searchCriterias.indexOf(criteriaToremove);
+            if (index !== -1) {
+                $scope.searchCriterias.splice(index, 1);
+            }
+        };
 
     }]
         );
@@ -293,15 +352,17 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 //                workcopie = JSON.parse(JSON.stringify($scope.work));
 //                workcopie.relationWorkSource=null;
                 if (!present) {
+
                     $scope.work.relationWorkSource.push({
-                        source: $scope.sourceUserSelection,
-                        extract: $scope.sourceExtractUserSelection,
-                        tome: $scope.sourceExtractUserSelection,
-                        nature: $scope.sourceNatureUserSelection,
-                        workEntity: {id: $scope.work.id}
+                        "source": {id: $scope.sourceUserSelection.id},
+                        "extract": $scope.sourceExtractUserSelection,
+                        "tome": $scope.sourceExtractUserSelection,
+                        "nature": $scope.sourceNatureUserSelection,
+                        "workEntity": {id: $scope.work.id}
                     });
+
                 }
-                $scope.sourceUserSelection = null;
+//                $scope.sourceUserSelection = null;
             }
         }
 

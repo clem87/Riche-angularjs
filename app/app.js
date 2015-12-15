@@ -37,8 +37,8 @@ angular.module('ui.bootstrap.demo', ['ui.bootstrap']);
 richeApp.run(function ($rootScope) {
     $rootScope.webservice = "http://localhost:9090/springnb/";
     $rootScope.authenticated = false;
-    $rootScope.workQuery ="";
-    $rootScope.workOrderProp="id";
+    $rootScope.workQuery = "";
+    $rootScope.workOrderProp = "id";
 })
 
 
@@ -182,12 +182,12 @@ richeApp.config(['$routeProvider',
                     templateUrl: 'partials/article-edit.html',
                     controller: 'articleCtrlEdit'
                 })
-                 .when("/article-view/:articleId", {
+                .when("/article-view/:articleId", {
                     templateUrl: 'partials/article-view.html',
                     controller: 'articleCtrlView'
                 })
 
-        
+
 
                 ;
     }]);
@@ -205,7 +205,7 @@ richeApp.config(['$translateProvider', function ($translateProvider) {
             'help.work.centuryMin': 'Année minimum saisir un nombre',
             'label.work.centuryMax': 'Siècle maximum',
             'help.work.centuryMax': 'Année maximal de datation saisir un nombre',
-            'form.creation.work.title': "Création d'une source",
+            'form.creation.work.title': "Création d'une oeuvre",
             'form.edit.work.title': "Edition d'une source",
             'form.creation.work.desc': "Ce formulaire permet de créer une oeuvre historique.",
             'form.edit.work.desc': "Ce formulaire permet de d'éditer une oeuvre historique.",

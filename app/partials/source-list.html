@@ -48,4 +48,10 @@
 
 </table>
 <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+
+<ul>
+    <li>Nombre de sources pour cette recherche : {{totalItems}}</li>
+    <li>Nombre de sources en base de données : {{totalItemsInDB}}</li>
+    
+</ul>
  <button ng-show="authenticated" ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>
