@@ -12,7 +12,7 @@ loginCtrlModule.controller('loginCtrl',
                     if (credentials !== undefined) {
                         var req = {
                             method: 'POST',
-                            url: 'http://localhost:9090/springnb/j_spring_security_check',
+                            url: $rootScope.webservice+'/j_spring_security_check',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded',
                                 'Accept': 'application/json'
@@ -60,7 +60,7 @@ loginCtrlModule.controller('loginCtrl',
 
                     var req = {
                         method: 'GET',
-                        url: 'http://localhost:9090/springnb/j_spring_security_logout',
+                        url: $rootScope.webservice+'/j_spring_security_logout',
                         withCredentials: true,
                         async: true,
                     };
