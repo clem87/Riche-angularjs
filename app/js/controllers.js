@@ -32,7 +32,10 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.totalItemsInDB = data;
         });
 
-
+//Chargement de la liste des thèmes
+        $http.get($rootScope.webservice + '/rest/theme/getall').success(function (data) {
+            $scope.themedispo = data;
+        });
 
         if ($rootScope.workOrderProp !== 'undefinded') {
             $scope.workOrderPropSelection = $rootScope.workOrderProp;
@@ -130,35 +133,36 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
          * @returns {undefined}
          */
         $scope.addSearchCriteria = function () {
-            
-            
-
-            if($scope.searchCriteriaWorkForm.$valid){
-                
-            
-            if ($scope.searchCriterias === undefined) {
-                $scope.searchCriterias = new Array();
+            if ($scope.searchCriteriaWorkForm.$valid) {
+                if ($scope.searchCriterias === undefined) {
+                    $scope.searchCriterias = new Array();
+                }
+                $scope.searchCriterias.push({
+                    field: $scope.searchCriteria.field,
+                    operator: $scope.searchCriteria.operator,
+                    value: $scope.searchCriteria.value
+                });
+                $scope.searchCriteria.field = null;
+                $scope.searchCriteria.operator = null;
+                $scope.searchCriteria.value = null;
             }
-
-            $scope.searchCriterias.push({
-                field: $scope.searchCriteria.field,
-                operator: $scope.searchCriteria.operator,
-                value: $scope.searchCriteria.value
-            });
-            
-            $scope.searchCriteria.field = null;
-            $scope.searchCriteria.operator = null;
-            $scope.searchCriteria.value = null;
-        }
-            
         };
         
-        $scope.search = function (){
-            
+//        $scope.selectCriteriaInList = function (){
+//            
+//            var field = $scope.searchCriteria.field
+//            if(field === 'theme'){
+//                console.log("theme");
+//                $scope.x=true;
+//            }
+//        }
+
+        $scope.search = function () {
+
             alert('recherche');
-            WorkFactory.search({}, {searchCriteria : $scope.searchCriterias}).$promise.then(function (data) {
+            WorkFactory.search({}, {searchCriteria: $scope.searchCriterias}).$promise.then(function (data) {
                 alert("oui");
-              $scope.works = data;
+                $scope.works = data;
                 reload();
             });
             alert("fin")

@@ -6,11 +6,11 @@ Recherche :
 
 <ul>
     <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
- 
+
 </ul>
 <button ng-click="search()">Rechercher</button>
-    
-    
+
+
 <form name="searchCriteriaWorkForm" novalidate>
     <div>
         Ajouter un critère de recherche : 
@@ -19,22 +19,31 @@ Recherche :
             <option>AND</option>
             <option>OR</option>
         </select>
-        <select ng-model="searchCriteria.field" required>
+        <select ng-model="searchCriteria.field" required ng-change="selectCriteriaInList()">
             <option value="theme">theme</option>
             <option value="centuryMax">centuryMax</option>
             <option value="centuryMin">centuryMin</option>
-                
-        </select>
-        
-        
-        <input name="value" type="text" ng-model="searchCriteria.value" required />
-         <button ng-click="addSearchCriteria()">Ajout</button>
-          
 
-       
+        </select>
+        <span ng-if="searchCriteria.field=== 'theme'">
+            <select ng-model="searchCriteria.value">
+                <option ng-repeat="th in themedispo" value="{{th.id}}">{{th.label}}</option>
+            </select>
+            
+        </span>
+        <span ng-if="searchCriteria.field === 'centuryMax' || searchCriteria.field === 'centuryMin'">
+            <input name="value" type="text" ng-model="searchCriteria.value" required />
+        </span>
+
+
+        <!--<input name="value" type="text" ng-model="searchCriteria.value" required />-->
+        <button ng-click="addSearchCriteria()">Ajout</button>
+
+
+
     </div>
 </form>
-    
+
 
 
 <p></p>
