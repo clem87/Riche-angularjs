@@ -4,46 +4,55 @@
 Recherche : 
 
 
-<ul>
-    <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
+<!--    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
+<div>
+    <button class="btn btn-small" ng-click="clickSearchCollapsed()" >{{searchButtonTitle}}</button>
 
-</ul>
-<button ng-click="search()">Rechercher</button>
+    <div collapse="isSearchCollapsed" class="well well-lg">
+        <ul>
+            <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
+
+        </ul>
+
+        <form name="searchCriteriaWorkForm" novalidate>
+            <div>
+                <div class="form-inline">
+                    <label>Ajouter un critère de recherche : </label>
+                    <select ng-model="searchCriteria.operator" class="form-control" required>
+                        <option>Operateur</option>
+                        <option>AND</option>
+                        <option>OR</option>
+                    </select>
+                    <select ng-model="searchCriteria.field"  class="form-control" ng-change="selectCriteriaInList()" required>
+                        <option value="theme">theme</option>
+                        <option value="centuryMax">centuryMax</option>
+                        <option value="centuryMin">centuryMin</option>
+
+                    </select>
+                    <span ng-if="searchCriteria.field === 'theme'">
+                        <select ng-model="searchCriteria.value" class="form-control">
+                            <option ng-repeat="th in themedispo" value="{{th.id}}">{{th.label}}</option>
+                        </select>
+
+                    </span>
+                    <span ng-if="searchCriteria.field === 'centuryMax' || searchCriteria.field === 'centuryMin'">
+                        <input name="value" type="text" ng-model="searchCriteria.value" required class="form-control" />
+                    </span>
 
 
-<form name="searchCriteriaWorkForm" novalidate>
-    <div>
-        Ajouter un critère de recherche : 
-        <select ng-model="searchCriteria.operator" required>
-            <option>Operateur</option>
-            <option>AND</option>
-            <option>OR</option>
-        </select>
-        <select ng-model="searchCriteria.field" required ng-change="selectCriteriaInList()">
-            <option value="theme">theme</option>
-            <option value="centuryMax">centuryMax</option>
-            <option value="centuryMin">centuryMin</option>
-
-        </select>
-        <span ng-if="searchCriteria.field=== 'theme'">
-            <select ng-model="searchCriteria.value">
-                <option ng-repeat="th in themedispo" value="{{th.id}}">{{th.label}}</option>
-            </select>
-            
-        </span>
-        <span ng-if="searchCriteria.field === 'centuryMax' || searchCriteria.field === 'centuryMin'">
-            <input name="value" type="text" ng-model="searchCriteria.value" required />
-        </span>
+                    <!--<input name="value" type="text" ng-model="searchCriteria.value" required />-->
+                    <button ng-click="addSearchCriteria()" class="btn btn-small">Ajout</button>
+                </div>
 
 
-        <!--<input name="value" type="text" ng-model="searchCriteria.value" required />-->
-        <button ng-click="addSearchCriteria()">Ajout</button>
-
-
-
+            </div>
+        </form>
+        <button ng-click="search()" class="btn btn-small">Rechercher</button>
     </div>
-</form>
-
+</div>
 
 
 <p></p>

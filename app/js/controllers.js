@@ -25,6 +25,15 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.works = result;
             $scope.currentPage = 1;
         });
+        
+        $scope.isSearchCollapsed=true;
+        $scope.searchButtonTitle="Recherche Avancée"
+        
+        
+        $scope.clickSearchCollapsed = function(){
+           $scope.isSearchCollapsed = !$scope.isSearchCollapsed;
+           $scope.searchButtonTitle="Masquer recherche avancée";
+        }
 
 
 //Chargement du total d'item en base
@@ -147,27 +156,13 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
                 $scope.searchCriteria.value = null;
             }
         };
-        
-//        $scope.selectCriteriaInList = function (){
-//            
-//            var field = $scope.searchCriteria.field
-//            if(field === 'theme'){
-//                console.log("theme");
-//                $scope.x=true;
-//            }
-//        }
 
         $scope.search = function () {
-
-            alert('recherche');
             WorkFactory.search({}, {searchCriteria: $scope.searchCriterias}).$promise.then(function (data) {
-                alert("oui");
                 $scope.works = data;
                 reload();
             });
-            alert("fin")
         }
-
 
         /***
          * Supprime le criteria de recherche de la liste
