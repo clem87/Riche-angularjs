@@ -108,7 +108,19 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
             return function (myHtml) {
                 return $sce.trustAsHtml(myHtml);
             }
-        })        
+        })
+        
+        /***
+         * Supprimer ce qui est entre [] pour l'affichage
+         * @param {type} $sce
+         * @returns {Function}
+         */
+        .filter('searchCriteria', function($sce){
+            return function (myHtml) {
+               return  myHtml.replace(/\[[\w]*\]/g, "");
+            }
+        })
+        
         ;
 
 

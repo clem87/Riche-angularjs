@@ -9,7 +9,7 @@ Recherche :
 
     <div collapse="isSearchCollapsed" class="well well-lg">
         <ul>
-            <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
+            <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value|searchCriteria}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
 
         </ul>
 
@@ -30,7 +30,7 @@ Recherche :
                     </select>
                     <span ng-if="searchCriteria.field === 'theme'">
                         <select ng-model="searchCriteria.value" class="form-control">
-                            <option ng-repeat="th in themedispo" value="{{th.id}}">{{th.label}}</option>
+                            <option ng-repeat="th in themedispo" value="[{{th.id}}]{{th.label}}">{{th.label}}</option>
                         </select>
 
                     </span>

@@ -25,22 +25,22 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.works = result;
             $scope.currentPage = 1;
         });
-        
-        $scope.isSearchCollapsed=true;
-       $scope.searchButtonTitle="Recherche Avancée";
-        
-        
-        $scope.clickSearchCollapsed = function(){
-           $scope.isSearchCollapsed = !$scope.isSearchCollapsed;
-           
-           
-           if($scope.isSearchCollapsed){
-                $scope.searchButtonTitle="Recherche Avancée";
 
-           }
-           else{
-                              $scope.searchButtonTitle="Masquer recherche avancée";
-           }
+        $scope.isSearchCollapsed = true;
+        $scope.searchButtonTitle = "Recherche Avancée";
+
+
+        $scope.clickSearchCollapsed = function () {
+            $scope.isSearchCollapsed = !$scope.isSearchCollapsed;
+
+
+            if ($scope.isSearchCollapsed) {
+                $scope.searchButtonTitle = "Recherche Avancée";
+
+            }
+            else {
+                $scope.searchButtonTitle = "Masquer recherche avancée";
+            }
         }
 
 
@@ -166,7 +166,30 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         };
 
         $scope.search = function () {
-            WorkFactory.search({}, {searchCriteria: $scope.searchCriterias}).$promise.then(function (data) {
+            //transformation pour ne retenir que les id
+            var newArray = new Array();
+
+            for (var i = 0; i < $scope.searchCriterias.length; i++) {
+                var crit = $scope.searchCriterias[i];
+                var value = crit.value;
+                // Si ce n'est pas un numérique, on extrait le numérique entre []
+                if (isNaN(value)) {
+                    var myRegexp = /\[(\w)*\]/g;
+                    var match = myRegexp.exec(crit.value);
+
+                    var newcrit = {
+                        field: crit.field,
+                        operator: crit.operator,
+                        value: match[1]
+                    }
+                    newArray.push(newcrit);
+                }
+                else {
+                    newArray.push(crit);
+                }
+            }
+
+            WorkFactory.search({}, {searchCriteria: newArray}).$promise.then(function (data) {
                 $scope.works = data;
                 reload();
             });
