@@ -4,10 +4,6 @@
 Recherche : 
 
 
-<!--    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
 <div>
     <button class="btn btn-small" ng-click="clickSearchCollapsed()" >{{searchButtonTitle}}</button>
 
@@ -55,34 +51,25 @@ Recherche :
 </div>
 
 
-<p></p>
 
-<label>Trier par :</label>
-<select ng-model="workOrderPropSelection" ng-change="workOrderPropChange();">
-    <option value="title">Titre</option>
-    <option value="centuryMin">Siècle min</option>
-    <option value="centuryMax">Siècle Max</option>
-    <option value="author">Auteur</option>
-    <option value="id">Numero</option>
-    <!--<option value="exactDate">Date Exacte</option>-->
-</select><br />
+<div class="form-inline" style="float: right">
+             <label>Trier par :</label>
+    <select ng-model="workOrderPropSelection" ng-change="workOrderPropChange();" class="form-control">
+        <option value="title">Titre</option>
+        <option value="centuryMin">Siècle min</option>
+        <option value="centuryMax">Siècle Max</option>
+        <option value="author">Auteur</option>
+        <option value="id">Numero</option>
+        <!--<option value="exactDate">Date Exacte</option>-->
+    </select>
+             <label>Rechercher : </label>
+             
+             <input   ng-model="userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
+                <!--<div class="input-group-btn">-->
+                    <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
+    
+ </div>
 
-<!--<label>Recherche : </label>
-<form class="navbar-form" role="search">
-    <input ng-model="query" class="form-control" search>
-</form>-->
-
-
-<div class="col-sm-3 col-md-3 pull-right">
-    <form class="navbar-form" role="search">
-        <div class="input-group">
-            <input   ng-model="userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
-        </div>
-    </form>
-</div>
 
 
 <style>
@@ -105,7 +92,7 @@ Recherche :
 
 
 
-
+<div>
 <table class="table table-bordered table-striped table-condensed">
 
     <tr>
@@ -142,11 +129,6 @@ Recherche :
 
         </td>
 
-        <!--<td>-->
-        <!--            <ul>
-                        <li ng-repeat="src in work.relationWorkSource"> <span ng-bind-html="src.source | sourceFilter"> </span> {{sr.extract}}</li>
-                    </ul>-->
-        <!--</td>-->
         <td ng-show="authenticated"><button ng-click="delete(work.id)"  class="btn btn-small btn-danger">delete</button> 
         </td>
         <td ng-show="authenticated"><button ng-click="edit(work.id)"  class="btn btn-small btn-danger">edit</button></td>
@@ -165,4 +147,5 @@ Recherche :
 <div class="div_action_button" ng-show="authenticated">
     <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
 
+</div>
 </div>

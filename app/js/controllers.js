@@ -27,12 +27,20 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         });
         
         $scope.isSearchCollapsed=true;
-        $scope.searchButtonTitle="Recherche Avancée"
+       $scope.searchButtonTitle="Recherche Avancée";
         
         
         $scope.clickSearchCollapsed = function(){
            $scope.isSearchCollapsed = !$scope.isSearchCollapsed;
-           $scope.searchButtonTitle="Masquer recherche avancée";
+           
+           
+           if($scope.isSearchCollapsed){
+                $scope.searchButtonTitle="Recherche Avancée";
+
+           }
+           else{
+                              $scope.searchButtonTitle="Masquer recherche avancée";
+           }
         }
 
 
