@@ -28,7 +28,7 @@ workServices.factory('WorkFactory', ['$resource', '$rootScope',
                 url: $rootScope.webservice + '/rest/work/put',  
                 withCredentials: true,
                 async: false},
-            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + 'rest/work/delete',  withCredentials: true, async: true},
+            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + '/rest/work/delete',  withCredentials: true, async: true},
 //            get: {method: 'GET', header: 'application/json', url:"http://192.168.0.11:8084/springnb/rest/test", params: {id: 6}},
             update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "/rest/work/post", params: {id: '\n\
 ',  withCredentials: true, async: true}},

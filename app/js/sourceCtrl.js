@@ -125,7 +125,7 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         }
 
         $scope.authorUserSelection = function ($item, $model, $label) {
-            alert("aa")
+            
             if ($scope.source.authors === undefined) {
                 $scope.source.authors = new Array();
             }
