@@ -1,17 +1,25 @@
 <h1>Liste des sources</h1>
 
-
-<label>Triées pas :</label>
-<select ng-model="orderProp">
+<div class="form-inline" style="float: right">
+<label>Triées par :</label>
+<select ng-model="orderProp" class="form-control">
   <option value="title">titre</option>
   <option value="authors">Auteurs</option>
 </select>
+        <div class="input-group">
+            <input ng-keypress="($event.charCode==13)?addSearchFilter():return"  ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+
+</div>
 
 <!--
 <label> Recherche :</label>
  <input >-->
  
- <div class="col-sm-3 col-md-3 pull-right">
+<!-- <div class="col-sm-3 col-md-3 pull-right">
     <form class="navbar-form" role="search">
         <div class="input-group">
             <input   ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
@@ -20,7 +28,7 @@
             </div>
         </div>
     </form>
-</div>
+</div>-->
  
 
 <table class="table table-bordered table-striped table-condensed">

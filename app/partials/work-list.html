@@ -1,9 +1,5 @@
 <h1>Liste des oeuvres</h1>
 
-
-Recherche : 
-
-
 <div>
     <button class="btn btn-small" ng-click="clickSearchCollapsed()" >{{searchButtonTitle}}</button>
 
@@ -50,10 +46,8 @@ Recherche :
     </div>
 </div>
 
-
-
 <div class="form-inline" style="float: right">
-             <label>Trier par :</label>
+    <label>Trier par :</label>
     <select ng-model="workOrderPropSelection" ng-change="workOrderPropChange();" class="form-control">
         <option value="title">Titre</option>
         <option value="centuryMin">Siècle min</option>
@@ -62,15 +56,11 @@ Recherche :
         <option value="id">Numero</option>
         <!--<option value="exactDate">Date Exacte</option>-->
     </select>
-             <label>Rechercher : </label>
-             
-             <input   ng-model="userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
-                <!--<div class="input-group-btn">-->
-                    <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
-    
- </div>
+    <label>Rechercher : </label>
 
-
+    <input  ng-keypress="($event.charCode==13)?addSearchFilter():return" ng-model="userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
+    <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
+</div>
 
 <style>
     table {
@@ -86,66 +76,58 @@ Recherche :
         width:50%;
     }
 
-
 </style>
 
-
-
-
 <div>
-<table class="table table-bordered table-striped table-condensed">
+    <table class="table table-bordered table-striped table-condensed">
 
-    <tr>
-        <th>Numéro</th>
-        <th>Auteur</th>
-        <th>Titre</th>
-        <th>Période</th>
-        <th>Thèmes</th>
-        <th ng-show="authenticated">Actions</th>
-        <th ng-show="authenticated">Actions</th>
-    </tr>
+        <tr>
+            <th>Numéro</th>
+            <th>Auteur</th>
+            <th>Titre</th>
+            <th>Période</th>
+            <th>Thèmes</th>
+            <th ng-show="authenticated">Actions</th>
+            <th ng-show="authenticated">Actions</th>
+        </tr>
 
-    <!--    <input ng-model="work.centuryMax">-->
-    <tr ng-repeat="work in filteredWorks">
+        <!--    <input ng-model="work.centuryMax">-->
+        <tr ng-repeat="work in filteredWorks">
 
-        <td>{{work.id}}</td>
+            <td>{{work.id}}</td>
 
-        <td>
-            <ul>
+            <td>
+                <ul>
+                    <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
+                </ul>
+            </td>
 
-                <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
-            </ul>
-        </td>
+            <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
+            
+            <td>{{work.centuryMin|centuryFilter:work.centuryMax}}</td>
+            
+            <td>
+                <ul>
+                    <li ng-repeat="theme in work.theme">{{theme.label}}</li>
+                </ul>
+            </td>
 
-        <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
+            <td ng-show="authenticated"><button ng-click="delete(work.id)"  class="btn btn-small btn-danger">delete</button> 
+            </td>
+            
+            <td ng-show="authenticated"><button ng-click="edit(work.id)"  class="btn btn-small btn-danger">edit</button></td>
+        </tr>
 
+    </table>
 
-        <td>{{work.centuryMin|centuryFilter:work.centuryMax}}</td>
-        <td>
+    <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 
-            <ul>
-                <li ng-repeat="theme in work.theme">{{theme.label}}</span></li>
-            </ul>
+    <ul>
+        <li>Nombre d'oeuvre pour cette recherche : {{totalItems}}</li>
+        <li>Nombre d'oeuvre en base de données : {{totalItemsInDB}}</li>
+    </ul>
+    <div class="div_action_button" ng-show="authenticated">
+        <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
 
-        </td>
-
-        <td ng-show="authenticated"><button ng-click="delete(work.id)"  class="btn btn-small btn-danger">delete</button> 
-        </td>
-        <td ng-show="authenticated"><button ng-click="edit(work.id)"  class="btn btn-small btn-danger">edit</button></td>
-    </tr>
-
-
-</table>
-
-
-<pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
-
-<ul>
-    <li>Nombre d'oeuvre pour cette recherche : {{totalItems}}</li>
-    <li>Nombre d'oeuvre en base de données : {{totalItemsInDB}}</li>
-</ul>
-<div class="div_action_button" ng-show="authenticated">
-    <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
-
-</div>
+    </div>
 </div>
