@@ -15,13 +15,14 @@
                     <label>Ajouter un critère de recherche : </label>
                     <select ng-model="searchCriteria.operator" class="form-control" required>
                         <option>Operateur</option>
-                        <option>AND</option>
-                        <option>OR</option>
+                        <option value="AND">ET</option>
+                        <option value="OR">OU</option>
                     </select>
                     <select ng-model="searchCriteria.field"  class="form-control" ng-change="selectCriteriaInList()" required>
                         <option value="theme">theme</option>
-                        <option value="centuryMax">centuryMax</option>
-                        <option value="centuryMin">centuryMin</option>
+                        <option value="centuryMax">Siècle Max</option>
+                        <option value="centuryMin">Siècle Min</option>
+                        <option value="title">Titre</option>
 
                     </select>
                     <span ng-if="searchCriteria.field === 'theme'">
@@ -30,7 +31,7 @@
                         </select>
 
                     </span>
-                    <span ng-if="searchCriteria.field === 'centuryMax' || searchCriteria.field === 'centuryMin'">
+                    <span ng-if="searchCriteria.field === 'centuryMax' || searchCriteria.field === 'centuryMin' || searchCriteria.field === 'title'">
                         <input name="value" type="text" ng-model="searchCriteria.value" required class="form-control" />
                     </span>
 
