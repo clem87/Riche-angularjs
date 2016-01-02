@@ -13,19 +13,20 @@
             <div>
                 <div class="form-inline">
                     <label>Ajouter un critère de recherche : </label>
-                    <select ng-model="searchCriteria.operator" class="form-control" required>
-                        <option>Operateur</option>
+                    <select ng-model="searchCriteria.operator" class="form-control" ng-required="searchCriterias.length" ng-disabled="!searchCriterias.length >0">
                         <option value="AND">ET</option>
                         <option value="OR">OU</option>
                     </select>
+
+
                     <select ng-model="searchCriteria.field"  class="form-control" ng-change="selectCriteriaInList()" required>
-                        <option value="theme">theme</option>
+                        <option value="theme">Thème</option>
                         <option value="centuryMax">Siècle Max</option>
                         <option value="centuryMin">Siècle Min</option>
                         <option value="title">Titre</option>
 
                     </select>
-                    <span ng-if="searchCriteria.field === 'theme'">
+                    <span ng-if="searchCriteria.field === 'theme'" required>
                         <select ng-model="searchCriteria.value" class="form-control">
                             <option ng-repeat="th in themedispo" value="[{{th.id}}]{{th.label}}">{{th.label}}</option>
                         </select>
