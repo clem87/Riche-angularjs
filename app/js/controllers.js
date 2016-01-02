@@ -175,12 +175,16 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
                 // Si ce n'est pas un numérique, on extrait le numérique entre []
                 if (isNaN(value)) {
                     var myRegexp = /\[(\w)*\]/g;
-                    var match = myRegexp.exec(crit.value);
+                    var match = crit.value;
+                    if(crit.value.match(myRegexp)){
+                         match = myRegexp.exec(crit.value)[1];
+
+                    }
 
                     var newcrit = {
                         field: crit.field,
                         operator: crit.operator,
-                        value: match[1]
+                        value: match
                     }
                     newArray.push(newcrit);
                 }

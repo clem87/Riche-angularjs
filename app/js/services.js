@@ -9,11 +9,11 @@ var workServices = angular.module('workServices', ['ngResource']);
 
 workServices.factory('ArticleFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
         return $resource($rootScope.webservice + '/rest/article/', {}, {
-            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + 'rest/article/delete', withCredentials: true, async: true},
-            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + 'rest/article/getall',withCredentials: true},
+            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + '/rest/article/delete', withCredentials: true, async: true},
+            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/article/getall',withCredentials: true},
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/article/find'},
-            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + 'rest/article/put', withCredentials: true, async: true},
-            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "rest/article/post", params: {id: '\n\
+            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + '/rest/article/put', withCredentials: true, async: true},
+            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "/rest/article/post", params: {id: '\n\
 ', withCredentials: true, async: true}}
         });
     }]);
@@ -63,24 +63,24 @@ workServices.factory('SourceFactory', ['$resource', '$rootScope',
 
 workServices.factory('PersonFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
         return $resource($rootScope.webservice + '/rest/author/', {}, {
-            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + 'rest/author/delete', withCredentials: true, async: true},
-            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + 'rest/author/getall', withCredentials: true, async: true},
+            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + '/rest/author/delete', withCredentials: true, async: true},
+            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/author/getall', withCredentials: true, async: true},
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/source/find'},
-            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + 'rest/author/put',  withCredentials: true, async: true},
+            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + '/rest/author/put',  withCredentials: true, async: true},
             createScientifique: {method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/author/addScientifique'},
-            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "rest/author/post", params: {id: '\n\
+            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "/rest/author/post", params: {id: '\n\
 '}}
         });
     }]);
 
 workServices.factory('WorkauthorFactory', ['$resource', '$rootScope', function ($resource, $rootScope) {
         return $resource($rootScope.webservice + '/rest/workauthor/', {}, {
-            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + 'rest/workauthor/delete', withCredentials: true, async: true},
-            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + 'rest/workauthor/getall',withCredentials: true, async: true},
+            delete: {method: 'DELETE', params: {id: '@id'}, url: $rootScope.webservice + '/rest/workauthor/delete', withCredentials: true, async: true},
+            query: {method: 'GET', isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/workauthor/getall',withCredentials: true, async: true},
             find: {method: 'GET', param: {userselection: 'userselection'}, isArray: true, header: 'application/json', url: $rootScope.webservice + '/rest/workauthor/find'},
-            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + 'rest/workauthor/put', withCredentials: true, async: true},
+            create: {method: 'PUT', header: 'application/json', url: $rootScope.webservice + '/rest/workauthor/put', withCredentials: true, async: true},
 //                       createScientifique:{method: 'POST', header: 'application/json', url: $rootScope.webservice + '/rest/author/addScientifique'},
-            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "rest/workauthor/post", params: {id: '\n\
+            update: {method: 'POST', header: 'application/json', url: $rootScope.webservice + "/rest/workauthor/post", params: {id: '\n\
 ', withCredentials: true, async: true}}
         });
     }]);
