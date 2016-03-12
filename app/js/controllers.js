@@ -19,30 +19,31 @@ var workCtrl = angular.module('workCtrl', []);
 
 // ======================================= LIST CONTROLER===================================
 
-workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter', function ($scope, WorkFactory, $location, $http, $rootScope, $filter) {
+workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter','dataServiceWork', function ($scope, WorkFactory, $location, $http, $rootScope, $filter, dataServiceWork) {
 
-        WorkFactory.query().$promise.then(function (result) {
-            $scope.works = result;
-            $scope.currentPage = 1;
-        });
+
+$scope.data = dataServiceWork;
+        if($rootScope.reloadWork){
+            WorkFactory.query().$promise.then(function (result) {
+                $scope.data.works = result;
+                $scope.data.currentPage = 1;
+                reload();
+            });
+            $rootScope.reloadWork = false;
+        }
 
         $scope.isSearchCollapsed = true;
         $scope.searchButtonTitle = "Recherche Avancée";
 
-
         $scope.clickSearchCollapsed = function () {
             $scope.isSearchCollapsed = !$scope.isSearchCollapsed;
-
-
             if ($scope.isSearchCollapsed) {
                 $scope.searchButtonTitle = "Recherche Avancée";
-
             }
             else {
                 $scope.searchButtonTitle = "Masquer recherche avancée";
             }
         }
-
 
 //Chargement du total d'item en base
         $http.get($rootScope.webservice + '/rest/work/getallcount').success(function (data) {
@@ -69,11 +70,10 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
          * @returns {undefined}
          */
         function reload() {
-//            $scope.totalItems = $scope.works.length;
-            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+            var begin = (($scope.data.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
 
-            $scope.filteredWorks = $scope.works;
+            $scope.filteredWorks = $scope.data.works;
             /***
              * pour les autheur il faut trier en fonction du premier auteur (attention c'est un tableau on fait une fonction spécifique
              */
@@ -98,38 +98,41 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
         $scope.addSearchFilter = function () {
             $rootScope.workQuery = $scope.userSelectionquery;
-//            $scope.query = $scope.userSelectionquery;
             reload();
         }
 
         $scope.workOrderPropChange = function () {
-//            alert("chrg");
             $rootScope.workOrderProp = $scope.workOrderPropSelection;
             reload();
         }
 
         $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
+            $scope.data.currentPage = pageNo;
         };
 
         $scope.pageChanged = function () {
+            reload()
         };
 
 
         $scope.delete = function (userId) {
-            
+
             if (confirm("Confirmez vous la suppression ?")) {
                 WorkFactory.delete({id: userId}).$promise.then(function (result) {
-                    $scope.works = WorkFactory.query().$promise.then(function (result) {
-                        $scope.works = result;
-//                    $scope.currentPage = 1;
-                        reload();
-                    });
+
+                    for (var i = 0; i < dataServiceWork.works.length; i++) {
+                        itWork = dataServiceWork.works[i];
+
+                        if (itWork.id === userId) {
+                            dataServiceWork.works.splice(i, 1);
+                            reload();
+                            break;
+                        }
+                    }
                     ;
                 }).then(function () {
                     $location.path('/work');
                 })
-
             }
         };
 
@@ -177,7 +180,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
                     var myRegexp = /\[(\w)*\]/g;
                     var match = crit.value;
                     if(crit.value.match(myRegexp)){
-                         match = myRegexp.exec(crit.value)[1];
+                        match = myRegexp.exec(crit.value)[1];
 
                     }
 
@@ -194,7 +197,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             }
 
             WorkFactory.search({}, {searchCriteria: newArray}).$promise.then(function (data) {
-                $scope.works = data;
+                $scope.data.works = data;
                 reload();
             });
         }
@@ -216,7 +219,9 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 // =======================================CREATE CONTROLER===================================
 
-workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'PersonFactory', 'SourceFactory', '$location', '$routeParams', '$http', '$modal', function ($scope, $rootScope, WorkFactory, PersonFactory, SourceFactory, $location, $routeParams, $http, $modal) {
+workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'PersonFactory', 'SourceFactory', '$location', '$routeParams', '$http', '$modal', 'dataServiceWork', function ($scope, $rootScope, WorkFactory, PersonFactory, SourceFactory, $location, $routeParams, $http, $modal, dataServiceWork) {
+
+
 
         // Chargement deds première instruction pour edit et create. 
         if ($location.path() === '/work-create/') {
@@ -249,7 +254,6 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
                 return resp.data;
             })
-
         }
 
         $scope.getThemeCompletion = function (userString) {
@@ -257,26 +261,23 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                     function (data) {
 
                     }).then(function (resp) {
-
                 return resp.data;
             })
-
         }
 
         $scope.confirmForm = function (action) {
             if ($scope.form.form.$valid) {
                 if (action === ACTION_EDIT) {
                     WorkFactory.update({'id': $scope.work.id}, $scope.work).$promise.then(function () {
+                        changeWorkInList($scope.work);
                         $location.path('/work');
                     }, function (reason) {
                         alert("Errreur lors de : l'enregistrement");
                     });
-
                 }
                 else if (action === ACTION_CREATE) {
-
-
                     WorkFactory.create($scope.work).$promise.then(function () {
+                        changeWorkInList($scope.work);
                         $location.path('/work');
                     }, function (reason) {
                         alert("Errreur lors de : l'enregistrement");
@@ -284,9 +285,24 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                 }
             }
             else {
-                alert("Verrifier les valeurs saisies");
+                alert("Verifier les valeurs saisies");
             }
         };
+        
+        /***
+         * Place le work envoyé en argument dans la liste des work du dataServiceWork
+         * @param {type} work
+         * @returns {undefined}
+         */
+        function changeWorkInList(work){
+            for (var i = 0; i < dataServiceWork.works.length; i++) {
+                itWork = dataServiceWork.works[i];
+                
+                if(itWork.id === work.id){
+                    dataServiceWork.works[i]=work;
+                }
+            }
+        }
 
         //callback for back to work list
         $scope.back = function () {
@@ -313,14 +329,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             $scope.work.authors = tab;
         };
 
-
         $scope.selectAuthorInList = funcSelectAuthorInList;
-
-        $scope.testme = function () {
-            alert('testme');
-        }
-
-
 
         $scope.keyPressWithEnter = function (keyEvent) {
             if (keyEvent.which === 13) {
@@ -338,38 +347,6 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             }
         };
 
-
-        /***
-         * Permet de gérer la frappe entrer de l'utilisateur sur l'input text de recherche des sources.
-         * @param {type} keyEvent
-         * @returns {undefined}
-         */
-        $scope.sourceKeyPressWithEnter = function (keyEvent) {
-
-//            if (keyEvent.which === 13) {
-//                if ($scope.work.sources === undefined) {
-//                    $scope.work.sources = new Array();
-//                }
-//                if (typeof $scope.sourceUserSelection === 'object') {
-//                    var i = $scope.work.sources.length;
-//                    present = false;
-//                    while (i--) {
-//                        if ($scope.work.sources[i].id === $scope.sourceUserSelection.id) {
-//                            present = true;
-//                        }
-//                    }
-//                    if (!present) {
-//                        $scope.work.sources.push($scope.sourceUserSelection);
-//                    }
-//                    $scope.sourceUserSelection = null;
-//                }
-//                else if (typeof $scope.sourceUserSelection === 'string') {
-//                    alert('veuillez créer la source')
-//                }
-//                ;
-//            }
-        };
-
         $scope.sourceBtAjouterClick = function () {
             if ($scope.work.relationWorkSource === undefined) {
                 $scope.work.relationWorkSource = new Array();
@@ -383,10 +360,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                     }
                 }
 
-//                workcopie = JSON.parse(JSON.stringify($scope.work));
-//                workcopie.relationWorkSource=null;
                 if (!present) {
-
                     $scope.work.relationWorkSource.push({
                         "source": {id: $scope.sourceUserSelection.id},
                         "extract": $scope.sourceExtractUserSelection,
@@ -394,9 +368,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                         "nature": $scope.sourceNatureUserSelection,
                         "workEntity": {id: $scope.work.id}
                     });
-
                 }
-//                $scope.sourceUserSelection = null;
             }
         }
 
@@ -416,9 +388,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             if (!present) {
                 $scope.work.authors.push($item);
             }
-
             $scope.sourceUserSelection = null;
-
         };
 
 
@@ -438,11 +408,6 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                 $scope.work.theme.push($item);
             }
             $scope.currentThemeUserSelection = null;
-        };
-
-
-        $scope.onSelectsourceUserSelection = function ($item, $model, $label) {
-
         };
 
         $scope.removeSourceClick = function (id) {
@@ -491,7 +456,6 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
 
         $scope.statesWithFlags = [{'name': 'Alabama', 'flag': '5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'}, {'name': 'Alaska', 'flag': 'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png'}, {'name': 'Arizona', 'flag': '9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png'}, {'name': 'Arkansas', 'flag': '9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png'}, {'name': 'California', 'flag': '0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png'}, {'name': 'Colorado', 'flag': '4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png'}, {'name': 'Connecticut', 'flag': '9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png'}, {'name': 'Delaware', 'flag': 'c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png'}, {'name': 'Florida', 'flag': 'f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png'}, {'name': 'Georgia', 'flag': '5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png'}, {'name': 'Hawaii', 'flag': 'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png'}, {'name': 'Idaho', 'flag': 'a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png'}, {'name': 'Illinois', 'flag': '0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png'}, {'name': 'Indiana', 'flag': 'a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png'}, {'name': 'Iowa', 'flag': 'a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png'}, {'name': 'Kansas', 'flag': 'd/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png'}, {'name': 'Kentucky', 'flag': '8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png'}, {'name': 'Louisiana', 'flag': 'e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png'}, {'name': 'Maine', 'flag': '3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png'}, {'name': 'Maryland', 'flag': 'a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png'}, {'name': 'Massachusetts', 'flag': 'f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png'}, {'name': 'Michigan', 'flag': 'b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png'}, {'name': 'Minnesota', 'flag': 'b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png'}, {'name': 'Mississippi', 'flag': '4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png'}, {'name': 'Missouri', 'flag': '5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png'}, {'name': 'Montana', 'flag': 'c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png'}, {'name': 'Nebraska', 'flag': '4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png'}, {'name': 'Nevada', 'flag': 'f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png'}, {'name': 'New Hampshire', 'flag': '2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png'}, {'name': 'New Jersey', 'flag': '9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png'}, {'name': 'New Mexico', 'flag': 'c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png'}, {'name': 'New York', 'flag': '1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png'}, {'name': 'North Carolina', 'flag': 'b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png'}, {'name': 'North Dakota', 'flag': 'e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png'}, {'name': 'Ohio', 'flag': '4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png'}, {'name': 'Oklahoma', 'flag': '6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png'}, {'name': 'Oregon', 'flag': 'b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png'}, {'name': 'Pennsylvania', 'flag': 'f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png'}, {'name': 'Rhode Island', 'flag': 'f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png'}, {'name': 'South Carolina', 'flag': '6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png'}, {'name': 'South Dakota', 'flag': '1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png'}, {'name': 'Tennessee', 'flag': '9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png'}, {'name': 'Texas', 'flag': 'f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png'}, {'name': 'Utah', 'flag': 'f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png'}, {'name': 'Vermont', 'flag': '4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png'}, {'name': 'Virginia', 'flag': '4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png'}, {'name': 'Washington', 'flag': '5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png'}, {'name': 'West Virginia', 'flag': '2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png'}, {'name': 'Wisconsin', 'flag': '2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png'}, {'name': 'Wyoming', 'flag': 'b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png'}];
     }]);
-
 
 // =======================================VIEW CONTROLER===================================
 workCtrl.controller('workViewCtrl', ['$scope', '$rootScope', 'WorkFactory', '$location', '$routeParams', '$http', function ($scope, $rootScope, WorkFactory, $location, $routeParams, $http) {

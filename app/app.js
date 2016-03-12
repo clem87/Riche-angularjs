@@ -39,7 +39,19 @@ richeApp.run(function ($rootScope) {
     $rootScope.authenticated = false;
     $rootScope.workQuery = "";
     $rootScope.workOrderProp = "id";
+    $rootScope.reloadWork=true;
+//    $rootScope.works=null;
+    
 })
+
+
+richeApp.factory('dataServiceWork', function() {
+  var workData = {
+    works:null,
+    currentPage:1
+  };
+  return workData;
+});
 
 
 

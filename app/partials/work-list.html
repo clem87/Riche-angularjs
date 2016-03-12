@@ -3,6 +3,7 @@
 <div>
     <button class="btn btn-small" ng-click="clickSearchCollapsed()" >{{searchButtonTitle}}</button>
 
+
     <div collapse="isSearchCollapsed" class="well well-lg">
         <ul>
             <li ng-repeat="criteria in searchCriterias">{{criteria.operator}} - {{criteria.field}} - {{criteria.value|searchCriteria}}  <img src="img/delete1-16px.png" ng-click="removeSearchCriteria(criteria)" /></li>
@@ -122,7 +123,7 @@
 
     </table>
 
-    <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+    <pagination total-items="totalItems" ng-model="data.currentPage" ng-change="pageChanged()"></pagination>
 
     <ul>
         <li>Nombre d'oeuvre pour cette recherche : {{totalItems}}</li>
