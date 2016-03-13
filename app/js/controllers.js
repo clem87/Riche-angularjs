@@ -427,6 +427,15 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                 }
             }
         }
+        
+        $scope.removeThemeClick = function (id) {
+            array = $scope.work.theme;
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i].id === id) {
+                    array.splice(i, 1);
+                }
+            }
+        }
 
         $scope.getStates = function (truc) {
             return $http.get($rootScope.webservice + '/rest/source/find?userselection=' + truc).success(
