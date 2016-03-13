@@ -82,6 +82,7 @@
 </style>
 
 <div>
+    
     <table class="table table-bordered table-striped table-condensed">
 
         <tr>
@@ -94,7 +95,10 @@
             <th ng-show="authenticated">Actions</th>
         </tr>
 
-        <!--    <input ng-model="work.centuryMax">-->
+        <tr ng-if="loadingWorks">  
+            <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
+        </tr>   
+
         <tr ng-repeat="work in filteredWorks">
 
             <td>{{work.id}}</td>

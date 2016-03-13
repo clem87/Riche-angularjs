@@ -23,10 +23,15 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
 $scope.data = dataServiceWork;
+$scope.loadingWorks = false;
         if($rootScope.reloadWork){
+            $scope.loadingWorks = true;
+
             WorkFactory.query().$promise.then(function (result) {
                 $scope.data.works = result;
                 $scope.data.currentPage = 1;
+                $scope.loadingWorks = false;
+
                 reload();
             });
             $rootScope.reloadWork = false;
@@ -169,6 +174,8 @@ $scope.data = dataServiceWork;
         };
 
         $scope.search = function () {
+           
+
             //transformation pour ne retenir que les id
             var newArray = new Array();
 
@@ -195,9 +202,11 @@ $scope.data = dataServiceWork;
                     newArray.push(crit);
                 }
             }
-
+         $scope.loadingWorks = true;
+         $scope.data.works = null;
             WorkFactory.search({}, {searchCriteria: newArray}).$promise.then(function (data) {
                 $scope.data.works = data;
+                $scope.loadingWorks = false;
                 reload();
             });
         }
