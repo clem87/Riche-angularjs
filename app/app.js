@@ -53,6 +53,15 @@ richeApp.factory('dataServiceWork', function() {
   return workData;
 });
 
+richeApp.factory('dataServiceSource', function() {
+  var sourceData = {
+    sources:null,
+    currentPage:1
+  };
+  return sourceData;
+});
+
+
 
 
 /***

@@ -13,16 +13,18 @@ var sourceCtrl = angular.module('sourceCtrl', []);
 //=======================================================================================
 
 
-sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', '$filter', function ($scope, SourceFactory, $location, $http, $rootScope, $filter) {
+sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', '$filter', 'dataServiceSource',function ($scope, SourceFactory, $location, $http, $rootScope, $filter, dataServiceSource) {
 
-//        $scope.sources = SourceFactory.query();
-
-//        WorkFactory.query().$promise.then(function (result) {
-        SourceFactory.query().$promise.then(function (result) {
-            $scope.currentPage = 1;
-            $scope.sources = result;
-//            $scope.currentPage = 1;
+   $scope.data = dataServiceSource;
+   
+   
+   if($scope.data.sources=== null){
+            SourceFactory.query().$promise.then(function (result) {
+            $scope.data.currentPage = 1;
+            $scope.data.sources = result;
         });
+   }
+   
         
         //Chargement du total d'item en base
         $http.get($rootScope.webservice + '/rest/source/getallcount').success(function (data) {
@@ -38,11 +40,14 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
 
         $scope.delete = function (userId) {
             if (confirm("Confirmez vous la suppression ?")) {
-               $scope.sources= SourceFactory.delete({id: userId}).$promise.then(function () {
-                    $scope.sources = SourceFactory.query().$promise.then(function (result) {
-                        $scope.sources = result;
-                               reload();
-                    });
+               SourceFactory.delete({id: userId}).$promise.then(function () {
+                   
+                   for (var i = 0; i < dataServiceSource.sources.length; i++) {
+                       if(dataServiceSource.sources[i].id === userId){
+                          dataServiceSource.sources.splice(i,1); 
+                       }
+                   }
+                    reload();
                 })
                 .then(function () {
                 $location.path('/source');
@@ -64,15 +69,15 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
         }
 
 
-        $scope.$watch('currentPage + numPerPage', function () {
+        $scope.$watch('data.currentPage + numPerPage', function () {
             reload();
         });
 
         function reload() {
 //                    alert("total " + totalItems);
-            var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+            var begin = (($scope.data.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
-            $scope.filteredSources = $scope.sources;
+            $scope.filteredSources = $scope.data.sources;
             $scope.filteredSources = $filter('filter')($scope.filteredSources, $rootScope.sourceQuery);
             $scope.totalItems = $scope.filteredSources.length;
             $scope.filteredSources = $scope.filteredSources.slice(begin, end);
@@ -85,10 +90,12 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
 //                                      CREATE & EDIT CONTROLE
 //=======================================================================================
 
-sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', '$routeParams', function ($scope, SourceFactory, $location, $http, $rootScope, $routeParams) {
+sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location', '$http', '$rootScope', '$routeParams', 'dataServiceSource',function ($scope, SourceFactory, $location, $http, $rootScope, $routeParams, dataServiceSource) {
+        
+        $scope.data = dataServiceSource;
+        
         // Chargement deds première instruction pour edit et create. 
         if ($location.path() === '/source-create') {
-//            initWorkIfNeed();
             initSourceIfNeed();
         }
         else if (/^\/source-edit\//.test($location.path())) {
@@ -146,27 +153,6 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
         };
 
         $scope.authorUserSelection2 = function ($item, $model, $label) {
-//            if ($scope.source.relationPerson === undefined) {
-//                $scope.source.relationPerson =  new Array();
-//            }
-//
-//            var i = $scope.source.relationPerson.length;
-//            present = false;
-//            while (i--) {
-//                if ($scope.source.relationPerson[i].id === $item.id) {
-//                    present = true;
-//                }
-//            }
-//            if (!present) {
-//                $scope.source.relationPerson.push(
-//                        {
-//                            source:{id : $scope.source.id},
-//                            person:{id: $item.id}
-//                        }
-//                          );
-//            }
-//
-//            $scope.sourceUserSelection2 = null;
 
         };
 
@@ -207,7 +193,6 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
                 }
             }
 
-
             $scope.sourceUserSelection2 = null;
         }
 
@@ -231,19 +216,33 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
             }
         }
 
-
         $scope.confirmForm = function (action) {
             if (action === ACTION_EDIT) {
                 SourceFactory.update({'id': $scope.source.id}, $scope.source).$promise.then(function () {
+                    changeOrAddSourceInList($scope.source);
                     $location.path('/source');
                 });
             }
             else if (action === ACTION_CREATE) {
                 SourceFactory.create($scope.source).$promise.then(function () {
+                    changeOrAddSourceInList($scope.source)
                     $location.path('/source');
                 });
             }
         };
+        
+        function changeOrAddSourceInList(source) {
+        
+            for (var i = 0; i < dataServiceSource.sources.length; i++) {
+                itWork = dataServiceSource.sources[i];
+
+                if (itWork.id === source.id) {
+                    dataServiceSource.sources[i] = source;
+                    return ;
+                }
+            }
+            dataServiceSource.sources.push(source);
+        }
     }]);
 
 

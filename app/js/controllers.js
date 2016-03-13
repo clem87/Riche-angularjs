@@ -269,7 +269,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
             if ($scope.form.form.$valid) {
                 if (action === ACTION_EDIT) {
                     WorkFactory.update({'id': $scope.work.id}, $scope.work).$promise.then(function () {
-                        changeWorkInList($scope.work);
+                        changeOrAddWorkInList($scope.work);
                         $location.path('/work');
                     }, function (reason) {
                         alert("Errreur lors de : l'enregistrement");
@@ -277,7 +277,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                 }
                 else if (action === ACTION_CREATE) {
                     WorkFactory.create($scope.work).$promise.then(function () {
-                        changeWorkInList($scope.work);
+                        changeOrAddWorkInList($scope.work);
                         $location.path('/work');
                     }, function (reason) {
                         alert("Errreur lors de : l'enregistrement");
@@ -294,14 +294,16 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
          * @param {type} work
          * @returns {undefined}
          */
-        function changeWorkInList(work){
+        function changeOrAddWorkInList(work){
             for (var i = 0; i < dataServiceWork.works.length; i++) {
                 itWork = dataServiceWork.works[i];
                 
                 if(itWork.id === work.id){
                     dataServiceWork.works[i]=work;
+                    return;
                 }
             }
+            dataServiceWork.works.push(work)
         }
 
         //callback for back to work list
