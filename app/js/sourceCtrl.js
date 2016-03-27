@@ -22,6 +22,7 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
             SourceFactory.query().$promise.then(function (result) {
             $scope.data.currentPage = 1;
             $scope.data.sources = result;
+            reload();
         });
    }
    
