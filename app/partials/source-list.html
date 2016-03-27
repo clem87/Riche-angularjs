@@ -1,52 +1,38 @@
 <h1>Liste des sources</h1>
 
 <div class="form-inline" style="float: right">
-<label>Triées par :</label>
-<select ng-model="orderProp" class="form-control">
-  <option value="title">titre</option>
-  <option value="authors">Auteurs</option>
-</select>
-        <div class="input-group">
-            <input ng-keypress="($event.charCode==13)?addSearchFilter():return"  ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
+    <label>Triées par :</label>
+    <select ng-model="orderProp" class="form-control">
+        <option value="title">titre</option>
+        <option value="authors">Auteurs</option>
+    </select>
+    <div class="input-group">
+        <input ng-keypress="($event.charCode==13)?addSearchFilter():return"  ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
         </div>
+    </div>
 
 </div>
-
-<!--
-<label> Recherche :</label>
- <input >-->
- 
-<!-- <div class="col-sm-3 col-md-3 pull-right">
-    <form class="navbar-form" role="search">
-        <div class="input-group">
-            <input   ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
-        </div>
-    </form>
-</div>-->
- 
 
 <table class="table table-bordered table-striped table-condensed">
     <tr>
         <!--<th>Source</th>-->
-                <th>Auteur(s)</th>
-                <th>titre</th>
-                <th>type</th>
+        <th>Auteur(s)</th>
+        <th>titre</th>
+        <th>type</th>
         <th ng-show="authenticated">Actions</th>
     </tr>
-    
 
+    <tr ng-if="loading">  
+        <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
+    </tr>  
 
-    <tr ng-repeat="source in filteredSources | orderBy:orderProp"">
+    <tr ng-repeat="source in filteredSources| orderBy:orderProp"">
         <!--<td><span ng-bind-html="source | sourceFilter"></span></td>-->
-                <td>{{source.relationPerson|relationPersonAffPerson}}</td>
-                <td> <a  href="#/source-view/{{source.id}}"/> {{source.title}}  </a></td>
-                <td>{{source.bibliographicType.label}}</td>
+        <td>{{source.relationPerson|relationPersonAffPerson}}</td>
+        <td> <a  href="#/source-view/{{source.id}}"/> {{source.title}}  </a></td>
+        <td>{{source.bibliographicType.label}}</td>
         <td ng-show="authenticated">
             <button ng-click="delete(source.id)"  class="btn btn-small btn-danger">delete</button> 
             <button ng-click="edit(source.id)"  class="btn btn-small btn-danger">edit</button>
@@ -59,7 +45,7 @@
 
 <ul>
     <li>Nombre de sources pour cette recherche : {{totalItems}}</li>
-    <li>Nombre de sources en base de données : {{totalItemsInDB}}</li>
-    
+    <li>Nombre de sources en base de données : {{data.totalItemsInDB}}</li>
+
 </ul>
- <button ng-show="authenticated" ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>
+<button ng-show="authenticated" ng-click="create()" class="btn btn-small">Créer nouvelle Source</button>

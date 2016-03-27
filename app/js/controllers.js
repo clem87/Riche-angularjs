@@ -19,22 +19,33 @@ var workCtrl = angular.module('workCtrl', []);
 
 // ======================================= LIST CONTROLER===================================
 
-workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter','dataServiceWork', function ($scope, WorkFactory, $location, $http, $rootScope, $filter, dataServiceWork) {
+workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter', 'dataServiceWork', function ($scope, WorkFactory, $location, $http, $rootScope, $filter, dataServiceWork) {
 
 
-$scope.data = dataServiceWork;
-$scope.loadingWorks = false;
-        if($rootScope.reloadWork){
-            $scope.loadingWorks = true;
+        /***
+         * Recharge la variable $scope.data.totalItemsInDB
+         * @returns {undefined}
+         */
+        $scope.reloadTotalItemsInDB = function () {
+            //Chargement du total d'item en base
+            $http.get($rootScope.webservice + '/rest/work/getallcount').success(function (data) {
+                $scope.data.totalItemsInDB = data;
+            });
+        }
+        
+
+        $scope.data = dataServiceWork;
+        $scope.loading = false;
+        if ($scope.data.works === null) {
+            $scope.loading = true;
 
             WorkFactory.query().$promise.then(function (result) {
                 $scope.data.works = result;
                 $scope.data.currentPage = 1;
-                $scope.loadingWorks = false;
-
-                reload();
+                $scope.loading = false;
+                reloadListView();
             });
-            $rootScope.reloadWork = false;
+            $scope.reloadTotalItemsInDB();
         }
 
         $scope.isSearchCollapsed = true;
@@ -50,10 +61,6 @@ $scope.loadingWorks = false;
             }
         }
 
-//Chargement du total d'item en base
-        $http.get($rootScope.webservice + '/rest/work/getallcount').success(function (data) {
-            $scope.totalItemsInDB = data;
-        });
 
 //Chargement de la liste des thèmes
         $http.get($rootScope.webservice + '/rest/theme/getall').success(function (data) {
@@ -67,14 +74,14 @@ $scope.loadingWorks = false;
         $scope.numPerPage = 10;
 
         $scope.$watch('currentPage + numPerPage', function () {
-            reload();
+            reloadListView();
         });
 
         /***
          * Recharge les la liste d'oeuvre a afficher en fonction des critère de recherche et de la pagination
          * @returns {undefined}
          */
-        function reload() {
+        function reloadListView() {
             var begin = (($scope.data.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
 
@@ -103,12 +110,12 @@ $scope.loadingWorks = false;
 
         $scope.addSearchFilter = function () {
             $rootScope.workQuery = $scope.userSelectionquery;
-            reload();
+            reloadListView();
         }
 
         $scope.workOrderPropChange = function () {
             $rootScope.workOrderProp = $scope.workOrderPropSelection;
-            reload();
+            reloadListView();
         }
 
         $scope.setPage = function (pageNo) {
@@ -116,7 +123,7 @@ $scope.loadingWorks = false;
         };
 
         $scope.pageChanged = function () {
-            reload()
+            reloadListView()
         };
 
 
@@ -130,7 +137,8 @@ $scope.loadingWorks = false;
 
                         if (itWork.id === userId) {
                             dataServiceWork.works.splice(i, 1);
-                            reload();
+                            reloadListView();
+                            $scope.reloadTotalItemsInDB();
                             break;
                         }
                     }
@@ -174,7 +182,7 @@ $scope.loadingWorks = false;
         };
 
         $scope.search = function () {
-           
+
 
             //transformation pour ne retenir que les id
             var newArray = new Array();
@@ -186,7 +194,7 @@ $scope.loadingWorks = false;
                 if (isNaN(value)) {
                     var myRegexp = /\[(\w)*\]/g;
                     var match = crit.value;
-                    if(crit.value.match(myRegexp)){
+                    if (crit.value.match(myRegexp)) {
                         match = myRegexp.exec(crit.value)[1];
 
                     }
@@ -202,12 +210,12 @@ $scope.loadingWorks = false;
                     newArray.push(crit);
                 }
             }
-         $scope.loadingWorks = true;
-         $scope.data.works = null;
+            $scope.loading = true;
+            $scope.data.works = null;
             WorkFactory.search({}, {searchCriteria: newArray}).$promise.then(function (data) {
                 $scope.data.works = data;
-                $scope.loadingWorks = false;
-                reload();
+                $scope.loading = false;
+                reloadListView();
             });
         }
 
@@ -292,27 +300,28 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                         alert("Errreur lors de : l'enregistrement");
                     });
                 }
+                $scope.reloadTotalItemsInDB();
             }
             else {
                 alert("Verifier les valeurs saisies");
             }
         };
-        
+
         /***
          * Place le work envoyé en argument dans la liste des work du dataServiceWork
          * @param {type} work
          * @returns {undefined}
          */
-        function changeOrAddWorkInList(work){
+        function changeOrAddWorkInList(work) {
             for (var i = 0; i < dataServiceWork.works.length; i++) {
                 itWork = dataServiceWork.works[i];
-                
-                if(itWork.id === work.id){
-                    dataServiceWork.works[i]=work;
+
+                if (itWork.id === work.id) {
+                    dataServiceWork.works[i] = work;
                     return;
                 }
             }
-            dataServiceWork.works.push(work)
+            dataServiceWork.works.push(work);
         }
 
         //callback for back to work list
@@ -438,7 +447,7 @@ workCtrl.controller('workCreateCtrl', ['$scope', '$rootScope', 'WorkFactory', 'P
                 }
             }
         }
-        
+
         $scope.removeThemeClick = function (id) {
             array = $scope.work.theme;
             for (var i = array.length - 1; i >= 0; i--) {

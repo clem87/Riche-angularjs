@@ -17,21 +17,26 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
 
    $scope.data = dataServiceSource;
    
-   
+   $scope.loading = false;
    if($scope.data.sources=== null){
+       $scope.loading = true;
             SourceFactory.query().$promise.then(function (result) {
             $scope.data.currentPage = 1;
             $scope.data.sources = result;
-            reload();
+            $scope.reloadTotalItemsInDB();
+            reloadListView();
+            $scope.loading = false;
         });
    }
    
+        $scope.reloadTotalItemsInDB = function () {
+            $http.get($rootScope.webservice + '/rest/source/getallcount').success(function (data) {
+                $scope.data.totalItemsInDB = data;
+            });
+        }
+   
         
         //Chargement du total d'item en base
-        $http.get($rootScope.webservice + '/rest/source/getallcount').success(function (data) {
-            $scope.totalItemsInDB = data;
-        });
-        
 
         $scope.numPerPage = 10;
 
@@ -48,7 +53,8 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
                           dataServiceSource.sources.splice(i,1); 
                        }
                    }
-                    reload();
+                   $scope.reloadTotalItemsInDB();
+                   reloadListView();
                 })
                 .then(function () {
                 $location.path('/source');
@@ -66,16 +72,15 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
 
         $scope.addSearchFilter = function () {
             $rootScope.sourceQuery = $scope.sourceQueryUserSelection;
-            reload();
+            reloadListView();
         }
 
 
         $scope.$watch('data.currentPage + numPerPage', function () {
-            reload();
+            reloadListView();
         });
 
-        function reload() {
-//                    alert("total " + totalItems);
+        function reloadListView() {
             var begin = (($scope.data.currentPage - 1) * $scope.numPerPage)
                     , end = begin + $scope.numPerPage;
             $scope.filteredSources = $scope.data.sources;
@@ -230,10 +235,10 @@ sourceCtrl.controller('sourceCreateCtrl', ['$scope', 'SourceFactory', '$location
                     $location.path('/source');
                 });
             }
+            $scope.reloadTotalItemsInDB();
         };
         
         function changeOrAddSourceInList(source) {
-        
             for (var i = 0; i < dataServiceSource.sources.length; i++) {
                 itWork = dataServiceSource.sources[i];
 

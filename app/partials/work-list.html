@@ -95,7 +95,7 @@
             <th ng-show="authenticated">Actions</th>
         </tr>
 
-        <tr ng-if="loadingWorks">  
+        <tr ng-if="loading">  
             <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
         </tr>   
 
@@ -131,7 +131,7 @@
 
     <ul>
         <li>Nombre d'oeuvre pour cette recherche : {{totalItems}}</li>
-        <li>Nombre d'oeuvre en base de données : {{totalItemsInDB}}</li>
+        <li>Nombre d'oeuvre en base de données : {{data.totalItemsInDB}}</li>
     </ul>
     <div class="div_action_button" ng-show="authenticated">
         <button ng-click="createNewUser()" class="btn btn-small">Créer nouvelle Oeuvre</button>
