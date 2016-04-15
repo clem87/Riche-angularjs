@@ -14,13 +14,11 @@ Array.prototype.contains = function (obj) {
     return false;
 }
 
-//var richeApp = angular.module('richeApp', []);
 var workCtrl = angular.module('workCtrl', []);
 
 // ======================================= LIST CONTROLER===================================
 
 workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$http', '$rootScope', '$filter', 'dataServiceWork', function ($scope, WorkFactory, $location, $http, $rootScope, $filter, dataServiceWork) {
-
 
         /***
          * Recharge la variable $scope.data.totalItemsInDB
@@ -32,10 +30,12 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
                 $scope.data.totalItemsInDB = data;
             });
         }
-        
+
 
         $scope.data = dataServiceWork;
         $scope.loading = false;
+        $scope.sortReverse = false;  // set the default sort order
+
         if ($scope.data.works === null) {
             $scope.loading = true;
 
@@ -43,7 +43,6 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
                 $scope.data.works = result;
                 $scope.data.currentPage = 1;
                 $scope.loading = false;
-                reloadListView();
             });
             $scope.reloadTotalItemsInDB();
         }
@@ -59,7 +58,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             else {
                 $scope.searchButtonTitle = "Masquer recherche avancée";
             }
-        }
+        };
 
 
 //Chargement de la liste des thèmes
@@ -71,61 +70,60 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.workOrderPropSelection = $rootScope.workOrderProp;
         }
 
-        $scope.numPerPage = 10;
+//        $scope.data.numPerPage = 10;
 
-        $scope.$watch('currentPage + numPerPage', function () {
-            reloadListView();
-        });
-
-        /***
-         * Recharge les la liste d'oeuvre a afficher en fonction des critère de recherche et de la pagination
-         * @returns {undefined}
-         */
-        function reloadListView() {
-            var begin = (($scope.data.currentPage - 1) * $scope.numPerPage)
-                    , end = begin + $scope.numPerPage;
-
-            $scope.filteredWorks = $scope.data.works;
-            /***
-             * pour les autheur il faut trier en fonction du premier auteur (attention c'est un tableau on fait une fonction spécifique
-             */
-            if ($rootScope.workOrderProp === 'author') {
-                $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, function (a) {
-                    if (a.authors.length === 0) {
-                        return "ZZZ";
-                    }
-                    else {
-                        return a.authors[0].label
-                    }
-                }, false);
-            } else {
-                $scope.filteredWorks = $filter('orderBy')($scope.filteredWorks, $rootScope.workOrderProp, false);
-            }
-            $scope.filteredWorks = $filter('filter')($scope.filteredWorks, $rootScope.workQuery);
-
-
-            $scope.totalItems = $scope.filteredWorks.length;
-            $scope.filteredWorks = $scope.filteredWorks.slice(begin, end);
-        }
 
         $scope.addSearchFilter = function () {
             $rootScope.workQuery = $scope.userSelectionquery;
-            reloadListView();
         }
 
         $scope.workOrderPropChange = function () {
             $rootScope.workOrderProp = $scope.workOrderPropSelection;
-            reloadListView();
+            $rootScope.workOrderPropAsc = $scope.sortReverse;
         }
+        
+        $scope.numPerPageChange = function(){
+//            $rootScope.numPerPageWork= $scope.numPerPage;
+//            $scope.data.numPerPage= $scope.numPerPage
+            
+        }
+        
+        $scope.sortTestClem = function(a){
+            console.log("sortTestClem " + JSON.stringify(a))
+            
+                if($rootScope.workOrderProp==="authors"){
+                   return "authors[0].label";                    
+                }
+                else{
+                    return $rootScope.workOrderProp;
+                }
+
+
+       }
+//             if (a.authors.length === 0) {
+//                        return "ZZZ";
+//                    }
+//                    else {
+//                        return a.authors[0].label
+//                    }
+//        }
+        
+                
+        $scope.sortWork = function(arg1, arg2){
+//            alert("SORT " + arg1);
+//            return arg1[$rootScope.workOrderProp];
+            
+            console.log("TEST " + arg1[$rootScope.workOrderProp]);
+            console.log("prop " + $rootScope.workOrderProp)
+            console.log("ARG1 " + JSON.stringify(arg1));
+            console.log("ARG2 " + JSON.stringify(arg2));
+            return "1";
+        }
+        
 
         $scope.setPage = function (pageNo) {
             $scope.data.currentPage = pageNo;
         };
-
-        $scope.pageChanged = function () {
-            reloadListView()
-        };
-
 
         $scope.delete = function (userId) {
 
@@ -137,7 +135,6 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
                         if (itWork.id === userId) {
                             dataServiceWork.works.splice(i, 1);
-                            reloadListView();
                             $scope.reloadTotalItemsInDB();
                             break;
                         }
@@ -215,7 +212,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             WorkFactory.search({}, {searchCriteria: newArray}).$promise.then(function (data) {
                 $scope.data.works = data;
                 $scope.loading = false;
-                reloadListView();
+//                $scope.reloadListView();
             });
         }
 

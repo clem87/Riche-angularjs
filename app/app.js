@@ -39,16 +39,16 @@ richeApp.run(function ($rootScope) {
     $rootScope.authenticated = false;
     $rootScope.workQuery = "";
     $rootScope.workOrderProp = "id";
-    $rootScope.reloadWork=true;
-//    $rootScope.works=null;
-    
+    $rootScope.workOrderPropAsc= false;
 })
 
 
 richeApp.factory('dataServiceWork', function() {
   var workData = {
     works:null,
-    currentPage:1
+    currentPage:1,
+    totalItemsInDB:0,
+    numPerPage:30
   };
   return workData;
 });
@@ -56,7 +56,8 @@ richeApp.factory('dataServiceWork', function() {
 richeApp.factory('dataServiceSource', function() {
   var sourceData = {
     sources:null,
-    currentPage:1
+    currentPage:1,
+    totalItemsInDB:0
   };
   return sourceData;
 });
@@ -79,6 +80,32 @@ richeApp.directive('back', ['$window', function ($window) {
             }
         };
     }]);
+
+/***
+ * Fleche de trie en haut des tableaux
+ */
+richeApp.directive("arrowupdown", function(){
+    return {
+        restrict: 'EA',
+        replace: true,
+        transclude: true,
+        scope: {field: '@arrowupdownField',
+            asc: '@arrowupdownAsc',
+                fieldselector:'@arrowupdownFieldselector'
+        },
+        template: '<span ng-show="field===fieldselector" class="fa fa-caret-{{downOrUp()}}"></span></div>',
+        link: function(scope, element, attrs){
+            scope.downOrUp = function(){
+                if(scope.asc==='true'){
+                    return "up";
+                }
+                else{
+                    return "down";
+                }
+            }
+        }
+    };
+});
 
 
 /***
@@ -107,17 +134,6 @@ richeApp.config(function ($httpProvider) {
         };
     });
 });
-
-
-
-//richeApp
-//        .run(function ($rootScope, $location, userService) {
-//            $rootScope.$on("$routeChangeStart", function (event, next, current) {
-//                if (next.$$route.authorized && !userService.isConnected()) {
-//                    $location.url("/login?returnUrl=" + $location.path());
-//                }
-//            });
-//        });
 
 richeApp.config(['$routeProvider',
     function ($routeProvider) {

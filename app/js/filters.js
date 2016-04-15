@@ -13,12 +13,12 @@
 angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
     return function (input) {
         var retour = "";
-        retour += "<a href=\"#/source-view/"+input.id+"\">";
+        retour += "<a href=\"#/source-view/" + input.id + "\">";
         array = input.relationPerson;
         for (var i = array.length - 1; i >= 0; i--) {
-         
+
             array[i].person.label;
-            retour +=   array[i].person.label + ", ";
+            retour += array[i].person.label + ", ";
         }
         retour += "<i>" + input.title + "</i>, ";
         retour += input.releaseTown + ", ";
@@ -29,7 +29,7 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
         if (retour.length > 2) {
             retour = retour.substr(0, retour.length - 2);
         }
-        retour+="</a>";
+        retour += "</a>";
         return $sce.trustAsHtml(retour);
     };
 
@@ -55,7 +55,7 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
 //                return retour;
 //            };
 //        })
-        
+
         /***
          * Affiche les auteurs depuis une relation person
          * @param {type} $sce
@@ -71,68 +71,59 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
                 return retour;
             };
         })
-        
+
         /***
          * Affiche une concaténation du siècle min et max dans le listing des sources
          * @param {type} $sce
          * @returns {Function}
          */
-        .filter('centuryFilter', function ($sce){
+        .filter('centuryFilter', function ($sce) {
             console.log($sce);
-            return function (input, arg){
+            return function (input, arg) {
                 var centuryMin = input;
                 var centuryMax = arg;
-                
-                if(centuryMin !== null && centuryMax !== null){
-                    
-                    if(centuryMin === centuryMax){
-                        return centuryMin+" e s";
+
+                if (centuryMin !== null && centuryMax !== null) {
+
+                    if (centuryMin === centuryMax) {
+                        return centuryMin + " e s";
                     }
-                    else{
-                        return centuryMin + "e - " + centuryMax+"e s";
-                    }               
+                    else {
+                        return centuryMin + "e - " + centuryMax + "e s";
+                    }
                 }
-                else if (centuryMin !== null){
+                else if (centuryMin !== null) {
                     return centuryMin + " e s";
                 }
-                else if (centuryMax !== null){
+                else if (centuryMax !== null) {
                     return centuryMax + " e s";
                 }
-                else{
+                else {
                     return "";
                 }
             };
         })
-        
-        .filter('articleHtml', function($sce){
+
+        .filter('articleHtml', function ($sce) {
             return function (myHtml) {
                 return $sce.trustAsHtml(myHtml);
             }
         })
-        
+
         /***
          * Supprimer ce qui est entre [] pour l'affichage
          * @param {type} $sce
          * @returns {Function}
          */
-        .filter('searchCriteria', function($sce){
+        .filter('searchCriteria', function ($sce) {
             return function (myHtml) {
-               return  myHtml.replace(/\[[\w]*\]/g, "");
+                return  myHtml.replace(/\[[\w]*\]/g, "");
             }
         })
-        
+        .filter('startFrom', function () {
+            return function (input, start) {
+                start = +start; 
+                return input.slice(start);
+            }
+        })
         ;
-
-
-//app.filter('convertState', function ($sce) {
-//        return function (state) {
-//            if (state == 1) {
-//                return $sce.trustAsHtml("<strong>" + state + "</strong> special state");
-//            }
-//            else {
-//                return $sce.trustAsHtml("<strong>"+state + "</strong> normal state");
-//            }
-//        }
-//    });
-
-      
