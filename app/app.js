@@ -122,10 +122,6 @@ richeApp.config(function ($httpProvider) {
             },
             'responseError': function (rejection
                     ) {
-
-                console.log("return " + JSON.stringify(rejection
-                        ));
-
                 if (rejection.status === 401) {
                     alert("redir");
                     $location.url('/login?returnUrl=' + $location.path());

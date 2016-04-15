@@ -89,7 +89,6 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
         }
         
         $scope.sortTestClem = function(a){
-            console.log("sortTestClem " + JSON.stringify(a))
             
                 if($rootScope.workOrderProp==="authors"){
                    return "authors[0].label";                    
@@ -100,13 +99,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
        }
-//             if (a.authors.length === 0) {
-//                        return "ZZZ";
-//                    }
-//                    else {
-//                        return a.authors[0].label
-//                    }
-//        }
+
         
                 
         $scope.sortWork = function(arg1, arg2){

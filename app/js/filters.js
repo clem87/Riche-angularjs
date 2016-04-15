@@ -78,7 +78,6 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
          * @returns {Function}
          */
         .filter('centuryFilter', function ($sce) {
-            console.log($sce);
             return function (input, arg) {
                 var centuryMin = input;
                 var centuryMax = arg;
@@ -121,9 +120,12 @@ angular.module('richeFilter', []).filter('sourceFilter', function ($sce) {
             }
         })
         .filter('startFrom', function () {
+
             return function (input, start) {
-                start = +start; 
-                return input.slice(start);
+                if (input !== null) {
+                    start = +start;
+                    return input.slice(start);
+                }
             }
         })
         ;
