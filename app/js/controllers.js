@@ -74,7 +74,7 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
 
 
         $scope.addSearchFilter = function () {
-            $rootScope.workQuery = $scope.userSelectionquery;
+            $rootScope.workQuery = $scope.data.userSelectionquery;
         }
 
         $scope.workOrderPropChange = function () {

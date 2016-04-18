@@ -69,7 +69,7 @@
 
             <label>Rechercher : </label>
 
-            <input  ng-keypress="($event.charCode==13)?addSearchFilter():return" ng-model="userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
+            <input  ng-keypress="($event.charCode==13)?addSearchFilter():return" ng-model="data.userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
             <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
         </div>
 
@@ -114,7 +114,7 @@
                     <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
                 </tr>   
 
-                <tr ng-repeat="work in data.works|orderBy:sortTestClem():workOrderPropAsc|startFrom:(data.currentPage - 1) * data.numPerPage| limitTo:data.numPerPage">
+                <tr ng-repeat="work in data.works|filter:data.userSelectionquery|orderBy:sortTestClem():workOrderPropAsc|startFrom:(data.currentPage - 1) * data.numPerPage| limitTo:data.numPerPage">
                     <td max-width="50px">{{work.id}}</td>
                     <td max-width="50px">
                         <ul>

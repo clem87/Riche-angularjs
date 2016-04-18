@@ -8,19 +8,20 @@
         <th>Dénommination</th>
         <th>Nom</th>
         <th>Prénom</th>
-        <th>edit</th>
-        <th>delete</th>
+        <th>Actions</th>
+
     </tr>
     <tr ng-repeat="person in persons">
 
         <td><a href="#person-view/{{person.id}}">{{person.label}}</a></td> 
         <td>{{person.lastName}}</td> 
         <td>{{person.fistName}}</td>
-        <td><button ng-click="delete(person.id)"  class="btn btn-small btn-danger">delete</button> 
+        <td>
+            <button ng-click="delete(person.id)"  class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove"></span></button> 
+            <button ng-click="edit(person.id)"  class="btn btn-small btn-success"><span class="glyphicon glyphicon-pencil"></span></button>
         </td>
-        <td><button ng-click="edit(person.id)"  class="btn btn-small btn-danger">edit</button></td>
     </tr>
 
 
 </table>
- <button ng-click="create()" class="btn btn-small">Créer nouvel auteur bibliographique</button>
+<button ng-click="create()" class="btn btn-small">Créer nouvel auteur bibliographique</button>

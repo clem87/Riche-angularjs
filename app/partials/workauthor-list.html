@@ -7,12 +7,14 @@
     <tr>
         <th>Dénomination</th>
         <th>Actions</th>
-        <th>editer</th>
+
     </tr>
     <tr ng-repeat="workauthor in workauthors">
         <td><a href="#/workauthor-view/{{workauthor.id}}">{{workauthor.label}}</a></td> 
-        <td> <button ng-click="delete(workauthor.id)"  class="btn btn-small btn-danger">delete</button> </td> 
-        <td><button ng-click="edit(workauthor.id)"  class="btn btn-small btn-danger">edit</button></td>
+        <td>
+             <button ng-click="delete(workauthor.id)"  class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove"></span></button> 
+            <button ng-click="edit(workauthor.id)"  class="btn btn-small btn-success"><span class="glyphicon glyphicon-pencil"></span></button>
+        </td> 
     </tr>
     
     

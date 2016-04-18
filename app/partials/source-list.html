@@ -1,57 +1,59 @@
 
 <div class="row">
 
-<h1>Liste des sources</h1>
+    <h1>Liste des sources</h1>
 
-<div class="form-inline" style="float: right">
-    <label>Triées par :</label>
-    <select ng-model="orderProp" class="form-control">
-        <option value="title">titre</option>
-        <option value="authors">Auteurs</option>
-    </select>
-    <div class="input-group">
-        <input ng-keypress="($event.charCode==13)?addSearchFilter():return"  ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
-        <div class="input-group-btn">
-            <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
+    <div class="form-inline" style="float: right">
+        <label>Triées par :</label>
+        <select ng-model="orderProp" class="form-control">
+            <option value="title">titre</option>
+            <option value="authors">Auteurs</option>
+        </select>
+        <div class="input-group">
+            <input ng-keypress="($event.charCode==13)?addSearchFilter():return"  ng-model="sourceQueryUserSelection" type="text" class="form-control" placeholder="{{sourceQuery}}" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
 </div>
 
 <div class="row">
 
 
-        <div class="sub-header"></div>
-<div class="table-responsive">
-<table class="table table-bordered table-striped table-condensed">
-    <tr>
-        <th>Auteur(s)</th>
-        <th>titre</th>
-        <th>type</th>
-        <th ng-show="authenticated">Actions</th>
-    </tr>
+    <div class="sub-header"></div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-condensed">
+            <tr>
+                <th>Auteur(s)</th>
+                <th>titre</th>
+                <th>type</th>
+                <th ng-show="authenticated">Actions</th>
+            </tr>
 
-    <tr ng-if="loading">  
-        <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
-    </tr>  
+            <tr ng-if="loading">  
+                <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
+            </tr>  
 
-    <tr ng-repeat="source in filteredSources| orderBy:orderProp"">
-        <!--<td><span ng-bind-html="source | sourceFilter"></span></td>-->
-        <td>{{source.relationPerson|relationPersonAffPerson}}</td>
-        <td> <a  href="#/source-view/{{source.id}}"/> {{source.title}}  </a></td>
-        <td>{{source.bibliographicType.label}}</td>
-        <td ng-show="authenticated">
-            <button ng-click="delete(source.id)"  class="btn btn-small btn-danger">delete</button> 
-            <button ng-click="edit(source.id)"  class="btn btn-small btn-danger">edit</button>
-        </td>
-    </tr>
+            <tr ng-repeat="source in filteredSources| orderBy:orderProp"">
+                <!--<td><span ng-bind-html="source | sourceFilter"></span></td>-->
+                <td>{{source.relationPerson|relationPersonAffPerson}}</td>
+                <td> <a  href="#/source-view/{{source.id}}"/> {{source.title}}  </a></td>
+                <td>{{source.bibliographicType.label}}</td>
+                <td ng-show="authenticated">
+
+                    <button ng-click="delete(source.id)"  class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove"></span></button> 
+                    <button ng-click="edit(source.id)"  class="btn btn-small btn-success"><span class="glyphicon glyphicon-pencil"></span></button>
+
+                </td>
+            </tr>
 
 
-</table>
-    
-</div>
-        
+        </table>
+
+    </div>
+
 </div>
 
 <pagination total-items="totalItems" ng-model="data.currentPage"></pagination>

@@ -48,7 +48,8 @@ richeApp.factory('dataServiceWork', function() {
     works:null,
     currentPage:1,
     totalItemsInDB:0,
-    numPerPage:30
+    numPerPage:30,
+    userSelectionquery:""
   };
   return workData;
 });
