@@ -56,7 +56,7 @@
 
     <div class="col-sm-6"> 
         <div class="form-inline" style="float: right">
-            
+
             <label>Nombre par page : </label>
             <select ng-model="data.numPerPage" ng-change="numPerPageChange();" class="form-control">
                 <option value="5">5</option>
@@ -66,65 +66,80 @@
                 <option value="50">50</option>
                 <option value="100">100</option>
             </select>
-            
+
             <label>Rechercher : </label>
 
             <input  ng-keypress="($event.charCode==13)?addSearchFilter():return" ng-model="userSelectionquery" type="text" class="form-control" placeholder="{{workQuery}}" name="srch-term" id="srch-term">
             <button class="btn btn-default" type="submit" ng-click="addSearchFilter()"><i class="glyphicon glyphicon-search"></i></button>
         </div>
-    
+
     </div>
 </div>
+<style>
 
+    table {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+</style>
 <div class="row">
 
     <div class="col-sm-12">
-        
+
         <div class="sub-header"></div>
-        
+
         <div class="table-responsive">
 
-        <table class="table table-bordered table-striped table-condensed">
-            <tr>
-                <th><a href="" ng-click="workOrderPropSelection = 'id'; sortReverse = !sortReverse; workOrderPropChange()"> Numéro</a> 
-                    <arrowupdown arrowupdown-field="id" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
-                <th><a href="" ng-click="workOrderPropSelection = 'authors'; sortReverse = !sortReverse; workOrderPropChange()">Auteur</a> <arrowupdown arrowupdown-field="authors" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
-                <th><a href="" ng-click="workOrderPropSelection = 'title'; sortReverse = !sortReverse; workOrderPropChange()">Titre</a> <arrowupdown arrowupdown-field="title" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
-                <th><a href="" ng-click="workOrderPropSelection = 'centuryMin'; sortReverse = !sortReverse; workOrderPropChange()">Période </a> <arrowupdown arrowupdown-field="centuryMin" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
-                <th>Thèmes</th>
-                <th ng-show="authenticated">Actions</th>
-                <th ng-show="authenticated">Actions</th>
-            </tr>
+            <table class="table table-bordered table-striped table-condensed">
+                <tr>
+                    <th class="col-md-1" style="max-width:5px; width:px;"><a href=""  ng-click="workOrderPropSelection = 'id';
+                                sortReverse = !sortReverse;
+                                workOrderPropChange()" > Numéro</a> <arrowupdown arrowupdown-field="id" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" />
+                </th>
+                <th class="col-md-2"><a href=""  ng-click="workOrderPropSelection = 'authors';
+                            sortReverse = !sortReverse;
+                            workOrderPropChange()">Auteur</a> <arrowupdown arrowupdown-field="authors" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
+                <th class="col-md-15 "><a href=""  ng-click="workOrderPropSelection = 'title';
+                            sortReverse = !sortReverse;
+                            workOrderPropChange()">Titre</a> <arrowupdown arrowupdown-field="title" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
+                <th class="col-md-1"><a href=""  ng-click="workOrderPropSelection = 'centuryMin';
+                            sortReverse = !sortReverse;
+                            workOrderPropChange()">Période </a> <arrowupdown arrowupdown-field="centuryMin" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
+                <th width="10%" class="col-md-2">Thèmes</th>
+                <th ng-show="authenticated" class="col-md-1">Actions</th>
+                </tr>
 
-            <tr ng-if="loading">  
-                <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
-            </tr>   
+                <tr ng-if="loading">  
+                    <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
+                </tr>   
 
-            <tr ng-repeat="work in data.works |orderBy:sortTestClem():workOrderPropAsc|startFrom:(data.currentPage-1)*data.numPerPage| limitTo:data.numPerPage">
-                <td>{{work.id}}</td>
-                <td>
-                    <ul>
-                        <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
-                    </ul>
-                </td>
+                <tr ng-repeat="work in data.works|orderBy:sortTestClem():workOrderPropAsc|startFrom:(data.currentPage - 1) * data.numPerPage| limitTo:data.numPerPage">
+                    <td max-width="50px">{{work.id}}</td>
+                    <td max-width="50px">
+                        <ul>
+                            <li ng-repeat="author in work.authors"><a  href="#/workauthor-view/{{author.id}}"> {{author.label}}</a></li>
+                        </ul>
+                    </td>
 
-                <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
+                    <td><a href="#/work-view/{{work.id}}">{{work.title}}</a></td>
 
-                <td>{{work.centuryMin|centuryFilter:work.centuryMax}}</td>
+                    <td>{{work.centuryMin|centuryFilter:work.centuryMax}}</td>
 
-                <td>
-                    <ul>
-                        <li ng-repeat="theme in work.theme">{{theme.label}}</li>
-                    </ul>
-                </td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="theme in work.theme">{{theme.label}}</li>
+                        </ul>
+                    </td>
 
-                <td ng-show="authenticated"><button ng-click="delete(work.id)"  class="btn btn-small btn-danger">delete</button> 
-                </td>
+                    <td ng-show="authenticated">
+                        <button ng-click="delete(work.id)"  class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove"></span></button> 
+                        <button ng-click="edit(work.id)"  class="btn btn-small btn-success"><span class="glyphicon glyphicon-pencil"></span></button>
+                    </td>
 
-                <td ng-show="authenticated"><button ng-click="edit(work.id)"  class="btn btn-small btn-danger">edit</button></td>
-            </tr>
+                </tr>
 
-        </table>
+            </table>
         </div>
 
         <pagination total-items="data.works.length" ng-model="data.currentPage" items-per-page="data.numPerPage" max-size="10"></pagination>
