@@ -56,7 +56,9 @@
 
 </div>
 
-<pagination total-items="totalItems" ng-model="data.currentPage"></pagination>
+<pagination total-items="totalItems" ng-model="data.currentPage" max-size="10"></pagination>
+
+
 
 <ul>
     <li>Nombre de sources pour cette recherche : {{totalItems}}</li>
