@@ -93,19 +93,15 @@
 
             <table class="table table-bordered table-striped table-condensed">
                 <tr>
-                    <th class="col-md-1" style="max-width:5px; width:px;"><a href=""  ng-click="workOrderPropSelection = 'id';
-                                sortReverse = !sortReverse;
-                                workOrderPropChange()" > Numéro</a> <arrowupdown arrowupdown-field="id" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" />
+                    <th class="col-md-1" style="max-width:5px; width:px;"><a href=""  ng-click="data.orderProp='id';
+                                data.orderPropAsc = !data.orderPropAsc" > Numéro</a> <arrowupdown arrowupdown-field="id" arrowupdown-asc="{{data.orderPropAsc}}"  arrowupdown-fieldselector="{{data.orderProp}}" />
                 </th>
-                <th class="col-md-2"><a href=""  ng-click="workOrderPropSelection = 'authors';
-                            sortReverse = !sortReverse;
-                            workOrderPropChange()">Auteur</a> <arrowupdown arrowupdown-field="authors" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
-                <th class="col-md-15 "><a href=""  ng-click="workOrderPropSelection = 'title';
-                            sortReverse = !sortReverse;
-                            workOrderPropChange()">Titre</a> <arrowupdown arrowupdown-field="title" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
-                <th class="col-md-1"><a href=""  ng-click="workOrderPropSelection = 'centuryMin';
-                            sortReverse = !sortReverse;
-                            workOrderPropChange()">Période </a> <arrowupdown arrowupdown-field="centuryMin" arrowupdown-asc="{{workOrderPropAsc}}"  arrowupdown-fieldselector="{{workOrderProp}}" /></th>
+                <th class="col-md-2"><a href=""  ng-click="data.orderProp='authors';
+                            data.orderPropAsc = !data.orderPropAsc">Auteur</a> <arrowupdown arrowupdown-field="authors" arrowupdown-asc="{{data.orderPropAsc}}"  arrowupdown-fieldselector="{{data.orderProp}}" /></th>
+                <th class="col-md-15 "><a href=""  ng-click="data.orderProp='title';
+                            data.orderPropAsc = !data.orderPropAsc">Titre</a> <arrowupdown arrowupdown-field="title" arrowupdown-asc="{{data.orderPropAsc}}"  arrowupdown-fieldselector="{{data.orderProp}}" /></th>
+                <th class="col-md-1"><a href=""  ng-click="data.orderProp='centuryMin';
+                            data.orderPropAsc = !data.orderPropAsc">Période </a> <arrowupdown arrowupdown-field="centuryMin" arrowupdown-asc="{{data.orderPropAsc}}"  arrowupdown-fieldselector="{{data.orderProp}}" /></th>
                 <th width="10%" class="col-md-2">Thèmes</th>
                 <th ng-show="authenticated" class="col-md-1">Actions</th>
                 </tr>
@@ -114,7 +110,7 @@
                     <td><img src="images/ajax-loader.gif"/>Chargement des données...</td>
                 </tr>   
 
-                <tr ng-repeat="work in data.works|filter:data.userSelectionquery|orderBy:sortTestClem():workOrderPropAsc|startFrom:(data.currentPage - 1) * data.numPerPage| limitTo:data.numPerPage">
+                <tr ng-repeat="work in data.works|filter:data.userSelectionquery|orderBy:sortWork():data.orderPropAsc|startFrom:(data.currentPage - 1) * data.numPerPage| limitTo:data.numPerPage">
                     <td max-width="50px">{{work.id}}</td>
                     <td max-width="50px">
                         <ul>

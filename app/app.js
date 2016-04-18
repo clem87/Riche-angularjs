@@ -38,8 +38,6 @@ richeApp.run(function ($rootScope) {
     $rootScope.webservice = "http://localhost:9090/springnb";
     $rootScope.authenticated = false;
     $rootScope.workQuery = "";
-    $rootScope.workOrderProp = "id";
-    $rootScope.workOrderPropAsc= false;
 })
 
 
@@ -49,7 +47,9 @@ richeApp.factory('dataServiceWork', function() {
     currentPage:1,
     totalItemsInDB:0,
     numPerPage:30,
-    userSelectionquery:""
+    userSelectionquery:"",
+    orderProp : "id",
+    orderPropAsc: false
   };
   return workData;
 });

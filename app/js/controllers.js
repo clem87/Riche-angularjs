@@ -66,53 +66,26 @@ workCtrl.controller('workListCtrl', ['$scope', 'WorkFactory', '$location', '$htt
             $scope.themedispo = data;
         });
 
-        if ($rootScope.workOrderProp !== 'undefinded') {
-            $scope.workOrderPropSelection = $rootScope.workOrderProp;
-        }
-
-//        $scope.data.numPerPage = 10;
-
 
         $scope.addSearchFilter = function () {
             $rootScope.workQuery = $scope.data.userSelectionquery;
         }
-
-        $scope.workOrderPropChange = function () {
-            $rootScope.workOrderProp = $scope.workOrderPropSelection;
-            $rootScope.workOrderPropAsc = $scope.sortReverse;
-        }
-        
+      
         $scope.numPerPageChange = function(){
 //            $rootScope.numPerPageWork= $scope.numPerPage;
 //            $scope.data.numPerPage= $scope.numPerPage
             
         }
         
-        $scope.sortTestClem = function(a){
-            
-                if($rootScope.workOrderProp==="authors"){
+        $scope.sortWork = function(a){
+                if($scope.data.orderProp==="authors"){
                    return "authors[0].label";                    
                 }
                 else{
-                    return $rootScope.workOrderProp;
+                    return $scope.data.orderProp;
                 }
-
-
        }
 
-        
-                
-        $scope.sortWork = function(arg1, arg2){
-//            alert("SORT " + arg1);
-//            return arg1[$rootScope.workOrderProp];
-            
-            console.log("TEST " + arg1[$rootScope.workOrderProp]);
-            console.log("prop " + $rootScope.workOrderProp)
-            console.log("ARG1 " + JSON.stringify(arg1));
-            console.log("ARG2 " + JSON.stringify(arg2));
-            return "1";
-        }
-        
 
         $scope.setPage = function (pageNo) {
             $scope.data.currentPage = pageNo;
