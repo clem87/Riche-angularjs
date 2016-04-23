@@ -63,7 +63,14 @@ richeApp.factory('dataServiceSource', function() {
   return sourceData;
 });
 
-
+richeApp.factory('dataServiceWorkAuthor', function() {
+  var sourceData = {
+    workauthors:null,
+//    currentPage:1,
+//    totalItemsInDB:0
+  };
+  return sourceData;
+});
 
 
 /***

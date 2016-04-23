@@ -10,10 +10,18 @@ var workauthorCtrl = angular.module('workauthorCtrl', []);
 //                          Liste Controle
 //=====================================================================================
 workauthorCtrl.controller('workauthorListCtrl',
-        ['$scope', 'WorkauthorFactory', '$location', '$http', '$rootScope', function
-                    ($scope, WorkauthorFactory, $location, $http, $rootScope) {
+        ['$scope', 'WorkauthorFactory', '$location', '$http', '$rootScope', 'dataServiceWorkAuthor', function
+                    ($scope, WorkauthorFactory, $location, $http, $rootScope, dataServiceWorkAuthor) {
 
-                $scope.workauthors = WorkauthorFactory.query();
+
+                $scope.data = dataServiceWorkAuthor;
+
+                if ($scope.data.workauthors === null) {
+                    WorkauthorFactory.query().$promise.then(function (dataWork) {
+                        $scope.data.workauthors = dataWork;
+                        dataServiceWorkAuthor.workauthors = dataWork;
+                    });
+                }
 
 
                 $scope.create = function () {
@@ -23,10 +31,21 @@ workauthorCtrl.controller('workauthorListCtrl',
                 $scope.delete = function (workauthorId) {
                     if (confirm("Confirmez vous la suppression ?")) {
                         WorkauthorFactory.delete({id: workauthorId}).$promise.then(function () {
-                           
-                            $scope.workauthors = WorkauthorFactory.query();
-                            $location.path('/workauthor');
-                        });
+
+//                            $scope.data.workauthors = WorkauthorFactory.query();
+                            for (var i = 0; i < $scope.data.workauthors.length; i++) {
+                                var itWork = $scope.data.workauthors[i];
+
+                                if (itWork.id === workauthorId) {
+                                    $scope.data.workauthors.splice(i, 1);
+                                    break;
+                                }
+                            }
+                        })
+                                .then(function () {
+                                    $location.path('/workauthor');
+                                })
+                                ;
                     }
                 }
 
@@ -45,9 +64,10 @@ workauthorCtrl.controller('workauthorListCtrl',
 //=====================================================================================
 
 workauthorCtrl.controller('workauthorCreateCtrl',
-        ['$scope', 'WorkauthorFactory', '$location', '$http', '$rootScope', '$routeParams',
-            function ($scope, WorkauthorFactory, $location, $http, $rootScope, $routeParams) {
+        ['$scope', 'WorkauthorFactory', '$location', '$http', '$rootScope', '$routeParams', 'dataServiceWorkAuthor',
+            function ($scope, WorkauthorFactory, $location, $http, $rootScope, $routeParams, dataServiceWorkAuthor) {
 
+                $scope.data = dataServiceWorkAuthor;
 
 
                 if ($location.path() === '/workauthor-create') {
@@ -72,16 +92,37 @@ workauthorCtrl.controller('workauthorCreateCtrl',
                 $scope.confirmForm = function (action) {
                     if (action === ACTION_EDIT) {
                         WorkauthorFactory.update({'id': $scope.workauthor.id}, $scope.workauthor).$promise.then(function () {
+                            $scope.changeOrAddWorkInList($scope.workauthor);
                             $location.path('/workauthor');
                         });
                     }
                     else if (action === ACTION_CREATE) {
                         WorkauthorFactory.create($scope.workauthor).$promise.then(function () {
+                            $scope.changeOrAddWorkInList($scope.workauthor);
+
                             $location.path('/workauthor');
                         });
 
                     }
                 };
+
+                /***
+                 * Place le work envoyé en argument dans la liste des work du dataServiceWork
+                 * @param {type} work
+                 * @returns {undefined}
+                 */
+                $scope.changeOrAddWorkInList = function (workAuthor) {
+                    for (var i = 0; i < $scope.data.workauthors.length; i++) {
+                        var itWork = $scope.data.workauthors[i];
+
+                        if (itWork.id === workAuthor.id) {
+                            $scope.data.workauthors[i] = workAuthor;
+                            return;
+                        }
+                    }
+                    $scope.data.workauthors.push(workAuthor);
+                }
+
             }
         ]
         );

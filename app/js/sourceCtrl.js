@@ -51,6 +51,7 @@ sourceCtrl.controller('sourceListCtrl', ['$scope', 'SourceFactory', '$location',
                    for (var i = 0; i < dataServiceSource.sources.length; i++) {
                        if(dataServiceSource.sources[i].id === userId){
                           dataServiceSource.sources.splice(i,1); 
+                            break;
                        }
                    }
                    $scope.reloadTotalItemsInDB();

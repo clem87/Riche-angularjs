@@ -9,7 +9,7 @@
         <th>Actions</th>
 
     </tr>
-    <tr ng-repeat="workauthor in workauthors">
+    <tr ng-repeat="workauthor in data.workauthors">
         <td><a href="#/workauthor-view/{{workauthor.id}}">{{workauthor.label}}</a></td> 
         <td>
              <button ng-click="delete(workauthor.id)"  class="btn btn-small btn-danger"><span class="glyphicon glyphicon-remove"></span></button> 
