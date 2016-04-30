@@ -1,2 +1,6 @@
 /nbproject/private/
 /app/bower_components.old/
+bower_components/
+node_modules/
+nbproject/project.properties
+
